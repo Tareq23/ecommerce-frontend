@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Flutter Demo',
+      title: 'Ecommerce Online Shop',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
         ),
         primaryColor: Colors.blue
       ),
-      home: const AppLayout()
+      home: AppLayout()
     );
   }
 }

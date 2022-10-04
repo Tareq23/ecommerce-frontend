@@ -11,12 +11,14 @@ class LargeScreenWidget extends StatelessWidget {
       children: [
         Expanded(
           child: Container(
+            height: MediaQuery.of(context).size.height,
             color: Colors.orange,
           ),
         ),
         Expanded(
           flex: 5,
           child: Container(
+            height: MediaQuery.of(context).size.height,
             color: Colors.blueGrey,
           ),
         ),
