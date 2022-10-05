@@ -10,7 +10,7 @@ class MenuController extends GetxController
 {
   static MenuController instance = Get.find();
   var activeItem = OverviewPageRoute.obs;
-  var hoberItem = "".obs;
+  var hoverItem = "".obs;
 
   changeActiveItemTo(String itemName)
   {
@@ -19,11 +19,11 @@ class MenuController extends GetxController
 
   onHover(String itemName){
     if(!isActive(itemName)){
-      hoberItem.value = itemName;
+      hoverItem.value = itemName;
     }
   }
   isActive(String itemName) => activeItem.value == itemName;
-  isHobering(String itemName) => hoberItem.value == itemName;
+  isHovering(String itemName) => hoverItem.value == itemName;
 
 
   Widget returnIconFor(String itemName)
@@ -47,6 +47,6 @@ class MenuController extends GetxController
     if(isActive(itemName)){
       return Icon(icon,size: 22,color: dark,);
     }
-    return Icon(icon,color: isHobering(itemName) ? dark : lightGrey,);
+    return Icon(icon,color: isHovering(itemName) ? dark : lightGrey,);
   }
 }

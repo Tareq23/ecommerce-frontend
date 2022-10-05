@@ -1,5 +1,6 @@
 
 
+import 'package:ecommercefrontend/widgets/side_menu.dart';
 import 'package:flutter/material.dart';
 
 class LargeScreenWidget extends StatelessWidget {
@@ -10,10 +11,7 @@ class LargeScreenWidget extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-          child: Container(
-            height: MediaQuery.of(context).size.height,
-            color: Colors.orange,
-          ),
+          child: SideMenu()
         ),
         Expanded(
           flex: 5,
