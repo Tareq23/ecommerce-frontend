@@ -1,5 +1,6 @@
 
 
+import 'package:ecommercefrontend/helpers/local_navigator.dart';
 import 'package:ecommercefrontend/widgets/side_menu.dart';
 import 'package:flutter/material.dart';
 
@@ -15,10 +16,7 @@ class LargeScreenWidget extends StatelessWidget {
         ),
         Expanded(
           flex: 5,
-          child: Container(
-            height: MediaQuery.of(context).size.height,
-            color: Colors.blueGrey,
-          ),
+          child: localNavigator(),
         ),
       ],
     );

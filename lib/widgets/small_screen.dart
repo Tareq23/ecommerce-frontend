@@ -1,3 +1,4 @@
+import 'package:ecommercefrontend/helpers/local_navigator.dart';
 import 'package:flutter/material.dart';
 
 class SmallScreenWidget extends StatelessWidget {
@@ -5,9 +6,6 @@ class SmallScreenWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      constraints: BoxConstraints.expand(),
-      color: Colors.green,
-    );
+    return localNavigator();
   }
 }
