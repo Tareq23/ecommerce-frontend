@@ -1,4 +1,5 @@
 import 'package:ecommercefrontend/app_layout.dart';
+import 'package:ecommercefrontend/constants/style.dart';
 import 'package:ecommercefrontend/controllers/menu_controller.dart';
 import 'package:ecommercefrontend/controllers/navigation_controller.dart';
 import 'package:ecommercefrontend/pages/home_page.dart';
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
-        scaffoldBackgroundColor: Colors.white,
+        scaffoldBackgroundColor: light,
         textTheme: GoogleFonts.mulishTextTheme(
           Theme.of(context).textTheme
         ).apply(

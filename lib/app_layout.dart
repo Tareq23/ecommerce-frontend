@@ -16,6 +16,7 @@ class AppLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       key: globalKey,
+      extendBodyBehindAppBar: true,
       drawer: const Drawer(child: SideMenu(),),
       appBar: topNavigationBar(context, globalKey),
       body: ResponsiveWidget(largeScreen: const LargeScreenWidget(),smallScreen: const SmallScreenWidget(),),
