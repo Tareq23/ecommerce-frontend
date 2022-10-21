@@ -1,41 +1,50 @@
-
-import 'package:fluro/fluro.dart';
+import 'package:ecommercefrontend/helpers/responsive_widget.dart';
+import 'package:ecommercefrontend/screen/large_screen.dart';
+import 'package:ecommercefrontend/screen/medium_screen.dart';
+import 'package:ecommercefrontend/screen/small_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
-import '../../landing/landing_page.dart';
+const String root = '/';
+const String home = 'home';
+const String contact = 'contact';
+const String about = 'about';
+const String product = 'product';
+const String homeContent = 'homeContent';
 
-
-class CustomRouter
-{
-  static final FluroRouter router = FluroRouter();
-
-  // static Handler _splashHandler = Handler(
-  //     handlerFunc: (BuildContext? context, Map<String, List<String>> parameters) {
-  //       return SplashScreen();
-  //     }
-  // );
-
-  // home page root url
-  static Handler _homeHandler = Handler(
-      handlerFunc: (BuildContext? context, Map<String, List<String>> parameters) {
-        return LandingPage(); // this one is for passing one parameter
-      }
-  );
-
-  // lets create two parameter passing url
-
-  // static Handler _pro = Handler(
-  //     handlerFunc: (BuildContext? context, Map<String, List<String>> parameters) {
-  //       return ProductPage(page: parameters['name']![0],extra: parameters['extra']![0],); // this one is for passing one parameter
-  //     }
-  // );
-
-
-  static void setupRoute()
-  {
-    router.define('/', handler: _homeHandler);
-    // router.define('/main/:name', handler: _mainHandler,transitionType: TransitionType.fadeIn);
-    // router.define('/main/:name/:extra', handler: _mainHandler2,transitionType: TransitionType.fadeIn);
-  }
-
-}
+GoRouter router = GoRouter(initialLocation: '/', routes: [
+  GoRoute(
+      path: '/',
+      name: root,
+      pageBuilder: (context, state) {
+        return MaterialPage(
+          child: ResponsiveWidget(
+            key: state.pageKey,
+            largeScreen: LargeScreen(
+              title: '/',
+            ),
+            mediumScreen: MediumScreen(),
+            smallScreen: SmallScreen(),
+          ),
+        );
+      },
+    routes: [
+      GoRoute(
+        path: ':home',
+        name: homeContent,
+        pageBuilder: (context,state){
+          return NoTransitionPage(
+            child: ResponsiveWidget(
+            key: state.pageKey,
+            largeScreen: LargeScreen(
+              title: state.params['home'].toString(),
+            ),
+            mediumScreen: MediumScreen(),
+            smallScreen: SmallScreen(),
+          ),
+          );
+        }
+      ),
+    ]
+  )
+]);
