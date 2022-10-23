@@ -1,3 +1,4 @@
+import 'package:ecommercefrontend/constants/colors.dart';
 import 'package:ecommercefrontend/controller/item_button_controller.dart';
 import 'package:ecommercefrontend/controller/overall_controller.dart';
 import 'package:ecommercefrontend/controller/route_state_controller.dart';
@@ -33,6 +34,10 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp.router(
+      theme: ThemeData(
+        primarySwatch: Colors.red,
+        scaffoldBackgroundColor: ROOT_BACKGROUND_COLOR
+      ),
       debugShowCheckedModeBanner: false,
       routerDelegate: router.routerDelegate,
       routeInformationProvider: router.routeInformationProvider,

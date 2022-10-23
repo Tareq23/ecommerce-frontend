@@ -17,6 +17,7 @@ GoRouter router = GoRouter(initialLocation: '/', routes: [
       path: '/',
       name: root,
       pageBuilder: (context, state) {
+        print('-------------------> initial route');
         return MaterialPage(
           child: ResponsiveWidget(
             key: state.pageKey,
@@ -28,23 +29,21 @@ GoRouter router = GoRouter(initialLocation: '/', routes: [
           ),
         );
       },
-    routes: [
-      GoRoute(
-        path: ':home',
-        name: homeContent,
-        pageBuilder: (context,state){
-          return NoTransitionPage(
-            child: ResponsiveWidget(
-            key: state.pageKey,
-            largeScreen: LargeScreen(
-              title: state.params['home'].toString(),
-            ),
-            mediumScreen: MediumScreen(),
-            smallScreen: SmallScreen(),
-          ),
-          );
-        }
-      ),
-    ]
-  )
+      routes: [
+        GoRoute(
+            path: ':home',
+            name: homeContent,
+            pageBuilder: (context, state) {
+              return NoTransitionPage(
+                child: ResponsiveWidget(
+                  key: state.pageKey,
+                  largeScreen: LargeScreen(
+                    title: state.params['home'].toString(),
+                  ),
+                  mediumScreen: MediumScreen(),
+                  smallScreen: SmallScreen(),
+                ),
+              );
+            }),
+      ])
 ]);

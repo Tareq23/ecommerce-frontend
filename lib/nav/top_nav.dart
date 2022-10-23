@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../constants/colors.dart';
+import '../constants/contants.dart';
 import '../constants/controllers.dart';
 import '../helpers/responsive_widget.dart';
 
@@ -22,21 +23,21 @@ class TopNav extends StatelessWidget {
     return Container(
       width: double.infinity,
       height: 40,
-      padding: EdgeInsets.symmetric(
-          horizontal: overallController.currentWidgetWidth.value * 0.007),
+      padding:  EdgeInsets.symmetric(
+          horizontal: commonPadding),
       color: BG_GREY,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          SizedBox(
-            width: overallController.currentWidgetWidth.value * 0.1,
-            child: InkWell(
-              onTap: (){
-                context.go('/');
-              },
-              child: _logo(context),
-            ),
-          ),
+          // SizedBox(
+          //   width: overallController.currentWidgetWidth.value * 0.1,
+          //   child: InkWell(
+          //     onTap: (){
+          //       context.go('/');
+          //     },
+          //     child: _logo(context),
+          //   ),
+          // ),
           SizedBox(
             width: overallController.currentWidgetWidth.value * 0.35,
             child: Row(
@@ -59,7 +60,7 @@ class TopNav extends StatelessWidget {
           ),
           // const CustomText(text: 'Checking Text'),
           SizedBox(
-            width: overallController.currentWidgetWidth.value * 0.45,
+            width: overallController.currentWidgetWidth.value * 0.4,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: _rightItem
@@ -83,36 +84,7 @@ class TopNav extends StatelessWidget {
     );
   }
 
-  Center _logo(BuildContext context) {
-    return Center(
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 2),
-        margin: const EdgeInsets.symmetric(horizontal: 10),
-        decoration: BoxDecoration(
-          gradient:  LinearGradient(
-              begin: Alignment.centerLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                Color(0xffc0bebe).withOpacity(0.8),
-                Color(0xff725c5c).withOpacity(0.8),
-                Color(0xff9b9260).withOpacity(0.8),
-                Color(0xff587e2b).withOpacity(0.8),
-                Color(0xff228f73).withOpacity(0.8),
-                Color(0xff162644).withOpacity(0.8),
-                Color(0xff620429).withOpacity(0.8),
-              ]),
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: BORDER_RED, width: 1.2),
-        ),
-        child: const CustomText(
-          text: 'LOGO',
-          color: Color(0xfff5f5f5),
-          size: 24,
-          weight: FontWeight.w600,
-        ),
-      ),
-    );
-  }
+
 }
 
 class _NavItem extends StatelessWidget {

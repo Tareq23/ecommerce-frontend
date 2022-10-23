@@ -1,4 +1,5 @@
 import 'package:ecommercefrontend/constants/contants.dart';
+import 'package:ecommercefrontend/constants/controllers.dart';
 import 'package:flutter/material.dart';
 
 class ResponsiveWidget extends StatelessWidget {
@@ -15,9 +16,11 @@ class ResponsiveWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return LayoutBuilder(builder: (context,constraint){
+      overallController.screenWidth.value = MediaQuery.of(context).size.width;
+      overallController.screenHeight.value = MediaQuery.of(context).size.height;
       if(isLargeScreen(context)){
+
         return largeScreen;
       }
       else if(isMediumScreen(context)){

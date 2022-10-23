@@ -17,7 +17,7 @@ class NavItem extends StatelessWidget {
     // print("=================== top nav item $title");
     return Container(
       padding: const EdgeInsets.all(0),
-      margin: const EdgeInsets.only(right: 10),
+      margin: EdgeInsets.only(right: title.contains('register'.toUpperCase()) ? 0 : 10),
       child: InkWell(
         onTap: onTap,
         onHover: (value) {
