@@ -1,4 +1,5 @@
 import 'package:ecommercefrontend/helpers/responsive_widget.dart';
+import 'package:ecommercefrontend/pages/home/home_page.dart';
 import 'package:ecommercefrontend/screen/large_screen.dart';
 import 'package:ecommercefrontend/screen/medium_screen.dart';
 import 'package:ecommercefrontend/screen/small_screen.dart';
@@ -14,10 +15,17 @@ class LandingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     overallController.screenWidth.value = MediaQuery.of(context).size.width;
     overallController.screenHeight.value = MediaQuery.of(context).size.height;
-    overallController.currentWidgetWidth.value = MediaQuery.of(context).size.width;
-    overallController.currentWidgetHeight.value = MediaQuery.of(context).size.height;
+    overallController.currentWidgetWidth.value =
+        MediaQuery.of(context).size.width;
+    overallController.currentWidgetHeight.value =
+        MediaQuery.of(context).size.height;
     return ResponsiveWidget(
-      largeScreen: LargeScreen(title: '/',),
+      largeScreen: LargeScreen(
+        title: '/',
+        child: HomePage(
+          title: '/',
+        ),
+      ),
       mediumScreen: MediumScreen(),
       smallScreen: SmallScreen(),
     );

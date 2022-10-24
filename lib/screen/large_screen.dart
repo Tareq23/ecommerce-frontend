@@ -21,7 +21,8 @@ import '../widgets/register_widget.dart';
 
 class LargeScreen extends StatefulWidget {
   final String title;
-  LargeScreen({required this.title});
+  final Widget child;
+  const LargeScreen({required this.title,required this.child});
   @override
   State<LargeScreen> createState() => _LargeScreenState();
 }
@@ -29,35 +30,13 @@ class LargeScreen extends StatefulWidget {
 class _LargeScreenState extends State<LargeScreen> {
   @override
   Widget build(BuildContext context) {
-    print("==========================> Large Screen");
     overallController.currentWidgetWidth.value = MediaQuery.of(context).size.width;
-    var homePageContentIndex = !homePageTopNavItemName.contains(widget.title)
-        ? homePageTopNavItemName.length-1 : homePageTopNavItemName.indexOf(widget.title);
+    // var homePageContentIndex = !homePageTopNavItemName.contains(widget.title)
+    //     ? homePageTopNavItemName.length-1 : homePageTopNavItemName.indexOf(widget.title);
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const TopNav(),
-              const SizedBox(height: 24,),
-              const SearchNav(),
-              const SizedBox(height: 24,),
-              const SecondTopNav(),
-              const SizedBox(height: 24,),
-              const BannerWithOffer(),
-              const SizedBox(height: 24,),
-              const ServiceSection(),
-              const SizedBox(height: 24,),
-              const CategorySection(),
-              const SizedBox(height: 24,),
-              const ProductSection(sectionTitle: 'FEATURE PRODUCT'),
-              const SizedBox(height: 24,),
-              const ProductSection(sectionTitle: 'RECENT PRODUCT'),
-              const SizedBox(height: 24,),
-              FooterSection(height: 500,),
-              homePageWidgetList.elementAt(homePageContentIndex),
-            ],
-          ),
+          child: widget.child,
         ),
       ),
     );

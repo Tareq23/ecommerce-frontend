@@ -59,7 +59,7 @@ class ProductSection extends StatelessWidget {
               spacing: _width * 0.02,
               runSpacing: 40,
               children: productList
-                  .map((product) => ProductCard(product: product))
+                  .map((product) => ProductCard(product: product,width: (_width-_width*0.06),))
                   .toList(),
             )
           ],

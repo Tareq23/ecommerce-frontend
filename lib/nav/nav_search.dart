@@ -79,7 +79,7 @@ class _SearchNavState extends State<SearchNav> {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 CustomText(text: 'Customer Service',color: TEXT_DARK.withOpacity(0.8),size: 18,weight: FontWeight.w500,),
-                CustomText(text: '+8801*********',color: TEXT_DARK,size: 18,weight: FontWeight.w400,),
+                const CustomText(text: '+8801*********',color: TEXT_DARK,size: 18,weight: FontWeight.w400,),
               ],
             ),
           )

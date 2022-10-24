@@ -5,6 +5,7 @@ import 'package:ecommercefrontend/widgets/common_widgets.dart';
 import 'package:ecommercefrontend/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:url_launcher/link.dart';
 
 import '../constants/colors.dart';
 import '../constants/contants.dart';
@@ -36,15 +37,24 @@ class TopNav extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: _leftItem.map(
                 (e) {
-                  return NavItem(
-                    title: e.toUpperCase(),
-                    onTap: () {
-                      // print('--------------------$e');
-                      if (!itemButtonController.isActive(e)) {
-                        itemButtonController.changeActiveItemTo(e);
-                        context.go('/${e.toLowerCase()}');
-                      }
-                    },
+                  return MouseRegion(
+                    cursor: SystemMouseCursors.click,
+                    child: Link(
+                      target: LinkTarget.self,
+                      uri: Uri.parse('/${e}'),
+                      builder: (BuildContext context, Future<void> Function()? followLink) {
+                        return NavItem(
+                          title: e.toUpperCase(),
+                          onTap: () {
+                            // print('--------------------$e');
+                            if (!itemButtonController.isActive(e)) {
+                              itemButtonController.changeActiveItemTo(e);
+                              context.go('/${e.toLowerCase()}');
+                            }
+                          },
+                        );
+                      },
+                    ),
                   );
                 },
               ).toList(),
@@ -57,16 +67,25 @@ class TopNav extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: _rightItem
                   .map(
-                    (e) => NavItem(
-                        title: e.toUpperCase(),
-                        onTap: () {
-                          if (!itemButtonController.isActive(e)) {
-                            itemButtonController.changeActiveItemTo(e);
-                            // navigationController.navigateTo(item);
-                            // go to item name route
-                            context.go('/${e.toLowerCase()}');
-                          }
-                        }),
+                    (e) => MouseRegion(
+                      cursor: SystemMouseCursors.click,
+                      child: Link(
+                        target: LinkTarget.self,
+                        uri: Uri.parse('/${e}'),
+                        builder: (BuildContext context, Future<void> Function()? followLink) {
+                          return NavItem(
+                            title: e.toUpperCase(),
+                            onTap: () {
+                              // print('--------------------$e');
+                              if (!itemButtonController.isActive(e)) {
+                                itemButtonController.changeActiveItemTo(e);
+                                context.go('/${e.toLowerCase()}');
+                              }
+                            },
+                          );
+                        },
+                      ),
+                    ),
                   )
                   .toList(),
             ),
