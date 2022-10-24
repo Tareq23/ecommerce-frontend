@@ -29,15 +29,7 @@ class TopNav extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          // SizedBox(
-          //   width: overallController.currentWidgetWidth.value * 0.1,
-          //   child: InkWell(
-          //     onTap: (){
-          //       context.go('/');
-          //     },
-          //     child: _logo(context),
-          //   ),
-          // ),
+
           SizedBox(
             width: overallController.currentWidgetWidth.value * 0.35,
             child: Row(

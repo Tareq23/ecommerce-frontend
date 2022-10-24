@@ -9,7 +9,8 @@ import 'package:get/get.dart';
 class NavItem extends StatelessWidget {
   final String title;
   final VoidCallback onTap;
-  NavItem({Key? key, required this.title, required this.onTap})
+  final Color? color;
+  NavItem({Key? key, required this.title, required this.onTap,this.color})
       : super(key: key);
 
   @override
@@ -42,7 +43,7 @@ class NavItem extends StatelessWidget {
               // color: Colors.white,
               color: (itemButtonController.isHovering(title) || itemButtonController.isActive(title))
                   ? ITEM_HOVER
-                  : TEXT_DARK,
+                  : color??TEXT_DARK,
             ),
           );
         }),
