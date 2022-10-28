@@ -1,6 +1,7 @@
 
 
 import 'dart:convert';
+import 'dart:js';
 
 import 'package:ecommercefrontend/constants/controllers.dart';
 import 'package:ecommercefrontend/models/authentication/login_model.dart';
@@ -20,6 +21,8 @@ class AuthenticationController extends GetxController
   var isLoginAction = false.obs;
   var isLogoutAction = false.obs;
 
+  var isRegisterAction = false.obs;
+
 
   // user register info
   var userRegister = RegisterModel("", "", "", "", "").obs;
@@ -30,10 +33,9 @@ class AuthenticationController extends GetxController
     super.onInit();
   }
 
-  Future<void> login() async
-  {
+  Future<void> login() async {
     CredentialModel credential = CredentialModel(loginUsername.value,loginPassword.value);
-    var result = await ApiService.getUsers(credential);
+    var result = await ApiService.userLogin(credential);
     if(result.token != null){
       _setToken(result.token!);
       accessToken.value = result.token!;
@@ -44,7 +46,23 @@ class AuthenticationController extends GetxController
 
 
   Future<void> register() async{
-
+    var result = await ApiService.userRegister(<String,String>{
+      "username" : userRegister.value.username.toString(),
+      "firstName" : userRegister.value.firstName.toString(),
+      "lastName" : userRegister.value.lastName.toString(),
+      "phoneNumber" : userRegister.value.phoneNumber.toString(),
+      "password" : userRegister.value.password.toString(),
+    });
+    print('-----------------user register email : => ${result.username}');
+    print('-----------------user register last name : => ${result.firstName}');
+    print('-----------------user register first name : => ${result.lastName}');
+    print('-----------------user register password : => ${result.password}');
+    if(result.username!.contains(userRegister.value.username.toString())){
+      loginUsername.value = result.username.toString();
+      loginPassword.value = userRegister.value.password.toString();
+      await login();
+    }
+    isRegisterAction.value = false;
   }
 
 

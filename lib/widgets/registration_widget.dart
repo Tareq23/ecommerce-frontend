@@ -5,7 +5,9 @@ import 'package:ecommercefrontend/constants/controllers.dart';
 import 'package:ecommercefrontend/helpers/responsive_widget.dart';
 import 'package:ecommercefrontend/nav/nav_item.dart';
 import 'package:ecommercefrontend/widgets/custom_text.dart';
+import 'package:ecommercefrontend/widgets/login_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/link.dart';
 
@@ -57,6 +59,11 @@ class _RegistrationWidgetState extends State<RegistrationWidget> {
       }
     }
 
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      if(authenticationController.accessToken.value.length>20){
+        context.go('/');
+      }
+    });
 
     super.initState();
   }
@@ -237,30 +244,42 @@ class _RegistrationWidgetState extends State<RegistrationWidget> {
             const SizedBox(height: 20),
             Align(
               alignment: Alignment.center,
-              child: OutlinedButton(
-                style: OutlinedButton.styleFrom(
-                  backgroundColor: BG_YELLOW,
-                  fixedSize: Size.fromWidth(overallController.screenWidth.value * 0.15),
-                  padding: EdgeInsets.symmetric(vertical: (overallController.screenWidth.value * 0.15)*0.1),
-                  side: const BorderSide(
-                      width: 1.8, color: Colors.transparent),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(borderRadius),
-                  ),
-                ),
-                onPressed: () async{
-                  if(formKey.currentState!.validate()){
+              child: Obx((){
+                if(!authenticationController.isRegisterAction.value){
 
-                  }
-                },
+                  return OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      backgroundColor: BG_YELLOW,
+                      fixedSize: Size.fromWidth(overallController.screenWidth.value * 0.15),
+                      padding: EdgeInsets.symmetric(vertical: (overallController.screenWidth.value * 0.15)*0.1),
+                      side: const BorderSide(
+                          width: 1.8, color: Colors.transparent),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(borderRadius),
+                      ),
+                    ),
+                    onPressed: () async{
+                      if(formKey.currentState!.validate()){
+                        authenticationController.isRegisterAction.value = true;
+                        await authenticationController.register();
+                        _checkAccessToken();
+                      }
+                    },
 
-                child: CustomText(
-                  text: "Register",
-                  color: TEXT_WHITE,
-                  size: 18,
-                  weight: FontWeight.w500,
-                ),
-              ),
+                    child: const CustomText(
+                      text: "Register",
+                      color: TEXT_WHITE,
+                      size: 18,
+                      weight: FontWeight.w500,
+                    ),
+                  );
+                }
+                else{
+                  return CircularProgressIndicator(
+                    color: YELLOW.withOpacity(0.8),
+                  );
+                }
+              })
             ),
           ],
         ),
@@ -268,7 +287,15 @@ class _RegistrationWidgetState extends State<RegistrationWidget> {
     );
   }
 
+  _checkAccessToken(){
+    if(authenticationController.accessToken.value.length>20){
+      // context.go('/');
+      context.replace('/');
+    }
+  }
+
   String? _validator(String value,String title){
+    value = value.trim();
     if(value?.trim().length==0 || value == null){
       return "$title field required!";
     }
@@ -310,13 +337,6 @@ class _RegistrationWidgetState extends State<RegistrationWidget> {
     }
 
     return null;
-  }
-
-  _checkNumber(String value){
-    value.runes.forEach((element) {
-      print('check number : ${value.characters}');
-    });
-    return true;
   }
 
   TextStyle _formFieldTextStyle(BuildContext context) {
