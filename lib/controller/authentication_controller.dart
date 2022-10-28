@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:ecommercefrontend/constants/controllers.dart';
 import 'package:ecommercefrontend/models/authentication/login_model.dart';
+import 'package:ecommercefrontend/models/authentication/register_model.dart';
 import 'package:ecommercefrontend/services/api/api_service.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,14 +13,16 @@ class AuthenticationController extends GetxController
 {
   static AuthenticationController instance = Get.find();
 
+  // user login info
   var loginUsername = ''.obs;
   var loginPassword = ''.obs;
-  var loginAccess = LoginModel('','','').obs;
-
   var accessToken = ''.obs;
-
   var isLoginAction = false.obs;
   var isLogoutAction = false.obs;
+
+
+  // user register info
+  var userRegister = RegisterModel("", "", "", "", "").obs;
 
   @override
   void onInit() {
@@ -38,6 +41,18 @@ class AuthenticationController extends GetxController
     print("login : ${accessToken.value}");
     isLoginAction.value = false;
   }
+
+
+  Future<void> register() async{
+
+  }
+
+
+
+
+
+
+
 
 
   Future<void> _setToken(String token) async {

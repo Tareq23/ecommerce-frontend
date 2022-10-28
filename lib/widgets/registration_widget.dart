@@ -18,9 +18,49 @@ class RegistrationWidget extends StatefulWidget {
 
 class _RegistrationWidgetState extends State<RegistrationWidget> {
 
+  final formKey = GlobalKey<FormState>();
 
   List<TextEditingController> registerFieldsController =
-  List.generate(5, (i) => TextEditingController());
+  List.generate(5, (i) => TextEditingController(),);
+
+
+  @override
+  void initState() {
+
+    for(int i=0; i<registerFieldsController.length; i++){
+      switch(i){
+        case 0:
+          registerFieldsController[i].addListener(() {
+            authenticationController.userRegister.value.firstName = registerFieldsController[i].text.trim();
+          });
+          break;
+        case 1:
+          registerFieldsController[i].addListener(() {
+            authenticationController.userRegister.value.lastName = registerFieldsController[i].text.trim();
+          });
+          break;
+        case 2:
+          registerFieldsController[i].addListener(() {
+            authenticationController.userRegister.value.username = registerFieldsController[i].text.trim();
+          });
+          break;
+        case 3:
+          registerFieldsController[i].addListener(() {
+            authenticationController.userRegister.value.phoneNumber = registerFieldsController[i].text.trim();
+          });
+          break;
+        case 4:
+          registerFieldsController[i].addListener(() {
+            authenticationController.userRegister.value.password = registerFieldsController[i].text.trim();
+          });
+          break;
+      }
+    }
+
+
+    super.initState();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +71,7 @@ class _RegistrationWidgetState extends State<RegistrationWidget> {
     return Container(
       width: _width,
       decoration: BoxDecoration(
-        color: Color(0xff7c989f),
+        color: const Color(0xff7c989f),
         borderRadius: BorderRadius.circular(12),
       ),
       padding: EdgeInsets.symmetric(
@@ -40,6 +80,7 @@ class _RegistrationWidgetState extends State<RegistrationWidget> {
         vertical: overallController.screenHeight.value * 0.15,
       ),
       child: Form(
+        key: formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -61,6 +102,7 @@ class _RegistrationWidgetState extends State<RegistrationWidget> {
             ),
             const SizedBox(height: 8),
             TextFormField(
+              // initialValue: authenticationController.userRegister.value.firstName,
               controller: registerFieldsController.elementAt(0),
               validator:(value){
                 return _validator(value!, 'First name');
@@ -84,6 +126,7 @@ class _RegistrationWidgetState extends State<RegistrationWidget> {
             ),
             const SizedBox(height: 8),
             TextFormField(
+              // initialValue: authenticationController.userRegister.value.lastName,
               controller: registerFieldsController.elementAt(1),
               validator:(value){
                 return _validator(value!, 'Last name');
@@ -107,6 +150,7 @@ class _RegistrationWidgetState extends State<RegistrationWidget> {
             ),
             const SizedBox(height: 8),
             TextFormField(
+              // initialValue: authenticationController.userRegister.value.username,
               controller: registerFieldsController.elementAt(2),
               validator:(value){
                 return _validator(value!, 'Email');
@@ -130,8 +174,12 @@ class _RegistrationWidgetState extends State<RegistrationWidget> {
             ),
             const SizedBox(height: 8),
             TextFormField(
+              // initialValue: authenticationController.userRegister.value.phoneNumber,
               controller: registerFieldsController.elementAt(3),
               style: _formFieldTextStyle(context),
+              validator: (value){
+                return _validator(value!,'Number');
+              },
               decoration: InputDecoration(
                 hintText: 'Number',
                 hintStyle: _hintStyle(context),
@@ -150,6 +198,10 @@ class _RegistrationWidgetState extends State<RegistrationWidget> {
             ),
             const SizedBox(height: 8),
             TextFormField(
+              // initialValue: authenticationController.userRegister.value.password,
+              validator: (value){
+                return _validator(value!,'Password');
+              },
               controller: registerFieldsController.elementAt(4),
               obscureText: true,
               style: _formFieldTextStyle(context),
@@ -196,8 +248,10 @@ class _RegistrationWidgetState extends State<RegistrationWidget> {
                     borderRadius: BorderRadius.circular(borderRadius),
                   ),
                 ),
-                onPressed: () {
+                onPressed: () async{
+                  if(formKey.currentState!.validate()){
 
+                  }
                 },
 
                 child: CustomText(
@@ -218,7 +272,51 @@ class _RegistrationWidgetState extends State<RegistrationWidget> {
     if(value?.trim().length==0 || value == null){
       return "$title field required!";
     }
+    print('------------------> Fitst Name : ${title.toLowerCase()}');
+
+    switch(title.toLowerCase()){
+      case "password":
+        print('user register ------------> password ${authenticationController.userRegister.value.password}');
+        if(authenticationController.userRegister.value.password!.length<6 || authenticationController.userRegister.value.password!.length>16){
+          return 'Password length must be more that 6 characters and less than 16 characters';
+        }
+        break;
+      case "email":
+        bool emailValid = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value);
+        if(!emailValid){
+          return 'Please enter valid email';
+        }
+        break;
+      case "number":
+        String pattern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
+        RegExp regExp = new RegExp(pattern);
+        // print('phone number : => $value');
+        if (!regExp.hasMatch(value) || value.trim().length <11 || value.trim().length>11) {
+          return 'Please enter valid mobile number';
+        }
+        break;
+      case "first name":
+        if(authenticationController.userRegister.value.firstName!.length<4 || authenticationController.userRegister.value.firstName!.length>50){
+          return 'First name must be more that 4 characters and less than 50 characters';
+        }
+
+        break;
+      case "last name":
+        if(authenticationController.userRegister.value.lastName!.length<4 || authenticationController.userRegister.value.lastName!.length>50){
+          return 'Last name must be more that 4 characters and less than 50 characters';
+        }
+        break;
+
+    }
+
     return null;
+  }
+
+  _checkNumber(String value){
+    value.runes.forEach((element) {
+      print('check number : ${value.characters}');
+    });
+    return true;
   }
 
   TextStyle _formFieldTextStyle(BuildContext context) {

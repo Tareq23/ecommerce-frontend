@@ -12,12 +12,6 @@ import 'package:ecommercefrontend/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../widgets/common_widgets.dart';
-import '../widgets/contact_widget.dart';
-import '../widgets/help_widget.dart';
-import '../widgets/home_widget.dart';
-import '../widgets/login_widget.dart';
-import '../widgets/register_widget.dart';
 
 class LargeScreen extends StatefulWidget {
   final String title;
