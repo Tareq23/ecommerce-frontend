@@ -4,6 +4,7 @@ import 'package:ecommercefrontend/nav/nav_item.dart';
 import 'package:ecommercefrontend/widgets/common_widgets.dart';
 import 'package:ecommercefrontend/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/link.dart';
 
@@ -15,12 +16,17 @@ import '../helpers/responsive_widget.dart';
 List<String> _leftItem = ["about", "contact", "help"];
 List<String> _rightItem = ["login", "register"];
 
-class TopNav extends StatelessWidget {
+class TopNav extends StatefulWidget {
   const TopNav({Key? key}) : super(key: key);
 
   @override
+  State<TopNav> createState() => _TopNavState();
+}
+
+class _TopNavState extends State<TopNav> {
+  @override
   Widget build(BuildContext context) {
-    print("==========================> Top Nav ${_leftItem.length}");
+    // print("==========================> Top Nav ${_leftItem.length}");
     return Container(
       width: double.infinity,
       height: 40,
@@ -61,25 +67,28 @@ class TopNav extends StatelessWidget {
             ),
           ),
           // const CustomText(text: 'Checking Text'),
-          SizedBox(
-            width: overallController.currentWidgetWidth.value * 0.4,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: _rightItem
-                  .map(
-                    (e) => MouseRegion(
+          Obx((){
+            print('authentication access token :=> ${authenticationController.accessToken.value.length}');
+            if(authenticationController.accessToken.value.length<20){
+              return SizedBox(
+                width: overallController.currentWidgetWidth.value * 0.4,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: _rightItem
+                      .map(
+                        (e) => MouseRegion(
                       cursor: SystemMouseCursors.click,
                       child: Link(
                         target: LinkTarget.self,
-                        uri: Uri.parse('/${e}'),
+                        uri: Uri.parse('/auth/$e'),
                         builder: (BuildContext context, Future<void> Function()? followLink) {
                           return NavItem(
                             title: e.toUpperCase(),
                             onTap: () {
                               // print('--------------------$e');
-                              if (!itemButtonController.isActive(e)) {
+                                if (!itemButtonController.isActive(e)){
                                 itemButtonController.changeActiveItemTo(e);
-                                context.go('/${e.toLowerCase()}');
+                                context.go('/auth/$e');
                               }
                             },
                           );
@@ -87,28 +96,33 @@ class TopNav extends StatelessWidget {
                       ),
                     ),
                   )
-                  .toList(),
-            ),
-          ),
+                      .toList(),
+                ),
+              );
+            }
+            else{
+              return MouseRegion(
+                cursor: SystemMouseCursors.click,
+                child: Link(
+                  uri: Uri.parse('/auth/logout'),
+                  builder: (BuildContext context, Future<void> Function()? followLink) {
+                    return NavItem(
+                      title: 'logout'.toUpperCase(),
+                      onTap: () {
+                        authenticationController.logout();
+                        // print('logout -------------------------> ${authenticationController.accessToken.value}');
+                        context.go('/');
+                      },
+                    );
+                  },
+                ),
+              );
+            }
+          },)
         ],
       ),
     );
   }
-
-
 }
 
-class _NavItem extends StatelessWidget {
-  final String title;
-  final VoidCallback onTap;
-  const _NavItem({required this.title, required this.onTap});
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: CustomText(
-        text: title,
-      ),
-    );
-  }
-}
+

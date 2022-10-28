@@ -1,8 +1,9 @@
 import 'package:ecommercefrontend/constants/colors.dart';
+import 'package:ecommercefrontend/constants/controllers.dart';
+import 'package:ecommercefrontend/controller/authentication_controller.dart';
 import 'package:ecommercefrontend/controller/item_button_controller.dart';
 import 'package:ecommercefrontend/controller/overall_controller.dart';
 import 'package:ecommercefrontend/controller/route_state_controller.dart';
-import 'package:ecommercefrontend/landing/landing_page.dart';
 import 'package:ecommercefrontend/services/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
@@ -14,6 +15,8 @@ void main() {
   Get.put(ItemButtonController());
   Get.put(OverallController());
   Get.put(StateController());
+  Get.put(AuthenticationController());
+  authenticationController.getToken();
   runApp(MyApp());
 }
 

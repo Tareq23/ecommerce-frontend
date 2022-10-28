@@ -296,8 +296,7 @@ class FooterFourthSection extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(
-                  width: (width * 0.7)-25,
+                Expanded(
                   child: TextFormField(
                     decoration: InputDecoration(
                       hintStyle: TextStyle(color: TEXT_WHITE.withOpacity(0.8),fontSize: 18,fontWeight: FontWeight.w500),

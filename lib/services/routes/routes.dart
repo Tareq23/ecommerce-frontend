@@ -1,4 +1,5 @@
 import 'package:ecommercefrontend/helpers/responsive_widget.dart';
+import 'package:ecommercefrontend/pages/auth/authentication.dart';
 import 'package:ecommercefrontend/pages/category/specific_category_products_pages.dart';
 import 'package:ecommercefrontend/pages/home/home_page.dart';
 import 'package:ecommercefrontend/pages/product/product_details_page.dart';
@@ -16,9 +17,14 @@ const String product = 'product';
 const String homeContent = 'homeContent';
 const String productDetails = 'productDetails';
 const String specificCategoryProducts = 'specificCategoryProducts';
+const String auth = 'auth';
 
-GoRouter router = GoRouter(initialLocation: '/', routes: [
-  GoRoute(
+GoRouter router = GoRouter(
+  initialLocation: '/',
+
+  // redirect: ,
+  routes: [
+    GoRoute(
       path: '/',
       name: root,
       pageBuilder: (context, state) {
@@ -37,6 +43,9 @@ GoRouter router = GoRouter(initialLocation: '/', routes: [
           ),
         );
       },
+      // redirect: (context,state){
+      //   return '/';
+      // },
       routes: [
         GoRoute(
           path: ':home',
@@ -58,16 +67,31 @@ GoRouter router = GoRouter(initialLocation: '/', routes: [
           },
         ),
         GoRoute(
+          path: 'auth/:auth',
+          name: auth,
+          pageBuilder: (context, state) {
+            return NoTransitionPage(
+              key: state.pageKey,
+              child: LargeScreen(
+                title: '/',
+                child: AuthenticationPage(
+                  title: state.params['auth'].toString(),
+                ),
+              ),
+            );
+          },
+        ),
+        GoRoute(
           path: 'product/details/:id',
           name: productDetails,
           pageBuilder: (context, state) {
             return NoTransitionPage(
               key: state.pageKey,
-                child: LargeScreen(
-
-              title: '/',
-                  child: ProductDetails(),
-            ),);
+              child: LargeScreen(
+                title: '/',
+                child: ProductDetails(),
+              ),
+            );
           },
         ),
         GoRoute(
@@ -75,13 +99,15 @@ GoRouter router = GoRouter(initialLocation: '/', routes: [
           name: specificCategoryProducts,
           pageBuilder: (context, state) {
             return NoTransitionPage(
-                key: state.pageKey,
-                child: LargeScreen(
-
-              title: '/',
-                  child: SpecificCategoryProductsPage(),
-            ),);
+              key: state.pageKey,
+              child: const LargeScreen(
+                title: '/',
+                child: SpecificCategoryProductsPage(),
+              ),
+            );
           },
         ),
-      ]),
-]);
+      ],
+    ),
+  ],
+);
