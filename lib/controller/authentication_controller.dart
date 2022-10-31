@@ -7,12 +7,20 @@ import 'package:ecommercefrontend/constants/controllers.dart';
 import 'package:ecommercefrontend/models/authentication/login_model.dart';
 import 'package:ecommercefrontend/models/authentication/register_model.dart';
 import 'package:ecommercefrontend/services/api/api_service.dart';
+import 'package:ecommercefrontend/services/jwt/jwt_service.dart';
 import 'package:get/get.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthenticationController extends GetxController
 {
   static AuthenticationController instance = Get.find();
+
+
+
+  var isSuperAdmin = false.obs;
+
+
 
   // user login info
   var loginUsername = ''.obs;
@@ -20,12 +28,12 @@ class AuthenticationController extends GetxController
   var accessToken = ''.obs;
   var isLoginAction = false.obs;
   var isLogoutAction = false.obs;
-
-  var isRegisterAction = false.obs;
+  var userLogin = LoginModel("", "", "", false, false, false).obs;
 
 
   // user register info
   var userRegister = RegisterModel("", "", "", "", "").obs;
+  var isRegisterAction = false.obs;
 
   @override
   void onInit() {
@@ -38,7 +46,11 @@ class AuthenticationController extends GetxController
     var result = await ApiService.userLogin(credential);
     if(result.token != null){
       _setToken(result.token!);
+      print('----------------- controller login method : ${result.isAdmin}');
+      print('----------------- controller login method : ${result.isManager}');
+      print('----------------- controller login method : ${result.isCustomer}');
       accessToken.value = result.token!;
+      userLogin.value = result;
     }
     print("login : ${accessToken.value}");
     isLoginAction.value = false;
@@ -65,8 +77,25 @@ class AuthenticationController extends GetxController
     isRegisterAction.value = false;
   }
 
+  bool isExpired(){
+    // isSuperAdmin.value = JwtService.isSuperAdmin();
+    _validToken();
+    if(authenticationController.accessToken.value.length<20) return false;
+    print('-----  jwt service -----------is expired');
+    return  JwtDecoder.isExpired(accessToken.value);
+  }
 
 
+
+  _validToken(){
+    final checkToken = accessToken.value.split(".");
+    if(checkToken.length == 3){
+      print('----access token first part ----- ${checkToken[0]}');
+    }
+    else{
+      print('----------------------------> invalid token');
+    }
+  }
 
 
 

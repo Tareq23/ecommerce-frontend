@@ -54,7 +54,7 @@ class CategorySection extends StatelessWidget {
             Wrap(
               spacing: _width * 0.02,
               runSpacing: 40,
-              children: categoryList
+              children: categoryController.categoryList
                   .map((category) => CategoryCard(category: category))
                   .toList(),
             )

@@ -5,15 +5,20 @@ class LoginModel{
   String? imageUrl;
   String? username;
   String? password;
+  bool? isAdmin;
+  bool? isManager;
+  bool? isCustomer;
 
-  LoginModel(this.token,this.name,this.imageUrl);
+  LoginModel(this.token,this.name,this.imageUrl,this.isAdmin,this.isManager,this.isCustomer);
   LoginModel.empty();
 
-  LoginModel.parseJson(Map<String,dynamic> json)
-  {
+  LoginModel.parseJson(Map<String,dynamic> json){
     token = json['token'];
     name = json['name'];
     imageUrl = json['imageUrl'];
+    isAdmin = json['admin']??false;
+    isManager = json['manager']??false;
+    isCustomer = json['customer']??false;
   }
 
   // LoginModel.credential({required this.username,required this.password});

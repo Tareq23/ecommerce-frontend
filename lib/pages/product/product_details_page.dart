@@ -21,9 +21,11 @@ class ProductDetails extends StatelessWidget {
           width: overallController.screenWidth.value,
           height: 400,
           child: Center(
-            child: CustomText(text: 'Category Product Pages Page!!!!',),
+            child: CustomText(text: 'specific category Product List Pages!!!!',),
           ),
         ),
+
+
         FooterSection(height: 500,),
         // homePageWidgetList.elementAt(homePageContentIndex),
       ],

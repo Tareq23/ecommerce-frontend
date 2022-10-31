@@ -4,13 +4,14 @@ import 'package:ecommercefrontend/constants/colors.dart';
 import 'package:ecommercefrontend/constants/contants.dart';
 import 'package:ecommercefrontend/constants/controllers.dart';
 import 'package:ecommercefrontend/models/category_model.dart';
+import 'package:ecommercefrontend/models/home/category_model.dart';
 import 'package:ecommercefrontend/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/link.dart';
 
 class CategoryCard extends StatelessWidget {
-  final Category category;
+  final CategoryModel category;
   CategoryCard({Key? key, required this.category}) : super(key: key);
   static double _width=0;
   double _cardHeight = 150;
@@ -37,7 +38,7 @@ class CategoryCard extends StatelessWidget {
                     width: (_width * 0.3) * 0.4,
                     height: _cardHeight,
                     padding: const EdgeInsets.all(8),
-                    child: Image.network(
+                    child:Image.network(
                       category.imageUrl.toString(),
                       width: double.infinity,
                       height: double.infinity,
@@ -52,9 +53,9 @@ class CategoryCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          CustomText(text: category.title.toString(),size: 18,weight: FontWeight.w500,color: TEXT_DARK,),
+                          CustomText(text: category.name.toString(),size: 18,weight: FontWeight.w500,color: TEXT_DARK,),
                           const SizedBox(height: 15,),
-                          CustomText(text: category.numberOfProduct.toString(),size: 18,weight: FontWeight.w500,color: TEXT_DARK,),
+                          // CustomText(text: category.productList??.toString(),size: 18,weight: FontWeight.w500,color: TEXT_DARK,),
                         ],
                       )
                   ),
@@ -64,6 +65,6 @@ class CategoryCard extends StatelessWidget {
           );
         }
       );
-    });
+    },);
   }
 }

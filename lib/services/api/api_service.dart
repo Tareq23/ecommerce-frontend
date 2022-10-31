@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:ecommercefrontend/models/authentication/login_model.dart';
 import 'package:ecommercefrontend/models/authentication/register_model.dart';
+import 'package:ecommercefrontend/models/home/category_model.dart';
 import 'package:ecommercefrontend/services/api/api.dart';
 import 'package:http/http.dart' as http;
 
@@ -53,7 +54,6 @@ class ApiService {
     return LoginModel.empty();
   }
 
-
   static Future<RegisterModel> userRegister(Object object) async {
     try {
       var response = await _action(
@@ -73,6 +73,51 @@ class ApiService {
       print("exception error ----> : $e");
     }
     return RegisterModel.empty();
+  }
+
+  static Future<List<CategoryModel>> homeCategory(Object object) async {
+    try {
+      var response = await _action(
+        url: API.CATEGORY_URL,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: object,
+        actionType: 'get',
+      );
+
+      if (response.statusCode == 200) {
+        var jsonString = jsonDecode(response.body) as List;
+        return jsonString.map((e) => CategoryModel.parseJsonWithoutProduct(e)).toList();
+      }
+    } catch (e) {
+      print("exception error ----> : $e");
+    }
+    return [];
+  }
+
+  static Future<void> checkUserRole(Object object) async {
+    try {
+      var response = await _action(
+        url: API.CHECK_ROLE,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: {
+          "token" : object.toString(),
+          "username" : "superadmin",
+          "password" : "12345678"
+        },
+        actionType: 'post',
+      );
+      if (response.statusCode == 200) {
+        // var jsonString = jsonDecode(response.body) as List;
+        // return jsonString.map((e) => CategoryModel.parseJsonWithoutProduct(e)).toList();
+      }
+    } catch (e) {
+      print("exception error ----> : $e");
+    }
+    // return [];
   }
 
 }

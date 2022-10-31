@@ -265,7 +265,6 @@ class _RegistrationWidgetState extends State<RegistrationWidget> {
                         _checkAccessToken();
                       }
                     },
-
                     child: const CustomText(
                       text: "Register",
                       color: TEXT_WHITE,
