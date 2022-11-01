@@ -37,7 +37,7 @@ class AuthenticationController extends GetxController
 
   @override
   void onInit() {
-    getToken();
+    _getToken();
     super.onInit();
   }
 
@@ -46,9 +46,9 @@ class AuthenticationController extends GetxController
     var result = await ApiService.userLogin(credential);
     if(result.token != null){
       _setToken(result.token!);
-      print('----------------- controller login method : ${result.isAdmin}');
-      print('----------------- controller login method : ${result.isManager}');
-      print('----------------- controller login method : ${result.isCustomer}');
+      // print('----------------- controller login method : ${result.isAdmin}');
+      // print('----------------- controller login method : ${result.isManager}');
+      // print('----------------- controller login method : ${result.isCustomer}');
       accessToken.value = result.token!;
       userLogin.value = result;
     }
@@ -105,19 +105,23 @@ class AuthenticationController extends GetxController
   Future<void> _setToken(String token) async {
     final SharedPreferences prefs = await sharedPreference;
     prefs.setString('token', token);
-    await getToken();
+    prefs.setBool('admin', userLogin.value.isAdmin!);
+    prefs.setBool('customer', userLogin.value.isAdmin!);
+    prefs.setBool('manager', userLogin.value.isAdmin!);
+    await _getToken();
   }
 
-  Future<void> getToken() async{
+  Future<void> _getToken() async{
     final SharedPreferences prefs = await sharedPreference;
     accessToken.value = prefs.getString('token')??'';
-    print('get token : $accessToken');
+    userLogin.value.isAdmin = prefs.getBool('admin')??false;
+    userLogin.value.isManager = prefs.getBool('manager')??false;
+    userLogin.value.isCustomer = prefs.getBool('customer')??false;
   }
 
   Future<void> logout() async{
     accessToken.value = '';
     final SharedPreferences prefs = await sharedPreference;
-    prefs.setString('token','');
     prefs.reload();
     isLogoutAction = false.obs;
   }

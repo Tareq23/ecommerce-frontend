@@ -21,7 +21,6 @@ void main() {
   Get.put(AuthenticationController());
   Get.put(CategoryController());
   Get.put(ProductController());
-  authenticationController.getToken();
   runApp(MyApp());
 }
 

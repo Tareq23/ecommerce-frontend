@@ -28,6 +28,7 @@ class TopNav extends StatefulWidget {
 class _TopNavState extends State<TopNav> {
   @override
   Widget build(BuildContext context) {
+
     return Container(
       width: double.infinity,
       height: 40,
@@ -103,48 +104,65 @@ class _TopNavState extends State<TopNav> {
                 ),
               );
             }
-
             else{
-              print('--------------top nav : ${authenticationController.userLogin.value.isAdmin!}');
+              // print('--------------top nav : ${authenticationController.userLogin.value.isAdmin!}');
+              if(authenticationController.userLogin.value.isAdmin!){
+                return SizedBox(
+                  child: Row(
+                    children: [
+                        MouseRegion(
+                          cursor: SystemMouseCursors.click,
+                          child: Link(
+                            uri: Uri.parse('/admin/dashboard'),
+                            builder: (BuildContext context, Future<void> Function()? followLink) {
+                              return NavItem(
+                                title: 'dashboard'.toUpperCase(),
+                                onTap: () {
+                                  // authenticationController.logout();
+                                  // print('logout -------------------------> ${authenticationController.accessToken.value}');
+                                  context.go('/admin/dashboard');
+                                },
+                              );
+                            },
+                          ),
+                        ),
+                        const SizedBox(width: 20,),
+                      MouseRegion(
+                        cursor: SystemMouseCursors.click,
+                        child: Link(
+                          uri: Uri.parse('/auth/logout'),
+                          builder: (BuildContext context, Future<void> Function()? followLink) {
+                            return NavItem(
+                              title: 'logout'.toUpperCase(),
+                              onTap: () {
+                                authenticationController.logout();
+                                // print('logout -------------------------> ${authenticationController.accessToken.value}');
+                                context.go('/');
+                              },
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }
               return SizedBox(
-                child: Row(
-                  children: [
-                    if(authenticationController.userLogin.value.isAdmin!)
-                    MouseRegion(
-                      cursor: SystemMouseCursors.click,
-                      child: Link(
-                        uri: Uri.parse('/admin/dashboard'),
-                        builder: (BuildContext context, Future<void> Function()? followLink) {
-                          return NavItem(
-                            title: 'dashboard'.toUpperCase(),
-                            onTap: () {
-                              // authenticationController.logout();
-                              // print('logout -------------------------> ${authenticationController.accessToken.value}');
-                              context.go('/admin/dashboard');
-                            },
-                          );
+                child: MouseRegion(
+                  cursor: SystemMouseCursors.click,
+                  child: Link(
+                    uri: Uri.parse('/auth/logout'),
+                    builder: (BuildContext context, Future<void> Function()? followLink) {
+                      return NavItem(
+                        title: 'logout'.toUpperCase(),
+                        onTap: () {
+                          authenticationController.logout();
+                          // print('logout -------------------------> ${authenticationController.accessToken.value}');
+                          context.go('/');
                         },
-                      ),
-                    ),
-                    if(authenticationController.userLogin.value.isAdmin!)
-                      const SizedBox(width: 20,),
-                    MouseRegion(
-                      cursor: SystemMouseCursors.click,
-                      child: Link(
-                        uri: Uri.parse('/auth/logout'),
-                        builder: (BuildContext context, Future<void> Function()? followLink) {
-                          return NavItem(
-                            title: 'logout'.toUpperCase(),
-                            onTap: () {
-                              authenticationController.logout();
-                              // print('logout -------------------------> ${authenticationController.accessToken.value}');
-                              context.go('/');
-                            },
-                          );
-                        },
-                      ),
-                    ),
-                  ],
+                      );
+                    },
+                  ),
                 ),
               );
             }
