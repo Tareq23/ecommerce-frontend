@@ -23,19 +23,20 @@ class _ResponsiveWidgetState extends State<ResponsiveWidget> {
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_){
-      overallController.screenWidth.value = MediaQuery.of(context).size.width;
-      overallController.screenHeight.value = MediaQuery.of(context).size.height;
-      commonPadding = overallController.screenWidth.value * 0.07;
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((_){
+    //   overallController.screenWidth.value = MediaQuery.of(context).size.width;
+    //   overallController.screenHeight.value = MediaQuery.of(context).size.height;
+    //   commonPadding = overallController.screenWidth.value * 0.07;
+    // });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    overallController.screenWidth.value = MediaQuery.of(context).size.width;
+    overallController.screenHeight.value = MediaQuery.of(context).size.height;
+    commonPadding = overallController.screenWidth.value * 0.07;
     return LayoutBuilder(builder: (context,constraint){
-      // overallController.screenWidth.value = MediaQuery.of(context).size.width;
-      // overallController.screenHeight.value = MediaQuery.of(context).size.height;
       if(ResponsiveWidget.isLargeScreen(context)){
 
         return widget.largeScreen;
@@ -47,5 +48,21 @@ class _ResponsiveWidgetState extends State<ResponsiveWidget> {
         return widget.smallScreen;
       }
     });
+    // return Obx((){
+    //   overallController.screenWidth.value = MediaQuery.of(context).size.width;
+    //   overallController.screenHeight.value = MediaQuery.of(context).size.height;
+    //   return LayoutBuilder(builder: (context,constraint){
+    //     if(ResponsiveWidget.isLargeScreen(context)){
+    //
+    //       return widget.largeScreen;
+    //     }
+    //     else if(ResponsiveWidget.isMediumScreen(context)){
+    //       return widget.mediumScreen;
+    //     }
+    //     else{
+    //       return widget.smallScreen;
+    //     }
+    //   });
+    // });
   }
 }

@@ -10,7 +10,8 @@ class NavItem extends StatelessWidget {
   final String title;
   final VoidCallback onTap;
   final Color? color;
-  NavItem({Key? key, required this.title, required this.onTap,this.color})
+  final double textSize;
+  NavItem({Key? key, required this.title, required this.onTap,this.color,this.textSize=16})
       : super(key: key);
 
   @override
@@ -38,7 +39,7 @@ class NavItem extends StatelessWidget {
             ),
             child: CustomText(
               text: title,
-              size: 16,
+              size: textSize,
               weight: FontWeight.w500,
               // color: Colors.white,
               color: (itemButtonController.isHovering(title) || itemButtonController.isActive(title))

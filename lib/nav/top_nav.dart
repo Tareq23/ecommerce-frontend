@@ -28,8 +28,6 @@ class TopNav extends StatefulWidget {
 class _TopNavState extends State<TopNav> {
   @override
   Widget build(BuildContext context) {
-    // print("==========================> Top Nav ${_leftItem.length}");
-     ApiService.checkUserRole(authenticationController.accessToken.value);
     return Container(
       width: double.infinity,
       height: 40,
@@ -115,14 +113,14 @@ class _TopNavState extends State<TopNav> {
                     MouseRegion(
                       cursor: SystemMouseCursors.click,
                       child: Link(
-                        uri: Uri.parse('/auth/dashboard'),
+                        uri: Uri.parse('/admin/dashboard'),
                         builder: (BuildContext context, Future<void> Function()? followLink) {
                           return NavItem(
                             title: 'dashboard'.toUpperCase(),
                             onTap: () {
                               // authenticationController.logout();
                               // print('logout -------------------------> ${authenticationController.accessToken.value}');
-                              context.go('/');
+                              context.go('/admin/dashboard');
                             },
                           );
                         },

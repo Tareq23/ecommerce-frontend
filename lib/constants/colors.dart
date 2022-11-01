@@ -14,3 +14,6 @@ const Color TOP_NAV_SECOND = Color(0xff3d464d);
 const Color YELLOW = Color(0xffffd333);
 const Color ROOT_BACKGROUND_COLOR = Color(0xffefefef);
 const Color FOOTER_BACKGROUND_COLOR = Color(0xff3d464d);
+
+const Color ADMIN_BG_SEAL_BROWN = Color(0xff131313);
+const Color DIVIDER = Color(0xff1f1f1f);
