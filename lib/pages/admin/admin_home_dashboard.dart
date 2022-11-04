@@ -9,28 +9,32 @@ import 'package:go_router/go_router.dart';
 
 class AdminHome extends StatefulWidget {
   final String title;
-  const AdminHome({Key? key, required this.title}) : super(key: key);
+  String? subTitle;
+  AdminHome({Key? key, required this.title,this.subTitle}) : super(key: key);
 
   @override
   State<AdminHome> createState() => _AdminHomeState();
 }
 
 class _AdminHomeState extends State<AdminHome> {
+
+  @override
+  void initState() {
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     if(!authenticationController.userLogin.value.isAdmin!){
       context.go('/');
     }
-    return Column(
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisSize: MainAxisSize.min,
       children: [
-        const SizedBox(height: 20,),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const SideNav(),
-            AdminHomeContent(title: widget.title,),
-          ],
-        ),
+        SideNav(),
+        Expanded(child: AdminHomeContent(title: widget.title,subTitle:widget.subTitle),),
       ],
     );
   }

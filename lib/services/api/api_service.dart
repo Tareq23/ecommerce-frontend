@@ -1,18 +1,50 @@
 import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
 
+import 'package:dio/dio.dart';
+import 'package:ecommercefrontend/constants/controllers.dart';
 import 'package:ecommercefrontend/models/authentication/login_model.dart';
 import 'package:ecommercefrontend/models/authentication/register_model.dart';
 import 'package:ecommercefrontend/models/home/category_model.dart';
 import 'package:ecommercefrontend/services/api/api.dart';
 import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 
 class ApiService {
   static Future<dynamic> _action(
       {required String url,
       required Map<String, String> headers,
       required Object body,
+      bool multipart = false,
+      Uint8List? file,
       String? actionType}) async {
     if (actionType!.toLowerCase().contains("post")) {
+      // uploaded with file
+      if (multipart) {
+        var request = http.MultipartRequest("POST", Uri.parse(url));
+        request.headers.addAll(headers);
+        request.fields['name'] = jsonEncode(body);
+
+        request.files.add(
+          http.MultipartFile.fromBytes(
+            'file',
+              file!,
+            contentType: MediaType('application','json'),filename: 'Any_name.jpg'
+          ),
+        );
+
+        int statusCode = 400;
+        await request.send().then((response) {
+          print('---------------> Status code : ${response.statusCode}');
+          if (response.statusCode == 200 || response.statusCode == 201) {
+            statusCode = response.statusCode;
+          }
+        });
+        return statusCode;
+      }
+
+      // uploaded without file
       return await http.post(
         Uri.parse(url),
         headers: headers,
@@ -20,7 +52,6 @@ class ApiService {
         body: jsonEncode(body),
       );
     }
-
     return await http.get(
       Uri.parse(url),
       headers: <String, String>{
@@ -88,7 +119,9 @@ class ApiService {
 
       if (response.statusCode == 200) {
         var jsonString = jsonDecode(response.body) as List;
-        return jsonString.map((e) => CategoryModel.parseJsonWithoutProduct(e)).toList();
+        return jsonString
+            .map((e) => CategoryModel.parseJsonWithoutProduct(e))
+            .toList();
       }
     } catch (e) {
       print("exception error ----> : $e");
@@ -104,9 +137,9 @@ class ApiService {
           'Content-Type': 'application/json',
         },
         body: {
-          "token" : object.toString(),
-          "username" : "superadmin",
-          "password" : "12345678"
+          "token": object.toString(),
+          "username": "superadmin",
+          "password": "12345678"
         },
         actionType: 'post',
       );
@@ -120,4 +153,19 @@ class ApiService {
     // return [];
   }
 
+  static Future uploadCategory(CategoryModel category, Uint8List image) async {
+    await authenticationController.getToken();
+    // print('Bearer ${authenticationController.accessToken.value}');
+    return _action(
+        url: API.ADD_CATEGORY_URL,
+        actionType: 'post',
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Authorization':
+              'Bearer ${authenticationController.accessToken.value}',
+        },
+        multipart: true,
+        file: image,
+        body: category);
+  }
 }

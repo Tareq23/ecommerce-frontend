@@ -11,13 +11,26 @@ class AdminLargeScreen extends StatefulWidget {
 }
 
 class _AdminLargeScreenState extends State<AdminLargeScreen> {
+
   @override
-  Widget build(BuildContext context) {
+  void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       overallController.screenHeight.value = MediaQuery.of(context).size.height;
       overallController.screenWidth.value = MediaQuery.of(context).size.width;
-    });
-    var screenSize = MediaQuery.of(context).size;
+
+      overallController.adminSideNavWidth.value = overallController.screenWidth.value * 0.17;
+      overallController.adminSideNavHeight.value = overallController.screenHeight.value;
+
+      overallController.adminMainContentWidth.value = overallController.screenWidth.value * 0.83;
+      overallController.adminMainContentHeight.value = overallController.screenHeight.value;
+
+    },);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
     return Scaffold(
         backgroundColor: ADMIN_BG_SEAL_BROWN,
         body: Container(
@@ -26,9 +39,7 @@ class _AdminLargeScreenState extends State<AdminLargeScreen> {
           decoration: const BoxDecoration(
             color: ADMIN_BG_SEAL_BROWN,
           ),
-          child: SingleChildScrollView(
-            child: widget.child,
-          ),
-        ));
+          child: widget.child,
+        ),);
   }
 }

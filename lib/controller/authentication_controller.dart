@@ -37,7 +37,7 @@ class AuthenticationController extends GetxController
 
   @override
   void onInit() {
-    _getToken();
+    getToken();
     super.onInit();
   }
 
@@ -108,10 +108,10 @@ class AuthenticationController extends GetxController
     prefs.setBool('admin', userLogin.value.isAdmin!);
     prefs.setBool('customer', userLogin.value.isAdmin!);
     prefs.setBool('manager', userLogin.value.isAdmin!);
-    await _getToken();
+    await getToken();
   }
 
-  Future<void> _getToken() async{
+  Future<void> getToken() async{
     final SharedPreferences prefs = await sharedPreference;
     accessToken.value = prefs.getString('token')??'';
     userLogin.value.isAdmin = prefs.getBool('admin')??false;

@@ -2,6 +2,7 @@ import 'package:ecommercefrontend/constants/contants.dart';
 import 'package:ecommercefrontend/helpers/responsive_widget.dart';
 import 'package:ecommercefrontend/nav/nav_item.dart';
 import 'package:ecommercefrontend/widgets/custom_text.dart';
+import 'package:ecommercefrontend/widgets/text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
@@ -184,9 +185,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                     ),
                   );
                 }
-                return CircularProgressIndicator(
-                  color: YELLOW.withOpacity(0.8),
-                );
+                return circularProgressIndicator();
 
               })
             ),

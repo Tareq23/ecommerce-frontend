@@ -17,7 +17,7 @@ List<String> _itemList = [
 ];
 
 class SideNav extends StatelessWidget {
-  const SideNav({Key? key}) : super(key: key);
+  SideNav({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,13 +28,13 @@ class SideNav extends StatelessWidget {
         right: BorderSide(width: 1.2, color: DIVIDER),
       ),),
       constraints: BoxConstraints(
-        minHeight: overallController.screenHeight.value - 20,
-        maxWidth: overallController.screenWidth.value * 0.14,
+        minHeight: overallController.adminSideNavHeight.value,
+        maxWidth: overallController.adminSideNavWidth.value,
       ),
       child: Column(
         children: [
           Container(
-            margin: const EdgeInsets.only(bottom: 20),
+            margin: const EdgeInsets.only(bottom: 20,top: 20),
             child: NavItem(
               title: 'Home',
               textSize: 18,
@@ -84,8 +84,10 @@ class SideNav extends StatelessWidget {
       },),
       children: [
         NavItem(
-          title: 'add product'.toTitleCase(),
-          onTap: () {},
+          title: 'add new product'.toTitleCase(),
+          onTap: () {
+            context.go('/admin/dashboard/product/add-new-product');
+          },
           color: TEXT_WHITE,
           textSize: 14,
         ),
@@ -124,7 +126,9 @@ class SideNav extends StatelessWidget {
       children: [
         NavItem(
           title: 'add category'.toTitleCase(),
-          onTap: () {},
+          onTap: () {
+            context.go('/admin/dashboard/category/add-new-category');
+          },
           color: TEXT_WHITE,
           textSize: 14,
         ),

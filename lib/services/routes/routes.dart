@@ -23,6 +23,8 @@ const String auth = 'auth';
 
 const String adminRoot = 'adminRoot';
 const String adminFirstItem = 'adminFirstItem';
+const String adminProductSecondItem = 'adminProductSecondItem';
+const String adminCategorySecondItem = 'adminCategorySecondItem';
 
 GoRouter router = GoRouter(
   initialLocation: '/',
@@ -140,6 +142,40 @@ GoRouter router = GoRouter(
                       key: state.pageKey,
                       largeScreen: AdminLargeScreen(
                         child: AdminHome(title: state.params['first'].toString(),),
+                      ),
+                      mediumScreen: MediumScreen(),
+                      smallScreen: SmallScreen(),
+                    ),
+                  );
+                },
+              ),
+              GoRoute(
+                path: 'product/:second',
+                name: adminProductSecondItem,
+                pageBuilder: (context, state){
+                  return NoTransitionPage(
+                    key: state.pageKey,
+                    child: ResponsiveWidget(
+                      key: state.pageKey,
+                      largeScreen: AdminLargeScreen(
+                        child: AdminHome(title: state.params['second'].toString(),),
+                      ),
+                      mediumScreen: MediumScreen(),
+                      smallScreen: SmallScreen(),
+                    ),
+                  );
+                },
+              ),
+              GoRoute(
+                path: 'category/:second',
+                name: adminCategorySecondItem,
+                pageBuilder: (context, state){
+                  return NoTransitionPage(
+                    key: state.pageKey,
+                    child: ResponsiveWidget(
+                      key: state.pageKey,
+                      largeScreen: AdminLargeScreen(
+                        child: AdminHome(title: state.params['second'].toString(),),
                       ),
                       mediumScreen: MediumScreen(),
                       smallScreen: SmallScreen(),

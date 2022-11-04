@@ -3,6 +3,8 @@ import 'package:ecommercefrontend/pages/admin/content/customer_content.dart';
 import 'package:ecommercefrontend/pages/admin/content/not_fount_content.dart';
 import 'package:ecommercefrontend/pages/admin/content/order_content.dart';
 import 'package:ecommercefrontend/pages/admin/content/overview_content.dart';
+import 'package:ecommercefrontend/pages/admin/content/pages/category/add_category.dart';
+import 'package:ecommercefrontend/pages/admin/content/pages/product/add_product.dart';
 import 'package:ecommercefrontend/pages/admin/content/product_content.dart';
 import 'package:ecommercefrontend/pages/admin/content/settings_content.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +17,8 @@ List<String> _item = [
   'order',
   'customers',
   'overview',
+  'add-new-product',
+  'add-new-category',
 ];
 
 List<Widget> _contentWidget = [
@@ -24,12 +28,15 @@ List<Widget> _contentWidget = [
   OderContent(),
   CustomerContent(),
   OverviewContent(),
+  AddProduct(),
+  AddCategory(),
 ];
 
 
 class AdminHomeContent extends StatelessWidget {
   final String title;
-  const AdminHomeContent({Key? key, required this.title}) : super(key: key);
+  String? subTitle;
+  AdminHomeContent({Key? key, required this.title,this.subTitle}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -36,6 +36,15 @@ class _ResponsiveWidgetState extends State<ResponsiveWidget> {
     overallController.screenWidth.value = MediaQuery.of(context).size.width;
     overallController.screenHeight.value = MediaQuery.of(context).size.height;
     commonPadding = overallController.screenWidth.value * 0.07;
+
+
+    overallController.adminSideNavWidth.value = overallController.screenWidth.value * 0.17;
+    overallController.adminSideNavHeight.value = overallController.screenHeight.value;
+
+    overallController.adminMainContentWidth.value = overallController.screenWidth.value * 0.83;
+    overallController.adminMainContentHeight.value = overallController.screenHeight.value;
+    
+
     return LayoutBuilder(builder: (context,constraint){
       if(ResponsiveWidget.isLargeScreen(context)){
 

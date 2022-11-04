@@ -27,4 +27,15 @@ class CategoryModel
     name = json['name'];
     imageUrl = json['imageUrl'];
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name' : name,
+      'id' : id,
+      'imageUrl' : imageUrl,
+    };
+  }
+
+  CategoryModel.addNew({this.name});
+  CategoryModel.delete({this.id,this.name,this.imageUrl});
 }

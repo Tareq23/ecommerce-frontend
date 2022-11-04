@@ -1,7 +1,10 @@
 
 
+import 'dart:typed_data';
+
 import 'package:ecommercefrontend/models/home/category_model.dart';
 import 'package:ecommercefrontend/services/api/api_service.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
 class CategoryController extends GetxController
@@ -11,6 +14,10 @@ class CategoryController extends GetxController
 
   var categoryList = <CategoryModel>[].obs;
 
+  var isLoadImage = false.obs;
+  var missingImage = false.obs;
+  var uploadCategoryAction = false.obs;
+
   @override
   void onInit() {
     fetchCategory();
@@ -19,8 +26,18 @@ class CategoryController extends GetxController
 
   Future<void> fetchCategory() async{
     var result = await ApiService.homeCategory({});
-    print('-------------------------->   : Category list size : ${result.length}');
-    categoryList.addAll(result);
+    categoryList.assignAll(result);
+  }
+
+  Future<void> deleteCategory() async{
+    var result = await ApiService.homeCategory({});
+    categoryList.assignAll(result);
+  }
+
+  Future<void> addCategory({required Uint8List? image,required String name}) async{
+    CategoryModel category = CategoryModel.addNew(name: name);
+    var result = await ApiService.uploadCategory(category, image!);
+    uploadCategoryAction.value = false;
   }
 
 }
