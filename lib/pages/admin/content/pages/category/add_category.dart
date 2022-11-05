@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:ecommercefrontend/constants/colors.dart';
 import 'package:ecommercefrontend/constants/controllers.dart';
+import 'package:ecommercefrontend/constants/function.dart';
 import 'package:ecommercefrontend/widgets/custom_text.dart';
 import 'package:ecommercefrontend/widgets/text_field.dart';
 import 'package:flutter/foundation.dart';

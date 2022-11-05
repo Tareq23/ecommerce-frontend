@@ -25,6 +25,7 @@ const String adminRoot = 'adminRoot';
 const String adminFirstItem = 'adminFirstItem';
 const String adminProductSecondItem = 'adminProductSecondItem';
 const String adminCategorySecondItem = 'adminCategorySecondItem';
+const String specificCategoryUpdate = 'specificCategoryUpdate';
 
 GoRouter router = GoRouter(
   initialLocation: '/',
@@ -110,6 +111,24 @@ GoRouter router = GoRouter(
               child: LargeScreen(
                 title: '/',
                 child: SpecificCategoryProductsPage(),
+              ),
+            );
+          },
+        ),
+
+        GoRoute(
+          path: 'update/category/:id',
+          name: specificCategoryUpdate,
+          pageBuilder: (context, state) {
+            return MaterialPage(
+              key: state.pageKey,
+              child: ResponsiveWidget(
+                key: state.pageKey,
+                largeScreen: AdminLargeScreen(
+                  child: AdminHome(title: "update/category/${state.params['id']}",),
+                ),
+                mediumScreen: MediumScreen(),
+                smallScreen: SmallScreen(),
               ),
             );
           },

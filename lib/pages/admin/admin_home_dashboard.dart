@@ -34,7 +34,7 @@ class _AdminHomeState extends State<AdminHome> {
       mainAxisSize: MainAxisSize.min,
       children: [
         SideNav(),
-        Expanded(child: AdminHomeContent(title: widget.title,subTitle:widget.subTitle),),
+        Expanded(child: AdminHomeContent(title: widget.title),),
       ],
     );
   }

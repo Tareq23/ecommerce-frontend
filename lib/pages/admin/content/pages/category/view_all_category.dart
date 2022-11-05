@@ -1,8 +1,11 @@
 import 'package:ecommercefrontend/constants/colors.dart';
 import 'package:ecommercefrontend/constants/contants.dart';
 import 'package:ecommercefrontend/constants/controllers.dart';
+import 'package:ecommercefrontend/constants/function.dart';
 import 'package:ecommercefrontend/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 
 class ViewAllCategory extends StatefulWidget {
   const ViewAllCategory({Key? key}) : super(key: key);
@@ -66,6 +69,14 @@ class _ViewAllCategoryState extends State<ViewAllCategory> {
       ),
       DataColumn(
         label: CustomText(
+          text: 'Update',
+          size: 16,
+          weight: FontWeight.w500,
+          color: TEXT_DARK,
+        ),
+      ),
+      DataColumn(
+        label: CustomText(
           text: 'Delete',
           size: 16,
           weight: FontWeight.w500,
@@ -94,23 +105,42 @@ class _ViewAllCategoryState extends State<ViewAllCategory> {
               ),
               DataCell(
                 Image.network(
-                  e.imageUrl.toString(),
-                  width: 80,
-                  height: 100,
-                  fit: BoxFit.fill,
+                e.imageUrl.toString(),
+                width: 80,
+                height: 100,
+                fit: BoxFit.fill,
                 ),
               ),
               DataCell(
-                CustomText(
-                  text: 'Details'.toCapitalized(),
-                  size: 16,
-                  color: TEXT_RED,
+                InkWell(
+                  onTap: (){},
+                  child: CustomText(
+                    text: 'products'.toCapitalized(),
+                    size: 16,
+                    color: TEXT_RED,
+                  ),
                 ),
               ),
               DataCell(
                 InkWell(
                   onTap: (){
-
+                    categoryController.fetchCategoryById(e.id!);
+                    context.push('update/category/${e.id}');
+                  },
+                  child: CustomText(
+                    text: 'Edit'.toCapitalized(),
+                    size: 16,
+                    color: TEXT_RED,
+                  ),
+                ),
+              ),
+              DataCell(
+                InkWell(
+                  onTap: ()async{
+                    categoryController.selectedCategory.value.id = e.id;
+                    categoryController.selectedCategory.value.name = e.name;
+                    categoryController.selectedCategory.value.imageUrl = e.imageUrl;
+                    await categoryController.deleteCategory();
                   },
                   child: CustomText(
                     text: 'Delete'.toCapitalized(),
@@ -121,5 +151,27 @@ class _ViewAllCategoryState extends State<ViewAllCategory> {
               ),
             ]))
         .toList();
+  }
+
+  showDeleteDialog(BuildContext context, String action){
+
+    Get.defaultDialog(
+      title: 'Are you sure?',
+      titleStyle: TextStyle(color: TEXT_RED,fontWeight: FontWeight.w500,fontSize: 16),
+      backgroundColor: BG_GREY,
+      content: Container(
+        width: overallController.screenWidth.value<600 ? 300 :  400,
+        child: Row(
+          children: [
+            button(onPressed: (){
+              Navigator.pop(context);
+            }, title: 'Cancel'),
+            button(onPressed: (){
+
+            }, title: 'Delete')
+          ],
+        ),
+      )
+    );
   }
 }

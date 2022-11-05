@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
@@ -27,11 +28,9 @@ class ApiService {
         request.fields['name'] = jsonEncode(body);
 
         request.files.add(
-          http.MultipartFile.fromBytes(
-            'file',
-              file!,
-            contentType: MediaType('application','json'),filename: 'Any_name.jpg'
-          ),
+          http.MultipartFile.fromBytes('file', file!,
+              contentType: MediaType('application', 'json'),
+              filename: 'Any_name.jpg'),
         );
 
         int statusCode = 400;
@@ -43,12 +42,25 @@ class ApiService {
         });
         return statusCode;
       }
-
       // uploaded without file
       return await http.post(
         Uri.parse(url),
         headers: headers,
         // body: {"username":loginModel.username,"password":loginModel.password},
+        body: jsonEncode(body),
+      );
+    }
+    if (actionType.toLowerCase().contains("delete")) {
+      return await http.delete(
+        Uri.parse(url),
+        headers: headers,
+        body: jsonEncode(body),
+      );
+    }
+    if (actionType.toLowerCase().contains("put")) {
+      return await http.put(
+        Uri.parse(url),
+        headers: headers,
         body: jsonEncode(body),
       );
     }
@@ -155,7 +167,6 @@ class ApiService {
 
   static Future uploadCategory(CategoryModel category, Uint8List image) async {
     await authenticationController.getToken();
-    // print('Bearer ${authenticationController.accessToken.value}');
     return _action(
         url: API.ADD_CATEGORY_URL,
         actionType: 'post',
@@ -167,5 +178,52 @@ class ApiService {
         multipart: true,
         file: image,
         body: category);
+  }
+
+  static Future deleteCategory(CategoryModel category) async {
+    await authenticationController.getToken();
+    // print('Bearer ${authenticationController.accessToken.value}');
+    return _action(
+      url: API.DELETE_CATEGORY_URL,
+      actionType: 'delete',
+      headers:<String,String> {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ${authenticationController.accessToken.value}',
+      },
+      body: category,
+    );
+  }
+  static Future updateCategory(CategoryModel category) async {
+    await authenticationController.getToken();
+    // print('Bearer ${authenticationController.accessToken.value}');
+    return _action(
+      url: API.UPDATE_CATEGORY_URL,
+      actionType: 'put',
+      headers:<String,String> {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ${authenticationController.accessToken.value}',
+      },
+      body: category,
+    );
+  }
+
+  static Future<CategoryModel> fetchCategoryById(int id) async {
+    await authenticationController.getToken();
+    // print('Bearer ${authenticationController.accessToken.value}');
+    var response = await _action(
+      url: '${API.FETCH_CATEGORY_BY_ID_URL}$id',
+      actionType: 'get',
+      headers:<String,String> {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ${authenticationController.accessToken.value}',
+      },
+      body: {},
+    );
+    if (response.statusCode == 200) {
+      var jsonString = jsonDecode(response.body);
+      print('category json $jsonString');
+      return CategoryModel.parseJsonWithoutProduct(jsonString);
+    }
+    return CategoryModel.empty();
   }
 }

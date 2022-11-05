@@ -18,6 +18,8 @@ class CategoryController extends GetxController
   var missingImage = false.obs;
   var uploadCategoryAction = false.obs;
 
+  var selectedCategory = CategoryModel.empty().obs;
+
   @override
   void onInit() {
     fetchCategory();
@@ -30,8 +32,8 @@ class CategoryController extends GetxController
   }
 
   Future<void> deleteCategory() async{
-    var result = await ApiService.homeCategory({});
-    categoryList.assignAll(result);
+    await ApiService.deleteCategory(selectedCategory.value);
+    await fetchCategory();
   }
 
   Future<void> addCategory({required Uint8List? image,required String name}) async{
@@ -39,5 +41,16 @@ class CategoryController extends GetxController
     var result = await ApiService.uploadCategory(category, image!);
     uploadCategoryAction.value = false;
   }
+
+
+  Future<void> updateCategoryName() async{
+    await ApiService.updateCategory(selectedCategory.value);
+    await fetchCategory();
+  }
+  Future<void> fetchCategoryById(int id) async{
+    await ApiService.fetchCategoryById(id);
+    await fetchCategory();
+  }
+
 
 }
