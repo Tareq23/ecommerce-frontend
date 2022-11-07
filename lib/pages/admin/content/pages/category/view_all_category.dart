@@ -37,8 +37,8 @@ class _ViewAllCategoryState extends State<ViewAllCategory> {
           height: overallController.adminMainContentHeight.value - 100,
           child: ScrollConfiguration(
             behavior:
-            ScrollConfiguration.of(context).copyWith(scrollbars: false),
-            child:  SingleChildScrollView(
+                ScrollConfiguration.of(context).copyWith(scrollbars: false),
+            child: SingleChildScrollView(
               child: _createDataTable(),
             ),
           ),
@@ -51,6 +51,8 @@ class _ViewAllCategoryState extends State<ViewAllCategory> {
     return DataTable(
       columns: _createColumns(),
       rows: _createRows(),
+      horizontalMargin: 10,
+      columnSpacing: 10,
     );
   }
 
@@ -61,7 +63,7 @@ class _ViewAllCategoryState extends State<ViewAllCategory> {
           text: 'Id',
           size: 16,
           weight: FontWeight.w500,
-          color: TEXT_DARK,
+          color: TEXT_WHITE,
         ),
       ),
       DataColumn(
@@ -69,7 +71,7 @@ class _ViewAllCategoryState extends State<ViewAllCategory> {
           text: 'Name',
           size: 16,
           weight: FontWeight.w500,
-          color: TEXT_DARK,
+          color: TEXT_WHITE,
         ),
       ),
       DataColumn(
@@ -77,7 +79,7 @@ class _ViewAllCategoryState extends State<ViewAllCategory> {
           text: 'Image',
           size: 16,
           weight: FontWeight.w500,
-          color: TEXT_DARK,
+          color: TEXT_WHITE,
         ),
       ),
       DataColumn(
@@ -85,7 +87,7 @@ class _ViewAllCategoryState extends State<ViewAllCategory> {
           text: 'View',
           size: 16,
           weight: FontWeight.w500,
-          color: TEXT_DARK,
+          color: TEXT_WHITE,
         ),
       ),
       DataColumn(
@@ -93,7 +95,7 @@ class _ViewAllCategoryState extends State<ViewAllCategory> {
           text: 'Update',
           size: 16,
           weight: FontWeight.w500,
-          color: TEXT_DARK,
+          color: TEXT_WHITE,
         ),
       ),
       DataColumn(
@@ -101,7 +103,7 @@ class _ViewAllCategoryState extends State<ViewAllCategory> {
           text: 'Delete',
           size: 16,
           weight: FontWeight.w500,
-          color: TEXT_DARK,
+          color: TEXT_WHITE,
         ),
       )
     ];
@@ -114,27 +116,41 @@ class _ViewAllCategoryState extends State<ViewAllCategory> {
                 CustomText(
                   text: e.id.toString(),
                   size: 16,
-                  color: TEXT_DARK,
+                  color: TEXT_WHITE,
                 ),
               ),
               DataCell(
                 CustomText(
                   text: e.name.toString(),
                   size: 16,
-                  color: TEXT_DARK,
+                  color: TEXT_WHITE,
                 ),
               ),
               DataCell(
-                Image.network(
-                e.imageUrl.toString(),
-                width: 80,
-                height: 100,
-                fit: BoxFit.fill,
+                Container(
+                  width: 80,
+                  height: 200,
+                  padding: const EdgeInsets.all(0),
+                  margin: const EdgeInsets.symmetric(vertical: 15),
+                  child: Image.network(
+                    e.imageUrl.toString(),
+                    width: double.infinity,
+                    height: double.infinity,
+                    fit: BoxFit.fill,
+                    errorBuilder: (context, object, stacktrace) {
+                      return Image.asset(
+                        'assets/images/no_image_available.png',
+                        width: double.infinity,
+                        height: double.infinity,
+                        fit: BoxFit.fill,
+                      );
+                    },
+                  ),
                 ),
               ),
               DataCell(
                 InkWell(
-                  onTap: (){},
+                  onTap: () {},
                   child: CustomText(
                     text: 'products'.toCapitalized(),
                     size: 16,
@@ -144,11 +160,14 @@ class _ViewAllCategoryState extends State<ViewAllCategory> {
               ),
               DataCell(
                 InkWell(
-                  onTap: (){
-                    categoryController.fetchCategoryById(e.id!);
-                    context.push(
-                      context.namedLocation(specificCategoryUpdate,params: <String,String>{'id':e.id.toString()})
-                    );
+                  onTap: () {
+                    categoryController.selectedCategory.value.id = e.id;
+                    categoryController.selectedCategory.value.name = e.name;
+                    categoryController.selectedCategory.value.imageUrl =
+                        e.imageUrl;
+                    categoryController.missingImage.value=false;
+                    context.push(context.namedLocation(specificCategoryUpdate,
+                        params: <String, String>{'id': e.id.toString()}));
                   },
                   child: CustomText(
                     text: 'Edit'.toCapitalized(),
@@ -159,10 +178,11 @@ class _ViewAllCategoryState extends State<ViewAllCategory> {
               ),
               DataCell(
                 InkWell(
-                  onTap: ()async{
+                  onTap: () async {
                     categoryController.selectedCategory.value.id = e.id;
                     categoryController.selectedCategory.value.name = e.name;
-                    categoryController.selectedCategory.value.imageUrl = e.imageUrl;
+                    categoryController.selectedCategory.value.imageUrl =
+                        e.imageUrl;
                     await categoryController.deleteCategory();
                   },
                   child: CustomText(
@@ -176,25 +196,24 @@ class _ViewAllCategoryState extends State<ViewAllCategory> {
         .toList();
   }
 
-  showDeleteDialog(BuildContext context, String action){
-
+  showDeleteDialog(BuildContext context, String action) {
     Get.defaultDialog(
-      title: 'Are you sure?',
-      titleStyle: TextStyle(color: TEXT_RED,fontWeight: FontWeight.w500,fontSize: 16),
-      backgroundColor: BG_GREY,
-      content: Container(
-        width: overallController.screenWidth.value<600 ? 300 :  400,
-        child: Row(
-          children: [
-            button(onPressed: (){
-              Navigator.pop(context);
-            }, title: 'Cancel'),
-            button(onPressed: (){
-
-            }, title: 'Delete')
-          ],
-        ),
-      )
-    );
+        title: 'Are you sure?',
+        titleStyle: TextStyle(
+            color: TEXT_RED, fontWeight: FontWeight.w500, fontSize: 16),
+        backgroundColor: BG_GREY,
+        content: Container(
+          width: overallController.screenWidth.value < 600 ? 300 : 400,
+          child: Row(
+            children: [
+              button(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  title: 'Cancel'),
+              button(onPressed: () {}, title: 'Delete')
+            ],
+          ),
+        ));
   }
 }

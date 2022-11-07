@@ -122,9 +122,13 @@ class SideNav extends StatelessWidget {
       collapsedIconColor: TEXT_WHITE,
       childrenPadding: const EdgeInsets.only(left: 12),
       tilePadding: const EdgeInsets.all(0),
-      title: SideNavItem(title: title,icon: Icons.add,onTap: (){
-        context.go('/admin/dashboard/category');
-      },),
+      title: CustomText(
+        text: title.toCapitalized(),
+        size: 14,
+        weight: FontWeight.w400,
+        // color: Colors.white,
+        color: TEXT_WHITE,
+      ),
       expandedCrossAxisAlignment: CrossAxisAlignment.start,
       children: [
         NavItem(
@@ -139,19 +143,15 @@ class SideNav extends StatelessWidget {
           height: 15,
         ),
         NavItem(
-          title: 'delete category'.toTitleCase(),
-          onTap: () {},
+          title: 'category list'.toTitleCase(),
+          onTap: () {
+            context.go('/admin/dashboard/category');
+          },
           color: TEXT_WHITE,
           textSize: 14,
         ),
         const SizedBox(
           height: 15,
-        ),
-        NavItem(
-          title: 'update category'.toTitleCase(),
-          onTap: () {},
-          color: TEXT_WHITE,
-          textSize: 14,
         ),
       ],
     );

@@ -15,6 +15,7 @@ class CategoryController extends GetxController
   var categoryList = <CategoryModel>[].obs;
 
   var isLoadImage = false.obs;
+  var isFetchCategoryById = false.obs;
   var missingImage = false.obs;
   var uploadCategoryAction = false.obs;
 
@@ -48,8 +49,13 @@ class CategoryController extends GetxController
     await fetchCategory();
   }
   Future<void> fetchCategoryById(int id) async{
-    await ApiService.fetchCategoryById(id);
-    await fetchCategory();
+    selectedCategory.value = await ApiService.fetchCategoryById(id);
+    isFetchCategoryById.value = false;
+
+  }
+  Future<void> changeCategoryImage({required bool isImageChanged,required int id,required bool isImageExists, required Uint8List image,required String name}) async{
+    // selectedCategory.value = await ApiService.fetchCategoryById(id);
+    isFetchCategoryById.value = false;
   }
 
 

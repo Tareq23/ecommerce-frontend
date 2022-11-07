@@ -1,9 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:dio/dio.dart';
+
 import 'package:ecommercefrontend/constants/controllers.dart';
 import 'package:ecommercefrontend/models/authentication/login_model.dart';
 import 'package:ecommercefrontend/models/authentication/register_model.dart';
@@ -35,7 +34,7 @@ class ApiService {
 
         int statusCode = 400;
         await request.send().then((response) {
-          print('---------------> Status code : ${response.statusCode}');
+          // print('---------------> Status code : ${response.statusCode}');
           if (response.statusCode == 200 || response.statusCode == 201) {
             statusCode = response.statusCode;
           }
@@ -66,15 +65,12 @@ class ApiService {
     }
     return await http.get(
       Uri.parse(url),
-      headers: <String, String>{
-        'Content-Type': 'application/json',
-      },
+      headers: headers,
     );
   }
 
   static Future<LoginModel> userLogin(CredentialModel credential) async {
     try {
-      var url = Uri.parse(API.LOGIN_URL);
       var response = await _action(
         url: API.LOGIN_URL,
         headers: {
@@ -113,7 +109,6 @@ class ApiService {
         return RegisterModel.parseJson(jsonString);
       }
     } catch (e) {
-      print("exception error ----> : $e");
     }
     return RegisterModel.empty();
   }
@@ -219,9 +214,10 @@ class ApiService {
       },
       body: {},
     );
+    // print('Future<CategoryModel> fetchCategoryById status code : ${response.statusCode} \n response :  ${response.body}');
     if (response.statusCode == 200) {
       var jsonString = jsonDecode(response.body);
-      print('category json $jsonString');
+      // print('category json $jsonString');
       return CategoryModel.parseJsonWithoutProduct(jsonString);
     }
     return CategoryModel.empty();
