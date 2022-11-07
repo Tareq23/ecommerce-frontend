@@ -1,5 +1,7 @@
 import 'package:ecommercefrontend/helpers/responsive_widget.dart';
 import 'package:ecommercefrontend/pages/admin/admin_home_dashboard.dart';
+import 'package:ecommercefrontend/pages/admin/content/category_content.dart';
+import 'package:ecommercefrontend/pages/admin/content/product_content.dart';
 import 'package:ecommercefrontend/pages/auth/authentication.dart';
 import 'package:ecommercefrontend/pages/category/specific_category_products_pages.dart';
 import 'package:ecommercefrontend/pages/home/home_page.dart';
@@ -25,7 +27,11 @@ const String adminRoot = 'adminRoot';
 const String adminFirstItem = 'adminFirstItem';
 const String adminProductSecondItem = 'adminProductSecondItem';
 const String adminCategorySecondItem = 'adminCategorySecondItem';
-const String specificCategoryUpdate = 'specificCategoryUpdate';
+const String specificCategoryUpdate = 'specificCategoryUpdateById';
+const String adminProductContentPage = 'adminProductContentPage';
+const String adminSpecificProductUpdate = 'adminSpecificProductUpdate';
+const String adminSpecificCategoryAdd = 'adminSpecificCategoryAdd';
+const String adminCategoryViewAll = 'adminCategoryViewAll';
 
 GoRouter router = GoRouter(
   initialLocation: '/',
@@ -36,7 +42,7 @@ GoRouter router = GoRouter(
       path: '/',
       name: root,
       pageBuilder: (context, state) {
-        print('-------------------> initial route');
+        print('------------------->current route : /');
         return MaterialPage(
           child: ResponsiveWidget(
             key: state.pageKey,
@@ -116,23 +122,6 @@ GoRouter router = GoRouter(
           },
         ),
 
-        GoRoute(
-          path: 'update/category/:id',
-          name: specificCategoryUpdate,
-          pageBuilder: (context, state) {
-            return MaterialPage(
-              key: state.pageKey,
-              child: ResponsiveWidget(
-                key: state.pageKey,
-                largeScreen: AdminLargeScreen(
-                  child: AdminHome(title: "update/category/${state.params['id']}",),
-                ),
-                mediumScreen: MediumScreen(),
-                smallScreen: SmallScreen(),
-              ),
-            );
-          },
-        ),
 
         // Admin route url
         GoRoute(
@@ -151,56 +140,131 @@ GoRouter router = GoRouter(
               );
             },
             routes: [
+              // GoRoute(
+              //   path: ':first',
+              //   name: adminFirstItem,
+              //   pageBuilder: (context, state) {
+              //     return NoTransitionPage(
+              //       key: state.pageKey,
+              //       child: ResponsiveWidget(
+              //         key: state.pageKey,
+              //         largeScreen: AdminLargeScreen(
+              //           child: AdminHome(title: state.params['first'].toString(),),
+              //         ),
+              //         mediumScreen: MediumScreen(),
+              //         smallScreen: SmallScreen(),
+              //       ),
+              //     );
+              //   },
+              //   routes: [
+              //     GoRoute(
+              //       path: 'product/:second',
+              //       name: adminProductSecondItem,
+              //       pageBuilder: (context, state){
+              //         return NoTransitionPage(
+              //           key: state.pageKey,
+              //           child: ResponsiveWidget(
+              //             key: state.pageKey,
+              //             largeScreen: AdminLargeScreen(
+              //               child: AdminHome(title: state.params['second'].toString(),),
+              //             ),
+              //             mediumScreen: MediumScreen(),
+              //             smallScreen: SmallScreen(),
+              //           ),
+              //         );
+              //       },
+              //     ),
+              //
+              //   ]
+              // ),
               GoRoute(
-                path: ':first',
-                name: adminFirstItem,
-                pageBuilder: (context, state) {
-                  return NoTransitionPage(
-                    key: state.pageKey,
-                    child: ResponsiveWidget(
+                  path: 'category',
+                  name: adminCategoryViewAll,
+                  pageBuilder: (context, state){
+                    return NoTransitionPage(
                       key: state.pageKey,
-                      largeScreen: AdminLargeScreen(
-                        child: AdminHome(title: state.params['first'].toString(),),
+                      child: ResponsiveWidget(
+                        key: state.pageKey,
+                        largeScreen: AdminLargeScreen(
+                          child: AdminCategoryContentPage(title: "view",),
+                        ),
+                        mediumScreen: MediumScreen(),
+                        smallScreen: SmallScreen(),
                       ),
-                      mediumScreen: MediumScreen(),
-                      smallScreen: SmallScreen(),
+                    );
+                  },
+                  routes: [
+                    GoRoute(
+                      path: 'add',
+                      name: adminSpecificCategoryAdd,
+                      pageBuilder: (context, state){
+                        return NoTransitionPage(
+                          key: state.pageKey,
+                          child: ResponsiveWidget(
+                            key: state.pageKey,
+                            largeScreen: AdminLargeScreen(
+                              child: AdminCategoryContentPage(title: "add",),
+                            ),
+                            mediumScreen: MediumScreen(),
+                            smallScreen: SmallScreen(),
+                          ),
+                        );
+                      },
                     ),
-                  );
-                },
+                    GoRoute(
+                      path: 'update/:id',
+                      name: specificCategoryUpdate,
+                      pageBuilder: (context, state){
+                        return NoTransitionPage(
+                          key: state.pageKey,
+                          child: ResponsiveWidget(
+                            key: state.pageKey,
+                            largeScreen: AdminLargeScreen(
+                              child: AdminCategoryContentPage(title: "update",),
+                            ),
+                            mediumScreen: MediumScreen(),
+                            smallScreen: SmallScreen(),
+                          ),
+                        );
+                      },
+                    ),
+                  ]
               ),
               GoRoute(
-                path: 'product/:second',
-                name: adminProductSecondItem,
-                pageBuilder: (context, state){
-                  return NoTransitionPage(
-                    key: state.pageKey,
-                    child: ResponsiveWidget(
+                  path: 'product',
+                  name: adminProductContentPage,
+                  pageBuilder: (context, state){
+                    return NoTransitionPage(
                       key: state.pageKey,
-                      largeScreen: AdminLargeScreen(
-                        child: AdminHome(title: state.params['second'].toString(),),
+                      child: ResponsiveWidget(
+                        key: state.pageKey,
+                        largeScreen: AdminLargeScreen(
+                          child: AdminProductContentPage(),
+                        ),
+                        mediumScreen: MediumScreen(),
+                        smallScreen: SmallScreen(),
                       ),
-                      mediumScreen: MediumScreen(),
-                      smallScreen: SmallScreen(),
+                    );
+                  },
+                  routes: [
+                    GoRoute(
+                      path: 'update/:id',
+                      name: adminSpecificProductUpdate,
+                      pageBuilder: (context, state){
+                        return NoTransitionPage(
+                          key: state.pageKey,
+                          child: ResponsiveWidget(
+                            key: state.pageKey,
+                            largeScreen: AdminLargeScreen(
+                              child: AdminCategoryContentPage(),
+                            ),
+                            mediumScreen: MediumScreen(),
+                            smallScreen: SmallScreen(),
+                          ),
+                        );
+                      },
                     ),
-                  );
-                },
-              ),
-              GoRoute(
-                path: 'category/:second',
-                name: adminCategorySecondItem,
-                pageBuilder: (context, state){
-                  return NoTransitionPage(
-                    key: state.pageKey,
-                    child: ResponsiveWidget(
-                      key: state.pageKey,
-                      largeScreen: AdminLargeScreen(
-                        child: AdminHome(title: state.params['second'].toString(),),
-                      ),
-                      mediumScreen: MediumScreen(),
-                      smallScreen: SmallScreen(),
-                    ),
-                  );
-                },
+                  ]
               ),
             ]
         )

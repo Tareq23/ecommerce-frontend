@@ -11,7 +11,6 @@ class AdminHome extends StatefulWidget {
   final String title;
   String? subTitle;
   AdminHome({Key? key, required this.title,this.subTitle}) : super(key: key);
-
   @override
   State<AdminHome> createState() => _AdminHomeState();
 }

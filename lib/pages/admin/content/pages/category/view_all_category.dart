@@ -2,6 +2,7 @@ import 'package:ecommercefrontend/constants/colors.dart';
 import 'package:ecommercefrontend/constants/contants.dart';
 import 'package:ecommercefrontend/constants/controllers.dart';
 import 'package:ecommercefrontend/constants/function.dart';
+import 'package:ecommercefrontend/services/routes/routes.dart';
 import 'package:ecommercefrontend/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -23,7 +24,27 @@ class _ViewAllCategoryState extends State<ViewAllCategory> {
 
   @override
   Widget build(BuildContext context) {
-    return _createDataTable();
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          height: 100,
+          width: double.infinity,
+          color: Colors.greenAccent,
+        ),
+        SizedBox(
+          width: overallController.adminMainContentWidth.value * 0.7,
+          height: overallController.adminMainContentHeight.value - 100,
+          child: ScrollConfiguration(
+            behavior:
+            ScrollConfiguration.of(context).copyWith(scrollbars: false),
+            child:  SingleChildScrollView(
+              child: _createDataTable(),
+            ),
+          ),
+        ),
+      ],
+    );
   }
 
   DataTable _createDataTable() {
@@ -125,7 +146,9 @@ class _ViewAllCategoryState extends State<ViewAllCategory> {
                 InkWell(
                   onTap: (){
                     categoryController.fetchCategoryById(e.id!);
-                    context.push('update/category/${e.id}');
+                    context.push(
+                      context.namedLocation(specificCategoryUpdate,params: <String,String>{'id':e.id.toString()})
+                    );
                   },
                   child: CustomText(
                     text: 'Edit'.toCapitalized(),

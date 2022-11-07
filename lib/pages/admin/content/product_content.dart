@@ -1,20 +1,26 @@
 import 'package:ecommercefrontend/constants/colors.dart';
+import 'package:ecommercefrontend/nav/admin/side_nav.dart';
 import 'package:ecommercefrontend/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 
 
-class ProductContent extends StatefulWidget {
-  const ProductContent({Key? key}) : super(key: key);
+class AdminProductContentPage extends StatefulWidget {
+  const AdminProductContentPage({Key? key}) : super(key: key);
 
   @override
-  State<ProductContent> createState() => _ProductContentState();
+  State<AdminProductContentPage> createState() => _AdminProductContentPageState();
 }
 
-class _ProductContentState extends State<ProductContent> {
+class _AdminProductContentPageState extends State<AdminProductContentPage> {
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: CustomText(text: 'ProductContent',color: TEXT_WHITE,),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        SideNav(),
+        // Expanded(child: ,),
+      ],
     );
   }
 }

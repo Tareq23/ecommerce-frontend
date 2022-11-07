@@ -9,9 +9,10 @@ import 'package:ecommercefrontend/pages/admin/content/pages/product/add_product.
 import 'package:ecommercefrontend/pages/admin/content/product_content.dart';
 import 'package:ecommercefrontend/pages/admin/content/settings_content.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 
-List<String> _item = [
+List<String> contentItem = [
   'product',
   'category',
   'settings',
@@ -23,14 +24,15 @@ List<String> _item = [
 ];
 
 List<Widget> _contentWidget = [
-  ProductContent(),
-  CategoryContent(),
-  SettingsContent(),
-  OderContent(),
-  CustomerContent(),
-  OverviewContent(),
-  AddProduct(),
-  AddCategory(),
+  AdminProductContentPage(),//0
+  AdminCategoryContentPage(),//1
+  SettingsContent(),//2
+  OderContent(),//3
+  CustomerContent(),//4
+  OverviewContent(),//5
+  AddProduct(),//6
+  AddCategory(),//7
+  UpdateCategory()//8
 ];
 
 
@@ -40,17 +42,27 @@ class AdminHomeContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int itemIndex = _item.indexOf(title);
+    int itemIndex = contentItem.indexOf(title);
 
-    print('------------------itme index : $itemIndex');
-    if(itemIndex <0){
-      var ff = title.split("/");
-      print(ff);
-      int ss = int.parse(ff.elementAt(ff.length-1));
-      print(ss);
-      return Container();
+    String route = GoRouter.of(context).location;
+    print('route----------> ${route}');
+    var ss = route.split("?");
+    if(ss.length>1){
+      var param = ss.elementAt(1).split("=");
+      if(param[0].contains("update"))
+      
+      var url = ss.elementAt(0).split("/");
+      var contentUrl = ss.elementAt(ss.length-1);
     }
-
+    
+    // print('------------------itme index : $itemIndex');
+    // if(itemIndex <0){
+    //   var ff = title.split("/");
+    //   //print(ff);
+    //   int ss = int.parse(ff.elementAt(ff.length-1));
+    //   print(ss);
+    //   return Container();
+    // }
     return itemIndex == -1 ? const NotFoundContent() : _contentWidget.elementAt(itemIndex);
   }
 }

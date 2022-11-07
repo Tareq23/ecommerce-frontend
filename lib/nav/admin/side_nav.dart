@@ -2,6 +2,7 @@ import 'package:ecommercefrontend/constants/colors.dart';
 import 'package:ecommercefrontend/constants/contants.dart';
 import 'package:ecommercefrontend/constants/controllers.dart';
 import 'package:ecommercefrontend/nav/nav_item.dart';
+import 'package:ecommercefrontend/services/routes/routes.dart';
 import 'package:ecommercefrontend/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -80,7 +81,9 @@ class SideNav extends StatelessWidget {
       expandedCrossAxisAlignment: CrossAxisAlignment.start,
       tilePadding: const EdgeInsets.all(0),
       title: SideNavItem(title: title,icon: Icons.add,onTap: (){
-        context.go('/admin/dashboard/product');
+        context.go(
+          context.namedLocation(adminProductContentPage),
+        );
       },),
       children: [
         NavItem(
@@ -127,7 +130,7 @@ class SideNav extends StatelessWidget {
         NavItem(
           title: 'add category'.toTitleCase(),
           onTap: () {
-            context.go('/admin/dashboard/category/add-new-category');
+            context.go('/admin/dashboard/category/add');
           },
           color: TEXT_WHITE,
           textSize: 14,
