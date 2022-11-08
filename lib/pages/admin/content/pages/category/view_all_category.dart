@@ -16,10 +16,28 @@ class ViewAllCategory extends StatefulWidget {
 }
 
 class _ViewAllCategoryState extends State<ViewAllCategory> {
+
+
+  bool _check = false;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+  }
+
+
+
+  @override
+  void didChangeDependencies() async{
+    if (!_check) {
+      await categoryController.fetchCategoryAllAdmin();
+      setState(() {
+        _check = true;
+      });
+      print('categoryController.fetchCategoryAllAdmin : ${categoryController.categoryListAdmin.length}');
+    }
+    super.didChangeDependencies();
   }
 
   @override
@@ -39,7 +57,10 @@ class _ViewAllCategoryState extends State<ViewAllCategory> {
             behavior:
                 ScrollConfiguration.of(context).copyWith(scrollbars: false),
             child: SingleChildScrollView(
-              child: _createDataTable(),
+              child: Obx((){
+                if(categoryController.categoryListAdmin.isEmpty) return const CircularProgressIndicator(color: TEXT_DARK,);
+                return _createDataTable();
+              })
             ),
           ),
         ),
@@ -110,7 +131,7 @@ class _ViewAllCategoryState extends State<ViewAllCategory> {
   }
 
   List<DataRow> _createRows() {
-    return categoryController.categoryList
+    return categoryController.categoryListAdmin
         .map((e) => DataRow(cells: [
               DataCell(
                 CustomText(

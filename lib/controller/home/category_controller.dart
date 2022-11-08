@@ -13,11 +13,13 @@ class CategoryController extends GetxController
   static CategoryController instance = Get.find();
 
   var categoryList = <CategoryModel>[].obs;
+  var categoryListAdmin = <CategoryModel>[].obs;
 
   var isLoadImage = false.obs;
   var isFetchCategoryById = false.obs;
   var missingImage = false.obs;
   var uploadCategoryAction = false.obs;
+  var updateCategoryAction = false.obs;
 
   var selectedCategory = CategoryModel.empty().obs;
 
@@ -30,6 +32,10 @@ class CategoryController extends GetxController
   Future<void> fetchCategory() async{
     var result = await ApiService.homeCategory({});
     categoryList.assignAll(result);
+  }
+  Future<void> fetchCategoryAllAdmin() async{
+    var result = await ApiService.fetchAllCategoryAdmin({});
+    categoryListAdmin.assignAll(result);
   }
 
   Future<void> deleteCategory() async{
@@ -44,18 +50,29 @@ class CategoryController extends GetxController
   }
 
 
-  Future<void> updateCategoryName() async{
-    await ApiService.updateCategory(selectedCategory.value);
-    await fetchCategory();
-  }
+  // Future<void> updateCategoryName() async{
+  //   await ApiService.updateCategory(selectedCategory.value);
+  //   await fetchCategory();
+  // }
   Future<void> fetchCategoryById(int id) async{
     selectedCategory.value = await ApiService.fetchCategoryById(id);
     isFetchCategoryById.value = false;
 
   }
-  Future<void> changeCategoryImage({required bool isImageChanged,required int id,required bool isImageExists, required Uint8List image,required String name}) async{
-    // selectedCategory.value = await ApiService.fetchCategoryById(id);
-    isFetchCategoryById.value = false;
+  Future<void> updateCategory({required bool isImageChanged,required int id,required bool isImageExists, required Uint8List image,required String name}) async{
+
+    CategoryModel category = CategoryModel.empty();
+    category.id = id;
+    category.name = name;
+    category.imageUrl = selectedCategory.value.imageUrl;
+    category.isImageChanged = isImageChanged;
+    category.isImageExists = isImageExists;
+
+
+    var result = await ApiService.updateCategory(category,image);
+
+
+    updateCategoryAction.value = false;
   }
 
 

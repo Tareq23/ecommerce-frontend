@@ -17,14 +17,19 @@ class ApiService {
       required Map<String, String> headers,
       required Object body,
       bool multipart = false,
+        bool isImageExists = false,
+        bool isImageChanged = false,
       Uint8List? file,
       String? actionType}) async {
-    if (actionType!.toLowerCase().contains("post")) {
+    if (actionType!.toLowerCase().contains("post") || actionType.toLowerCase().contains("put")) {
       // uploaded with file
       if (multipart) {
-        var request = http.MultipartRequest("POST", Uri.parse(url));
+        var request = http.MultipartRequest(actionType.toUpperCase(), Uri.parse(url));
         request.headers.addAll(headers);
         request.fields['name'] = jsonEncode(body);
+
+        request.fields['isImageChanged'] = isImageChanged? "true" : "false";
+        request.fields['isImageExists'] = isImageExists? "true" : "false";
 
         request.files.add(
           http.MultipartFile.fromBytes('file', file!,
@@ -135,6 +140,31 @@ class ApiService {
     }
     return [];
   }
+  static Future<List<CategoryModel>> fetchAllCategoryAdmin(Object object) async {
+    await authenticationController.getToken();
+    try {
+      var response = await _action(
+        url: API.ADMIN_SHOW_ONLY_CATEGORY_URL,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization':
+          'Bearer ${authenticationController.accessToken.value}',
+        },
+        body: object,
+        actionType: 'get',
+      );
+
+      if (response.statusCode == 200) {
+        var jsonString = jsonDecode(response.body) as List;
+        return jsonString
+            .map((e) => CategoryModel.parseJsonWithoutProduct(e))
+            .toList();
+      }
+    } catch (e) {
+      print("exception error ----> : $e");
+    }
+    return [];
+  }
 
   static Future<void> checkUserRole(Object object) async {
     try {
@@ -188,16 +218,22 @@ class ApiService {
       body: category,
     );
   }
-  static Future updateCategory(CategoryModel category) async {
+
+
+  static Future updateCategory(CategoryModel category, Uint8List image) async {
     await authenticationController.getToken();
     // print('Bearer ${authenticationController.accessToken.value}');
     return _action(
-      url: API.UPDATE_CATEGORY_URL,
+      url: category.isImageChanged!? API.UPDATE_CATEGORY_WITH_IMAGE_URL : API.UPDATE_CATEGORY_URL,
       actionType: 'put',
+      multipart: category.isImageChanged!,
+      file: image,
       headers:<String,String> {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ${authenticationController.accessToken.value}',
       },
+      isImageChanged: category.isImageChanged!,
+      isImageExists: category.isImageExists!,
       body: category,
     );
   }

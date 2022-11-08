@@ -41,30 +41,20 @@ class _UpdateCategoryState extends State<UpdateCategory> {
 
   @override
   void initState() {
-    // textEditingController.text = categoryController.selectedCategory.value.name!;
     textEditingController.addListener(() {
-      // textEditingController.text = textEditingController.text.trim();
       categoryController.selectedCategory.value.name =
           textEditingController.text.trim();
     });
-
-
-    super.initState();
   }
 
   @override
   void didChangeDependencies() async{
-    // SchedulerBinding.instance.addPostFrameCallback((timeStamp) async {
-    //
-    // });
     if (!_check) {
       var url = GoRouter.of(context).location.split("/");
       int id = int.parse(url.elementAt(url.length - 1));
       categoryController.isFetchCategoryById.value = true;
       await categoryController.fetchCategoryById(id);
       textEditingController.text = categoryController.selectedCategory.value.name!;
-      print(
-          'scheduler binding update category : ${categoryController.selectedCategory.value.name}');
       setState(() {
         _check = true;
       });
@@ -83,12 +73,13 @@ class _UpdateCategoryState extends State<UpdateCategory> {
     XFile? image = await _picker.pickImage(source: ImageSource.gallery);
     if (image != null) {
       var f = await image.readAsBytes();
-      categoryController.isLoadImage.value = true;
+      // categoryController.isLoadImage.value = true;
       setState(() {
         webImage = f;
-        print('web image : $f');
+        // print('web image : $f');
         pickedImage = File('a');
         _isImageChanged = true;
+        print('update category picked image method is image changed : $_isImageChanged');
       });
     }
   }
@@ -250,21 +241,31 @@ class _UpdateCategoryState extends State<UpdateCategory> {
                       Align(
                           alignment: Alignment.centerRight,
                           child: Obx(() {
-                            if (categoryController.uploadCategoryAction.value) {
+                            if (categoryController.updateCategoryAction.value) {
                               return circularProgressIndicator();
                             }
                             return InkWell(
                               onTap: () async {
-                                if (!categoryController.isLoadImage.value) {
+                                // if (!categoryController.isLoadImage.value) {
+                                //   categoryController.missingImage.value = true;
+                                //   _formKey.currentState!.validate();
+                                //   return;
+                                // }
+                                print('update field validation _isImageChanged : $_isImageChanged , _isImageExists : $_isImageExists');
+                                if(_isImageChanged == false && _isImageExists == false){
                                   categoryController.missingImage.value = true;
-                                  _formKey.currentState!.validate();
+                                  return ;
+                                }
+                                if(!_formKey.currentState!.validate()){
                                   return;
                                 }
-                                _formKey.currentState!.validate();
+
+                                print('update field validation : ----------> ');
+
                                 categoryController.missingImage.value = false;
-                                categoryController.uploadCategoryAction.value =
+                                categoryController.updateCategoryAction.value =
                                     true;
-                                await categoryController.changeCategoryImage(
+                                await categoryController.updateCategory(
                                     id: categoryController
                                         .selectedCategory.value.id!,
                                     image: webImage!,
@@ -275,7 +276,7 @@ class _UpdateCategoryState extends State<UpdateCategory> {
                                 setState(() {
                                   pickedImage = null;
                                 });
-                                categoryController.isLoadImage.value = false;
+                                // categoryController.isLoadImage.value = false;
                               },
                               child: Container(
                                 width: 100,
@@ -289,7 +290,7 @@ class _UpdateCategoryState extends State<UpdateCategory> {
                                   color: BG_BUTTON,
                                 ),
                                 child: const CustomText(
-                                  text: 'Image Update',
+                                  text: 'Update',
                                   color: TEXT_WHITE,
                                   size: 16,
                                   weight: FontWeight.w500,

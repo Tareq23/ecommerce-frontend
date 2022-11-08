@@ -7,6 +7,8 @@ class CategoryModel
   int? id;
   String? name;
   String? imageUrl;
+  bool? isImageExists;
+  bool? isImageChanged;
   // ProductModel? productModel;
   List<ProductModel>? productList;
 
@@ -33,6 +35,8 @@ class CategoryModel
       'name' : name,
       'id' : id,
       'imageUrl' : imageUrl,
+      'isImageChanged' : isImageChanged??false,
+      'isImageExists' : isImageExists??false,
     };
   }
 
