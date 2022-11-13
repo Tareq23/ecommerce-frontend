@@ -38,13 +38,23 @@ Widget circularProgressIndicator(){
 }
 
 
-String? textFieldValidation({required String title, required String value,int? min,int? max}){
+String? textFieldValidation({required String title, required String value,int? min,int? max, bool isNumber=false}){
+  if(isNumber){
+    int valInt = int.tryParse(value) ?? 0;
+    double valDouble = double.tryParse(value) ?? 0;
+    if(valInt == 0 && valDouble==0){
+      return '$title must be number and can not be 0';
+    }
+    return null;
+  }
+
   if(value.isEmpty){
     return '$title field required!';
   }
   if(value.length>max! || value.length<min!){
     return '$title length to be greater than $min and less than $max';
   }
+
   return null;
 }
 

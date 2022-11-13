@@ -7,6 +7,7 @@ class API
   static const String LOGIN_URL = '$BASE_URL/login';
   static const String REGISTER_URL = '$BASE_URL/register';
 
+  // ADMIN CATEGORY
   static const String CATEGORY_URL = '$BASE_URL/visitor-or-customer/only-category';
   static const String ADMIN_SHOW_ONLY_CATEGORY_URL = '$BASE_URL/admin/category/all-only-category';
   static const String ADD_CATEGORY_URL = '$BASE_URL/admin/category/add';
@@ -14,5 +15,11 @@ class API
   static const String UPDATE_CATEGORY_URL = '$BASE_URL/admin/category/update';
   static const String UPDATE_CATEGORY_WITH_IMAGE_URL = '$BASE_URL/admin/category/update-with-image';
   static const String FETCH_CATEGORY_BY_ID_URL = '$BASE_URL/admin/category/show/';
+
+  // ADMIN PRODUCT
+
+  static const String ADMIN_SHOW_ALL_PRODUCT = '$BASE_URL/admin/product/view/all';
+  static const String ADMIN_ADD_PRODUCT = '$BASE_URL/admin/product/add';
+
 
 }

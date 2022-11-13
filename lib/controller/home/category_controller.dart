@@ -3,7 +3,7 @@
 import 'dart:typed_data';
 
 import 'package:ecommercefrontend/models/home/category_model.dart';
-import 'package:ecommercefrontend/services/api/api_service.dart';
+import 'package:ecommercefrontend/services/api/categorty_api_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
@@ -11,6 +11,9 @@ class CategoryController extends GetxController
 {
 
   static CategoryController instance = Get.find();
+
+  var categoryListSerial = 0.obs;
+
 
   var categoryList = <CategoryModel>[].obs;
   var categoryListAdmin = <CategoryModel>[].obs;
@@ -30,22 +33,23 @@ class CategoryController extends GetxController
   }
 
   Future<void> fetchCategory() async{
-    var result = await ApiService.homeCategory({});
+    var result = await CategoryService.homeCategory({});
     categoryList.assignAll(result);
   }
+
   Future<void> fetchCategoryAllAdmin() async{
-    var result = await ApiService.fetchAllCategoryAdmin({});
+    var result = await CategoryService.fetchAllCategoryAdmin({});
     categoryListAdmin.assignAll(result);
   }
 
   Future<void> deleteCategory() async{
-    await ApiService.deleteCategory(selectedCategory.value);
+    await CategoryService.deleteCategory(selectedCategory.value);
     await fetchCategory();
   }
 
   Future<void> addCategory({required Uint8List? image,required String name}) async{
     CategoryModel category = CategoryModel.addNew(name: name);
-    var result = await ApiService.uploadCategory(category, image!);
+    var result = await CategoryService.addCategory(category, image!);
     uploadCategoryAction.value = false;
   }
 
@@ -55,7 +59,7 @@ class CategoryController extends GetxController
   //   await fetchCategory();
   // }
   Future<void> fetchCategoryById(int id) async{
-    selectedCategory.value = await ApiService.fetchCategoryById(id);
+    selectedCategory.value = await CategoryService.fetchCategoryById(id);
     isFetchCategoryById.value = false;
 
   }
@@ -69,7 +73,7 @@ class CategoryController extends GetxController
     category.isImageExists = isImageExists;
 
 
-    var result = await ApiService.updateCategory(category,image);
+    var result = await CategoryService.updateCategory(category,image);
 
 
     updateCategoryAction.value = false;

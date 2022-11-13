@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:ecommercefrontend/nav/nav_item.dart';
-import 'package:ecommercefrontend/services/api/api_service.dart';
+import 'package:ecommercefrontend/services/api/categorty_api_service.dart';
 import 'package:ecommercefrontend/services/jwt/jwt_service.dart';
 import 'package:ecommercefrontend/widgets/common_widgets.dart';
 import 'package:ecommercefrontend/widgets/custom_text.dart';

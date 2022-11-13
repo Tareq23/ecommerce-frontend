@@ -6,7 +6,8 @@ import 'dart:js';
 import 'package:ecommercefrontend/constants/controllers.dart';
 import 'package:ecommercefrontend/models/authentication/login_model.dart';
 import 'package:ecommercefrontend/models/authentication/register_model.dart';
-import 'package:ecommercefrontend/services/api/api_service.dart';
+import 'package:ecommercefrontend/services/api/auth_api_service.dart';
+import 'package:ecommercefrontend/services/api/categorty_api_service.dart';
 import 'package:ecommercefrontend/services/jwt/jwt_service.dart';
 import 'package:get/get.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
@@ -43,7 +44,7 @@ class AuthenticationController extends GetxController
 
   Future<void> login() async {
     CredentialModel credential = CredentialModel(loginUsername.value,loginPassword.value);
-    var result = await ApiService.userLogin(credential);
+    var result = await AuthService.userLogin(credential);
     if(result.token != null){
       _setToken(result.token!);
       // print('----------------- controller login method : ${result.isAdmin}');
@@ -58,7 +59,7 @@ class AuthenticationController extends GetxController
 
 
   Future<void> register() async{
-    var result = await ApiService.userRegister(<String,String>{
+    var result = await AuthService.userRegister(<String,String>{
       "username" : userRegister.value.username.toString(),
       "firstName" : userRegister.value.firstName.toString(),
       "lastName" : userRegister.value.lastName.toString(),

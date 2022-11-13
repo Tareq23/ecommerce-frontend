@@ -30,12 +30,14 @@ class _ViewAllCategoryState extends State<ViewAllCategory> {
 
   @override
   void didChangeDependencies() async{
+    await categoryController.fetchCategoryAllAdmin();
+    print('categoryController.fetchCategoryAllAdmin : ${categoryController.categoryListAdmin.length}');
     if (!_check) {
-      await categoryController.fetchCategoryAllAdmin();
+
       setState(() {
         _check = true;
       });
-      print('categoryController.fetchCategoryAllAdmin : ${categoryController.categoryListAdmin.length}');
+
     }
     super.didChangeDependencies();
   }
@@ -130,90 +132,97 @@ class _ViewAllCategoryState extends State<ViewAllCategory> {
     ];
   }
 
+  // int serial = -8;
+
   List<DataRow> _createRows() {
     return categoryController.categoryListAdmin
-        .map((e) => DataRow(cells: [
-              DataCell(
-                CustomText(
-                  text: e.id.toString(),
-                  size: 16,
-                  color: TEXT_WHITE,
-                ),
+        .map((e){
+          // print('$serial');
+          return DataRow(cells: [
+            DataCell(
+              CustomText(
+                // text: '${++categoryController.categoryListSerial.value}',
+                // text: '${serial++}',
+                text: '${e.id}',
+                size: 16,
+                color: TEXT_WHITE,
               ),
-              DataCell(
-                CustomText(
-                  text: e.name.toString(),
-                  size: 16,
-                  color: TEXT_WHITE,
-                ),
+            ),
+            DataCell(
+              CustomText(
+                text: e.name.toString(),
+                size: 16,
+                color: TEXT_WHITE,
               ),
-              DataCell(
-                Container(
-                  width: 80,
-                  height: 200,
-                  padding: const EdgeInsets.all(0),
-                  margin: const EdgeInsets.symmetric(vertical: 15),
-                  child: Image.network(
-                    e.imageUrl.toString(),
-                    width: double.infinity,
-                    height: double.infinity,
-                    fit: BoxFit.fill,
-                    errorBuilder: (context, object, stacktrace) {
-                      return Image.asset(
-                        'assets/images/no_image_available.png',
-                        width: double.infinity,
-                        height: double.infinity,
-                        fit: BoxFit.fill,
-                      );
-                    },
-                  ),
-                ),
-              ),
-              DataCell(
-                InkWell(
-                  onTap: () {},
-                  child: CustomText(
-                    text: 'products'.toCapitalized(),
-                    size: 16,
-                    color: TEXT_RED,
-                  ),
-                ),
-              ),
-              DataCell(
-                InkWell(
-                  onTap: () {
-                    categoryController.selectedCategory.value.id = e.id;
-                    categoryController.selectedCategory.value.name = e.name;
-                    categoryController.selectedCategory.value.imageUrl =
-                        e.imageUrl;
-                    categoryController.missingImage.value=false;
-                    context.push(context.namedLocation(specificCategoryUpdate,
-                        params: <String, String>{'id': e.id.toString()}));
+            ),
+            DataCell(
+              Container(
+                width: 80,
+                height: 200,
+                padding: const EdgeInsets.all(0),
+                margin: const EdgeInsets.symmetric(vertical: 15),
+                child: Image.network(
+                  e.imageUrl.toString(),
+                  width: double.infinity,
+                  height: double.infinity,
+                  fit: BoxFit.fill,
+                  errorBuilder: (context, object, stacktrace) {
+                    return Image.asset(
+                      'assets/images/no_image_available.png',
+                      width: double.infinity,
+                      height: double.infinity,
+                      fit: BoxFit.fill,
+                    );
                   },
-                  child: CustomText(
-                    text: 'Edit'.toCapitalized(),
-                    size: 16,
-                    color: TEXT_RED,
-                  ),
                 ),
               ),
-              DataCell(
-                InkWell(
-                  onTap: () async {
-                    categoryController.selectedCategory.value.id = e.id;
-                    categoryController.selectedCategory.value.name = e.name;
-                    categoryController.selectedCategory.value.imageUrl =
-                        e.imageUrl;
-                    await categoryController.deleteCategory();
-                  },
-                  child: CustomText(
-                    text: 'Delete'.toCapitalized(),
-                    size: 16,
-                    color: TEXT_RED,
-                  ),
+            ),
+            DataCell(
+              InkWell(
+                onTap: () {},
+                child: CustomText(
+                  text: 'products'.toCapitalized(),
+                  size: 16,
+                  color: TEXT_RED,
                 ),
               ),
-            ]))
+            ),
+            DataCell(
+              InkWell(
+                onTap: () {
+                  categoryController.selectedCategory.value.id = e.id;
+                  categoryController.selectedCategory.value.name = e.name;
+                  categoryController.selectedCategory.value.imageUrl =
+                      e.imageUrl;
+                  categoryController.missingImage.value=false;
+                  context.push(context.namedLocation(specificCategoryUpdate,
+                      params: <String, String>{'id': e.id.toString()}));
+                },
+                child: CustomText(
+                  text: 'Edit'.toCapitalized(),
+                  size: 16,
+                  color: TEXT_RED,
+                ),
+              ),
+            ),
+            DataCell(
+              InkWell(
+                onTap: () async {
+                  categoryController.selectedCategory.value.id = e.id;
+                  categoryController.selectedCategory.value.name = e.name;
+                  categoryController.selectedCategory.value.imageUrl =
+                      e.imageUrl;
+                  await categoryController.deleteCategory();
+                },
+                child: CustomText(
+                  text: 'Delete'.toCapitalized(),
+                  size: 16,
+                  color: TEXT_RED,
+                ),
+              ),
+            ),
+          ]);
+    })
         .toList();
   }
 

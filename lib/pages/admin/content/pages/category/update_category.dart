@@ -273,6 +273,7 @@ class _UpdateCategoryState extends State<UpdateCategory> {
                                     isImageExists: _isImageExists,
                                     isImageChanged: _isImageChanged);
                                 textEditingController.text = '';
+                                GoRouter.of(context).go('/admin/dashboard/category');
                                 setState(() {
                                   pickedImage = null;
                                 });

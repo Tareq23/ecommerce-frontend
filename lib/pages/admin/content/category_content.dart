@@ -29,11 +29,7 @@ class AdminCategoryContentPage extends StatefulWidget {
 class _AdminCategoryContentPageState extends State<AdminCategoryContentPage> {
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      await categoryController.fetchCategory();
-      print(
-          'admin category content => ${categoryController.categoryList.length}');
-    });
+
     super.initState();
   }
 

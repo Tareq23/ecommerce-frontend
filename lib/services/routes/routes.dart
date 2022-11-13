@@ -30,6 +30,8 @@ const String adminCategorySecondItem = 'adminCategorySecondItem';
 const String specificCategoryUpdate = 'specificCategoryUpdateById';
 const String adminProductContentPage = 'adminProductContentPage';
 const String adminSpecificProductUpdate = 'adminSpecificProductUpdate';
+const String adminSpecificProductDetails = 'adminSpecificProductDetails';
+const String adminAddNewProduct = 'adminAddNewProduct';
 const String adminSpecificCategoryAdd = 'adminSpecificCategoryAdd';
 const String adminCategoryViewAll = 'adminCategoryViewAll';
 
@@ -239,7 +241,7 @@ GoRouter router = GoRouter(
                       child: ResponsiveWidget(
                         key: state.pageKey,
                         largeScreen: AdminLargeScreen(
-                          child: AdminProductContentPage(),
+                          child: AdminProductContentPage(title: 'view',),
                         ),
                         mediumScreen: MediumScreen(),
                         smallScreen: SmallScreen(),
@@ -256,7 +258,41 @@ GoRouter router = GoRouter(
                           child: ResponsiveWidget(
                             key: state.pageKey,
                             largeScreen: AdminLargeScreen(
-                              child: AdminCategoryContentPage(),
+                              child: AdminProductContentPage(title: 'update',),
+                            ),
+                            mediumScreen: MediumScreen(),
+                            smallScreen: SmallScreen(),
+                          ),
+                        );
+                      },
+                    ),
+                    GoRoute(
+                      path: 'details/:id',
+                      name: adminSpecificProductDetails,
+                      pageBuilder: (context, state){
+                        return NoTransitionPage(
+                          key: state.pageKey,
+                          child: ResponsiveWidget(
+                            key: state.pageKey,
+                            largeScreen: AdminLargeScreen(
+                              child: AdminProductContentPage(title: 'details',),
+                            ),
+                            mediumScreen: MediumScreen(),
+                            smallScreen: SmallScreen(),
+                          ),
+                        );
+                      },
+                    ),
+                    GoRoute(
+                      path: 'add',
+                      name: adminAddNewProduct,
+                      pageBuilder: (context, state){
+                        return NoTransitionPage(
+                          key: state.pageKey,
+                          child: ResponsiveWidget(
+                            key: state.pageKey,
+                            largeScreen: AdminLargeScreen(
+                              child: AdminProductContentPage(title: 'add',),
                             ),
                             mediumScreen: MediumScreen(),
                             smallScreen: SmallScreen(),

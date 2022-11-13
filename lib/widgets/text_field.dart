@@ -12,8 +12,9 @@ class TextFieldWidget extends StatefulWidget {
   final int minLines;
   TextEditingController? controller;
   String? initialValue;
-
-  TextFieldWidget({Key? key,required this.hint, this.labelText,this.validator,this.expands,this.maxLines=1,this.minLines=1,this.controller,this.initialValue}) : super(key: key);
+  Color? textColor;
+  bool isNumber;
+  TextFieldWidget({Key? key,this.isNumber=false, this.textColor,required this.hint, this.labelText,this.validator,this.expands,this.maxLines=1,this.minLines=1,this.controller,this.initialValue}) : super(key: key);
 
   @override
   State<TextFieldWidget> createState() => _TextFieldWidgetState();
@@ -29,6 +30,8 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
       maxLines: null,
       minLines: widget.minLines,
       expands: widget.expands??false,
+      style: TextStyle(color: widget.textColor??TEXT_DARK),
+      keyboardType: widget.isNumber ? TextInputType.number : TextInputType.text,
       decoration: InputDecoration(
         hintText: widget.hint.toTitleCase(),
         labelText: widget.labelText?.toTitleCase()??widget.hint.toTitleCase(),
@@ -42,6 +45,13 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
           ),
         ),
         focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: const BorderSide(
+            width: 1.2,
+            color: TEXT_FIELD_BORDER,
+          ),
+        ),
+        enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
           borderSide: const BorderSide(
             width: 1.2,

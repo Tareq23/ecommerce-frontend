@@ -80,16 +80,18 @@ class SideNav extends StatelessWidget {
       childrenPadding: const EdgeInsets.all(0),
       expandedCrossAxisAlignment: CrossAxisAlignment.start,
       tilePadding: const EdgeInsets.all(0),
-      title: SideNavItem(title: title,icon: Icons.add,onTap: (){
-        context.go(
-          context.namedLocation(adminProductContentPage),
-        );
-      },),
+      title: CustomText(
+        text: title.toCapitalized(),
+        size: 14,
+        weight: FontWeight.w400,
+        // color: Colors.white,
+        color: TEXT_WHITE,
+      ),
       children: [
         NavItem(
-          title: 'add new product'.toTitleCase(),
+          title: 'add product'.toTitleCase(),
           onTap: () {
-            context.go('/admin/dashboard/product/add-new-product');
+            context.go('/admin/dashboard/product/add');
           },
           color: TEXT_WHITE,
           textSize: 14,
@@ -98,17 +100,10 @@ class SideNav extends StatelessWidget {
           height: 15,
         ),
         NavItem(
-          title: 'update product'.toTitleCase(),
-          onTap: () {},
-          color: TEXT_WHITE,
-          textSize: 14,
-        ),
-        const SizedBox(
-          height: 15,
-        ),
-        NavItem(
-          title: 'delete product'.toTitleCase(),
-          onTap: () {},
+          title: 'product list'.toTitleCase(),
+          onTap: () {
+            context.go('/admin/dashboard/product');
+          },
           color: TEXT_WHITE,
           textSize: 14,
         ),
