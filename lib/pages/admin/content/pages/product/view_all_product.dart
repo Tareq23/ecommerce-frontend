@@ -32,7 +32,7 @@ class _ViewAllProductState extends State<ViewAllProduct> {
   @override
   void didChangeDependencies() async{
     await productController.fetchAllProductAdmin();
-    print('categoryController.fetchCategoryAllAdmin : ${productController.productList.length}');
+    // print('categoryController.fetchCategoryAllAdmin : ${productController.productList.length}');
     if (!_check) {
 
       setState(() {
@@ -58,7 +58,7 @@ class _ViewAllProductState extends State<ViewAllProduct> {
           height: overallController.adminMainContentHeight.value - 100,
           child: ScrollConfiguration(
             behavior:
-            ScrollConfiguration.of(context).copyWith(scrollbars: false),
+            ScrollConfiguration.of(context).copyWith(scrollbars: true),
             child: SingleChildScrollView(
                 child: Obx((){
                   if(productController.productList.isEmpty) return const CircularProgressIndicator(color: TEXT_DARK,);
@@ -196,7 +196,7 @@ class _ViewAllProductState extends State<ViewAllProduct> {
           color: TEXT_RED,
         ),
         onTap: (){
-
+          context.goNamed(adminSpecificProductDetails,params: {"id" : e.id.toString()});
         }
       ),
       DataCell(

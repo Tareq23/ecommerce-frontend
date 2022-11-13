@@ -20,12 +20,12 @@ class _HtmlTextEditorWidgetState extends State<HtmlTextEditorWidget> {
         hint: 'Product Description Here...',
         shouldEnsureVisible: true,
         autoAdjustHeight: true,
-        initialText: productController.newProduct.value.description??'',
+        initialText: productController.selectProduct.value.description??'',
       ),
       callbacks: Callbacks(
           onChangeContent: (String? changed) {
             // postController.createPost.value.content = changed;
-            productController.newProduct.value.description = changed;
+            productController.selectProduct.value.description = changed;
           },
           onFocus:(){
             // _focusEditor.value = true;

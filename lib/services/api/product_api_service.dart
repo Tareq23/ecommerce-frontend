@@ -92,7 +92,7 @@ class ProductService
     await authenticationController.getToken();
     // print('Bearer ${authenticationController.accessToken.value}');
     var response = await ApiService.action(
-      url: '${API.FETCH_CATEGORY_BY_ID_URL}$id',
+      url: '${API.ADMIN_PRODUCT_DETAILS_BY_ID}$id',
       actionType: 'get',
       headers:<String,String> {
         'Content-Type': 'application/json',

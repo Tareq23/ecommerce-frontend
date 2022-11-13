@@ -20,6 +20,7 @@ class API
 
   static const String ADMIN_SHOW_ALL_PRODUCT = '$BASE_URL/admin/product/view/all';
   static const String ADMIN_ADD_PRODUCT = '$BASE_URL/admin/product/add';
+  static const String ADMIN_PRODUCT_DETAILS_BY_ID = '$BASE_URL/admin/product/view/details/';
 
 
 }

@@ -317,14 +317,14 @@ class _AddProductState extends State<AddProduct> {
                                   productController.uploadProductAction.value = false;
                                   return;
                                 }
-                                if(productController.newProduct.value.description!.trim().length<20){
+                                if(productController.selectProduct.value.description!.trim().length<20){
                                   productController.uploadProductAction.value = false;
                                   return ;
                                 }
 
-                                productController.newProduct.value.name =
+                                productController.selectProduct.value.name =
                                     productNameController.text.trim();
-                                productController.newProduct.value.price =
+                                productController.selectProduct.value.price =
                                     productPriceController.text.trim();
                                 await productController.addProduct(image: webImage);
                                 setState(() {
@@ -332,7 +332,7 @@ class _AddProductState extends State<AddProduct> {
                                 });
                                 productPriceController.text = '';
                                 productNameController.text = '';
-                                productController.newProduct.value = ProductModel.empty();
+                                productController.selectProduct.value = ProductModel.empty();
                                 categoryController.selectedCategory.value = CategoryModel.empty();
                                 productController.missingImage.value=false;
                                 productController.uploadProductAction.value = false;

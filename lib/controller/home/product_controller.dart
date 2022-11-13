@@ -14,7 +14,8 @@ class ProductController extends GetxController
 
 
 
-  var newProduct = ProductModel.empty().obs;
+  var selectProduct = ProductModel.empty().obs;
+
 
 
   var productListSerial = 0.obs;
@@ -44,9 +45,13 @@ class ProductController extends GetxController
   }
 
   Future<void> addProduct({required Uint8List? image}) async{
-    newProduct.value.isImageExists=false;
-    newProduct.value.isImageChanged=true;
-    var result = ProductService.addProduct(newProduct.value, image!);
+    selectProduct.value.isImageExists=false;
+    selectProduct.value.isImageChanged=true;
+    var result = ProductService.addProduct(selectProduct.value, image!);
+  }
+  Future<void> fetchProductById(int id) async{
+    var result = await ProductService.fetchProductById(id);
+    selectProduct.value = result??ProductModel.empty();
   }
 
 }
