@@ -2,6 +2,7 @@ import 'package:ecommercefrontend/constants/colors.dart';
 import 'package:ecommercefrontend/constants/contants.dart';
 import 'package:ecommercefrontend/constants/controllers.dart';
 import 'package:ecommercefrontend/nav/nav_item.dart';
+import 'package:ecommercefrontend/widgets/category_drop_down_widget.dart';
 import 'package:ecommercefrontend/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -47,84 +48,17 @@ class _SecondTopNavState extends State<SecondTopNav> {
                   height: double.infinity,
                   padding: const EdgeInsets.symmetric(horizontal: 25),
                   decoration: const BoxDecoration(color: YELLOW),
-                  alignment: Alignment.center,
-                  // child: InkWell(
-                  //   onTap: () {},
-                  //   onHover: (value) {},
-                  //   child: Row(
-                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //     children: [
-                  //       SizedBox(
-                  //         child: Row(
-                  //           mainAxisAlignment: MainAxisAlignment.start,
-                  //           children: const [
-                  //             Icon(
-                  //               Icons.menu,
-                  //               color: TOP_NAV_SECOND,
-                  //               size: 26,
-                  //             ),
-                  //             CustomText(text: 'Categories'),
-                  //           ],
-                  //         ),
-                  //       ),
-                  //       const Icon(
-                  //         Icons.keyboard_arrow_down_outlined,
-                  //         color: TOP_NAV_SECOND,
-                  //         size: 26,
-                  //       )
-                  //     ],
-                  //   ),
-                  // ),
-                  child: DropdownButton(
-                    alignment: Alignment.center,
-                    value: null,
-                    icon: const SizedBox.shrink(),
-                    isDense:true,
-                    underline: const SizedBox.shrink(),
-                    hint: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children:[
-                              const Icon(
-                                Icons.menu,
-                                color: TOP_NAV_SECOND,
-                                size: 28
-                              ),
-                              const SizedBox(width: 20,),
-                              CustomText(text: _selectedValue??'Categories',size: 16,weight: FontWeight.w500,color: TEXT_DARK.withOpacity(0.8),),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(width: 80,),
-                        const Icon(
-                          Icons.keyboard_arrow_down_outlined,
+                  alignment: Alignment.centerLeft,
+                  child: Row(
+                    children: const[
+                      Icon(
+                          Icons.menu,
                           color: TOP_NAV_SECOND,
-                          size: 26,
-                        )
-                      ],
-                    ),
-                    items: _categoryItems
-                        .map(
-                          (e) => DropdownMenuItem<String>(
-                            value: e,
-                            child: CustomText(
-                              text: e.toString(),
-                            ),
-                          ),
-                        )
-                        .toList(),
-                    onChanged: (newValue) {
-                      print("----------> $newValue\n---------------> $_selectedValue");
-                      setState(() {
-                        _selectedValue = newValue!;
-                      });
-                    },
-                  ),
+                          size: 28
+                      ),
+                      CategoryDropdownWidget(),
+                    ],
+                  )
                 ),
                 SizedBox(
                   width: screenSize.width * 0.05,

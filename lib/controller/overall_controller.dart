@@ -21,17 +21,5 @@ class OverallController extends GetxController {
 
   var selectedImagePath = ''.obs;
 
-
-  // Future<void> pickFile({bool? allowMultiple}) async {
-  //   html.FileUploadInputElement uploadInputElement = html.FileUploadInputElement();
-  //   uploadInputElement.multiple = allowMultiple??false;
-  //   uploadInputElement.click();
-  //   uploadInputElement.onChange.listen((event) {
-  //     final file = uploadInputElement.files;
-  //     final reader = html.FileReader();
-  //     reader.onLoadEnd.listen((event) {
-  //
-  //     });
-  //   });
-  // }
+  var selectedCategoryId = 0.obs;
 }
