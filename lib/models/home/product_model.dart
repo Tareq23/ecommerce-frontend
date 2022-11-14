@@ -14,6 +14,9 @@ class ProductModel
   String? description;
   bool? isImageExists;
   bool? isImageChanged;
+  int? categoryId;
+  String? categoryName;
+  String? categoryImageUrl;
   ProductModel(this.id,this.name,this.price,this.imageUrl,this.description);
 
   ProductModel.parseJson(Map<String,dynamic>json){
@@ -24,8 +27,20 @@ class ProductModel
     description = json['description'];
   }
 
+  ProductModel.parseJsonWithCategory(Map<String,dynamic>json){
+    id = json['id'];
+    name = json['name'];
+    price = json['price'];
+    imageUrl = json['imageUrl'];
+    description = json['description'];
+    categoryId = json['categoryId'];
+    categoryName = json['categoryName'];
+    categoryImageUrl = json['categoryImageUrl'];
+  }
+
   Map<String, dynamic> toJson() {
     return {
+      'id' : id,
       'name' : name,
       'imageUrl' : imageUrl,
       'price' : price,

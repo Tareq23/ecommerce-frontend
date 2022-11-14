@@ -206,7 +206,7 @@ class _ViewAllProductState extends State<ViewAllProduct> {
             color: TEXT_RED,
           ),
           onTap: (){
-
+            context.goNamed(adminSpecificProductUpdate,params: {"id" : e.id.toString()});
           }
       ),
       DataCell(

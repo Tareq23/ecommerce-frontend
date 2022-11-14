@@ -73,10 +73,11 @@ class ProductService
   static Future updateProduct(ProductModel product, Uint8List image) async {
     await authenticationController.getToken();
     // print('Bearer ${authenticationController.accessToken.value}');
+    print('updateProduct api service selected product : ${product.id}');
     return ApiService.action(
-      url: product.isImageChanged!? API.UPDATE_CATEGORY_WITH_IMAGE_URL : API.UPDATE_CATEGORY_URL,
+      url: API.ADMIN_PRODUCT_UPDATE_WITH_IMAGE,
       actionType: 'put',
-      multipart: product.isImageChanged!,
+      multipart: product.isImageChanged! || product.isImageExists!,
       file: image,
       headers:<String,String> {
         'Content-Type': 'application/json',
@@ -104,7 +105,7 @@ class ProductService
     if (response.statusCode == 200) {
       var jsonString = jsonDecode(response.body);
       // print('category json $jsonString');
-      return ProductModel.parseJson(jsonString);
+      return ProductModel.parseJsonWithCategory(jsonString);
     }
     return ProductModel.empty();
   }

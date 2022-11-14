@@ -42,6 +42,7 @@ class _AddProductState extends State<AddProduct> {
   void didChangeDependencies() {
     if(!checkCategory){
       categoryController.selectedCategory.value = CategoryModel.empty();
+      productController.selectProduct.value = ProductModel.empty();
       categoryController.fetchCategory();
       setState(() {
         checkCategory=true;
@@ -217,7 +218,7 @@ class _AddProductState extends State<AddProduct> {
                       ),
                       if (pickedImage != null)
                         Container(
-                          width: double.infinity,
+                          width: 400,
                           height: 300,
                           padding: const EdgeInsets.all(4),
                           margin: const EdgeInsets.only(bottom: 12),
@@ -304,9 +305,9 @@ class _AddProductState extends State<AddProduct> {
                                   productController.uploadProductAction.value = false;
                                   return;
                                 }
-                                print('product : category : ${categoryController.selectedCategory.value.id}');
-                                print('product : name : ${productNameController.text}');
-                                print('product : name : ${productPriceController.text}');
+                                // print('product : category : ${categoryController.selectedCategory.value.id}');
+                                // print('product : name : ${productNameController.text}');
+                                // print('product : name : ${productPriceController.text}');
 
 
                                 if(categoryController.selectedCategory.value.id == null){
