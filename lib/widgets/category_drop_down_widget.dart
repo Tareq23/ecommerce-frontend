@@ -30,8 +30,13 @@ class _CategoryDropdownWidgetState extends State<CategoryDropdownWidget> {
 
   @override
   void didChangeDependencies() async{
-
     if(!_checkCategory){
+      if(_categoryItems.length>1){
+        _categoryItems.clear();
+        _categoryIndex.clear();
+        _categoryIndex.add(0);
+        _categoryItems.add('Categories');
+      }
       await categoryController.fetchCategory();
       for(int i=0; i<categoryController.categoryList.length; i++){
         if(categoryController.categoryList[i].name!.contains("useless")){

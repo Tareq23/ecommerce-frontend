@@ -25,4 +25,8 @@ class API
   static const String ADMIN_PRODUCT_UPDATE_WITH_IMAGE = '$BASE_URL/admin/product/update-with-image';
 
 
+  // VISITOR OR CUSTOMER
+  static const String VISITOR_OR_CUSTOMER_ALL_CATEGORY_WITH_PRODUCT = '$BASE_URL/home/category/show/all';
+
+
 }

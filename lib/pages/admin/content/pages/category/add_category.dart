@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:ecommercefrontend/constants/colors.dart';
 import 'package:ecommercefrontend/constants/controllers.dart';
 import 'package:ecommercefrontend/constants/function.dart';
+import 'package:ecommercefrontend/widgets/admin_content_page_upper_widget.dart';
 import 'package:ecommercefrontend/widgets/custom_text.dart';
 import 'package:ecommercefrontend/widgets/text_field.dart';
 import 'package:flutter/foundation.dart';
@@ -70,13 +71,9 @@ class _AddCategoryState extends State<AddCategory> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            width: overallController.adminMainContentWidth.value - 18,
-            height: 100,
-            decoration: BoxDecoration(color: Colors.yellow),
-          ),
-          SizedBox(
-            width: overallController.adminMainContentWidth.value * 0.7,
+            width: overallController.adminMainContentWidth.value,
             height: overallController.adminMainContentHeight.value - 100,
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: ScrollConfiguration(
               behavior:
                   ScrollConfiguration.of(context).copyWith(scrollbars: false),
@@ -86,6 +83,10 @@ class _AddCategoryState extends State<AddCategory> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      AdminPageContentUpperWidget(pageTitle: 'Add New Category',onTap: (){},linkTitle: 'All Category',),
                       const SizedBox(
                         height: 10,
                       ),

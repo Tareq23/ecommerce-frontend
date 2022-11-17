@@ -5,6 +5,7 @@ import 'package:ecommercefrontend/constants/controllers.dart';
 import 'package:ecommercefrontend/constants/function.dart';
 import 'package:ecommercefrontend/models/home/category_model.dart';
 import 'package:ecommercefrontend/models/home/product_model.dart';
+import 'package:ecommercefrontend/widgets/admin_content_page_upper_widget.dart';
 import 'package:ecommercefrontend/widgets/custom_text.dart';
 import 'package:ecommercefrontend/widgets/html_text_editor_widget.dart';
 import 'package:ecommercefrontend/widgets/text_field.dart';
@@ -142,14 +143,15 @@ class _UpdateProductState extends State<UpdateProduct> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Container(
+          //   width: overallController.adminMainContentWidth.value - 18,
+          //   height: 100,
+          //   decoration: BoxDecoration(color: Colors.yellow),
+          // ),
           Container(
-            width: overallController.adminMainContentWidth.value - 18,
-            height: 100,
-            decoration: BoxDecoration(color: Colors.yellow),
-          ),
-          SizedBox(
-            width: overallController.adminMainContentWidth.value * 0.7,
-            height: overallController.adminMainContentHeight.value - 100,
+            width: overallController.adminMainContentWidth.value,
+            height: overallController.adminMainContentHeight.value,
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: ScrollConfiguration(
               behavior:
               ScrollConfiguration.of(context).copyWith(scrollbars: false),
@@ -160,6 +162,10 @@ class _UpdateProductState extends State<UpdateProduct> {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      AdminPageContentUpperWidget(pageTitle: 'Product Update',onTap: (){},linkTitle: 'All Product',),
                       const SizedBox(
                         height: 10,
                       ),
@@ -238,8 +244,6 @@ class _UpdateProductState extends State<UpdateProduct> {
                       const SizedBox(
                         height: 20,
                       ),
-
-
                       SizedBox(
                         width: double.infinity,
                         height: 300,

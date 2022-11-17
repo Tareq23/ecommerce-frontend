@@ -12,7 +12,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'package:get/get.dart';
 
-
 void main() {
   usePathUrlStrategy();
   Get.put(ItemButtonController());
@@ -32,7 +31,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   @override
   void initState() {
     super.initState();
@@ -40,13 +38,11 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-
-
-
     return GetMaterialApp.router(
       theme: ThemeData(
         primarySwatch: Colors.red,
-        scaffoldBackgroundColor: ROOT_BACKGROUND_COLOR
+        scaffoldBackgroundColor: ROOT_BACKGROUND_COLOR,
+        highlightColor: HIGH_LIGHT_COLOR,
       ),
       debugShowCheckedModeBanner: false,
       routerDelegate: router.routerDelegate,
@@ -55,4 +51,3 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
-

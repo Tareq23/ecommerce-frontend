@@ -9,17 +9,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 
-class ProductSection extends StatelessWidget {
+class ProductSection extends StatefulWidget {
   final String sectionTitle;
   const ProductSection({Key? key, required this.sectionTitle})
       : super(key: key);
-  static double _width = 0;
+  // static double width = 0;
+
+  @override
+  State<ProductSection> createState() => _ProductSectionState();
+}
+
+class _ProductSectionState extends State<ProductSection> {
+
+
+
+  static double width = 0;
+
   @override
   Widget build(BuildContext context) {
     // Size screenSize = MediaQuery.of(context).size;
 
     return Obx(() {
-      _width = (overallController.screenWidth.value - commonPadding * 2);
+
+      width = (overallController.screenWidth.value - commonPadding * 2);
       return Container(
         width: overallController.screenWidth.value,
         padding: EdgeInsets.symmetric(horizontal: commonPadding),
@@ -32,7 +44,7 @@ class ProductSection extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CustomText(
-                  text: '$sectionTitle\t',
+                  text: '${widget.sectionTitle}\t',
                   color: TEXT_DARK,
                   size: 16,
                   weight: FontWeight.w700,
@@ -56,12 +68,12 @@ class ProductSection extends StatelessWidget {
               height: 24,
             ),
             Wrap(
-              spacing: _width * 0.02,
+              spacing: width * 0.02,
               runSpacing: 40,
               children: productList
-                  .map((product) => ProductCard(product: product,width: (_width-_width*0.06),))
+                  .map((product) => ProductCard(product: product,width: (width-width*0.06),))
                   .toList(),
-            )
+            ),
           ],
         ),
       );

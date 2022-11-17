@@ -31,6 +31,28 @@ class CategoryService {
     }
     return [];
   }
+  static Future<List<CategoryModel>> fetchAllCategory(Object object) async {
+    try {
+      var response = await ApiService.action(
+        url: API.VISITOR_OR_CUSTOMER_ALL_CATEGORY_WITH_PRODUCT,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: object,
+        actionType: 'get',
+      );
+
+      if (response.statusCode == 200) {
+        var jsonString = jsonDecode(response.body) as List;
+        return jsonString
+            .map((e) => CategoryModel.parseJsonAll(e))
+            .toList();
+      }
+    } catch (e) {
+      print("exception error ----> : $e");
+    }
+    return [];
+  }
   static Future<List<CategoryModel>> fetchAllCategoryAdmin(Object object) async {
     await authenticationController.getToken();
     try {

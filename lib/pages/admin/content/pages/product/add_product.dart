@@ -5,6 +5,8 @@ import 'package:ecommercefrontend/constants/controllers.dart';
 import 'package:ecommercefrontend/constants/function.dart';
 import 'package:ecommercefrontend/models/home/category_model.dart';
 import 'package:ecommercefrontend/models/home/product_model.dart';
+import 'package:ecommercefrontend/widgets/admin_content_page_upper_widget.dart';
+import 'package:ecommercefrontend/widgets/category_drop_down_widget.dart';
 import 'package:ecommercefrontend/widgets/custom_text.dart';
 import 'package:ecommercefrontend/widgets/html_text_editor_widget.dart';
 import 'package:ecommercefrontend/widgets/text_field.dart';
@@ -122,16 +124,12 @@ class _AddProductState extends State<AddProduct> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            width: overallController.adminMainContentWidth.value - 18,
-            height: 100,
-            decoration: BoxDecoration(color: Colors.yellow),
-          ),
-          SizedBox(
-            width: overallController.adminMainContentWidth.value * 0.7,
+            width: overallController.adminMainContentWidth.value ,
             height: overallController.adminMainContentHeight.value - 100,
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: ScrollConfiguration(
               behavior:
-                  ScrollConfiguration.of(context).copyWith(scrollbars: false),
+                  ScrollConfiguration.of(context).copyWith(scrollbars: true),
               child: SingleChildScrollView(
                 child: Form(
                   key: _formKey,
@@ -139,6 +137,12 @@ class _AddProductState extends State<AddProduct> {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      // Container(
+                      //   width: overallController.adminMainContentWidth.value - 18,
+                      //   height: 100,
+                      //   decoration: BoxDecoration(color: Colors.yellow),
+                      // ),
+                      AdminPageContentUpperWidget(pageTitle: 'Add New Product',onTap: (){},linkTitle: 'All Product',),
                       const SizedBox(
                         height: 10,
                       ),
@@ -175,30 +179,6 @@ class _AddProductState extends State<AddProduct> {
                         height: 20,
                       ),
 
-                      Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.only(left: 10),
-                        height: 50,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          border:
-                          Border.all(width: 1.2, color: !productController.isSelectCategory.value ? TEXT_RED.withOpacity(0.8) : TEXT_FIELD_BORDER),
-                        ),
-                        alignment: Alignment.centerLeft,
-                        child: _selectCategory(context),
-                      ),
-                      // select product category
-                      Obx((){
-                        if(categoryController.selectedCategory.value.id == null && !productController.isSelectCategory.value) {
-                          return const CustomText(text: 'Category Missing',color: TEXT_RED,size: 16,weight: FontWeight.w500,);
-                        }
-                        return SizedBox.shrink();
-                      }),
-
-                      const SizedBox(
-                        height: 20,
-                      ),
-
                       // product description
                       Container(
 
@@ -213,6 +193,28 @@ class _AddProductState extends State<AddProduct> {
                           controller: productDescController,
                         ),
                       ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.only(left: 10),
+                          height: 50,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            border:
+                            Border.all(width: 1.2, color: !productController.isSelectCategory.value ? TEXT_RED.withOpacity(0.8) : TEXT_FIELD_BORDER),
+                          ),
+                          alignment: Alignment.centerLeft,
+                          child: _selectCategory(context),
+                          // child: CategoryDropdownWidget()
+                      ),
+                      Obx((){
+                        if(categoryController.selectedCategory.value.id == null && !productController.isSelectCategory.value) {
+                          return const CustomText(text: 'Category Missing',color: TEXT_RED,size: 16,weight: FontWeight.w500,);
+                        }
+                        return SizedBox.shrink();
+                      }),
                       const SizedBox(
                         height: 20,
                       ),
@@ -280,6 +282,7 @@ class _AddProductState extends State<AddProduct> {
                       const SizedBox(
                         height: 20,
                       ),
+                      // select product category
                       Align(
                         alignment: Alignment.centerRight,
                         child: Obx(
@@ -364,6 +367,7 @@ class _AddProductState extends State<AddProduct> {
                           },
                         ),
                       ),
+                      const SizedBox(height: 400,),
                     ],
                   ),
                 ),

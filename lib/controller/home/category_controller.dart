@@ -17,6 +17,7 @@ class CategoryController extends GetxController
 
   var categoryList = <CategoryModel>[].obs;
   var categoryListAdmin = <CategoryModel>[].obs;
+  var categoryListWithProduct = <CategoryModel>[].obs;
 
   var isLoadImage = false.obs;
   var isFetchCategoryById = false.obs;
@@ -64,20 +65,20 @@ class CategoryController extends GetxController
 
   }
   Future<void> updateCategory({required bool isImageChanged,required int id,required bool isImageExists, required Uint8List image,required String name}) async{
-
     CategoryModel category = CategoryModel.empty();
     category.id = id;
     category.name = name;
     category.imageUrl = selectedCategory.value.imageUrl;
     category.isImageChanged = isImageChanged;
     category.isImageExists = isImageExists;
-
-
     var result = await CategoryService.updateCategory(category,image);
-
-
     updateCategoryAction.value = false;
   }
 
+  Future<void> fetchAllCategory() async{
+    var result = await CategoryService.fetchAllCategory({});
+    categoryListWithProduct.assignAll(result);
+
+  }
 
 }
