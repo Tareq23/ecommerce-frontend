@@ -5,6 +5,8 @@ import 'package:ecommercefrontend/pages/admin/content/product_content.dart';
 import 'package:ecommercefrontend/pages/auth/authentication.dart';
 import 'package:ecommercefrontend/pages/category/specific_category_products_pages.dart';
 import 'package:ecommercefrontend/pages/home/home_page.dart';
+import 'package:ecommercefrontend/pages/not_found.dart';
+import 'package:ecommercefrontend/pages/product/customer_visitor_product_details_page.dart';
 import 'package:ecommercefrontend/pages/product/product_details_page.dart';
 import 'package:ecommercefrontend/screen/admin_large_screen.dart';
 import 'package:ecommercefrontend/screen/large_screen.dart';
@@ -22,6 +24,7 @@ const String homeContent = 'homeContent';
 const String productDetails = 'productDetails';
 const String specificCategoryProducts = 'specificCategoryProducts';
 const String auth = 'auth';
+const String notFound = 'notFound';
 
 const String adminRoot = 'adminRoot';
 const String adminFirstItem = 'adminFirstItem';
@@ -44,7 +47,7 @@ GoRouter router = GoRouter(
       path: '/',
       name: root,
       pageBuilder: (context, state) {
-        print('------------------->current route : /');
+        // print('------------------->current route : /');
         return MaterialPage(
           child: ResponsiveWidget(
             key: state.pageKey,
@@ -97,6 +100,8 @@ GoRouter router = GoRouter(
             );
           },
         ),
+
+        // productDetails
         GoRoute(
           path: 'product/details/:id',
           name: productDetails,
@@ -105,13 +110,15 @@ GoRouter router = GoRouter(
               key: state.pageKey,
               child: LargeScreen(
                 title: '/',
-                child: ProductDetails(),
+                child: CustomerOrVisitorProductDetailsPage(),
               ),
             );
           },
         ),
+
+        //specificCategoryProducts
         GoRoute(
-          path: 'category/:id/products',
+          path: 'category/name=:name',
           name: specificCategoryProducts,
           pageBuilder: (context, state) {
             return NoTransitionPage(
@@ -123,7 +130,6 @@ GoRouter router = GoRouter(
             );
           },
         ),
-
 
         // Admin route url
         GoRoute(

@@ -3,8 +3,55 @@ import 'package:ecommercefrontend/constants/contants.dart';
 import 'package:ecommercefrontend/constants/controllers.dart';
 import 'package:ecommercefrontend/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 
+
+Widget textFormFieldOnlyNumber({required String hint, TextEditingController? controller}){
+  return TextFormField(
+    controller: controller,
+    keyboardType: TextInputType.number,
+    maxLines: 1,
+    maxLengthEnforcement: MaxLengthEnforcement.truncateAfterCompositionEnds,
+    inputFormatters: [
+      FilteringTextInputFormatter.allow(RegExp(r'^[1-9][0-9]*'))
+    ],
+    decoration: InputDecoration(
+      hintText: hint,
+      hintStyle: const TextStyle(fontSize: 14,color: TEXT_DARK),
+      border: outlineInputBorder(),
+      focusedBorder: outlineInputBorder(),
+      enabledBorder: outlineInputBorder(),
+    ),
+  );
+}
+
+OutlineInputBorder outlineInputBorder(){
+  return OutlineInputBorder(
+    borderRadius: BorderRadius.circular(4),
+    borderSide: const BorderSide(
+      width: 1.2,
+      color: TEXT_FIELD_BORDER,
+    ),
+  );
+}
+
+Image loadImage({required String imageUrl, required double width, required double height}){
+  return Image.network(
+    imageUrl,
+    width: width,
+    height: height,
+    fit: BoxFit.fill,
+    errorBuilder: (_, __, ___) {
+      return Image.asset(
+        'assets/images/no_image_available.png',
+        width: width,
+        height: height,
+        fit: BoxFit.fill,
+      );
+    },
+  );
+}
 
 Widget textFormField({required String hint,String? labelText,String Function(String? value)? validator}){
   return TextFormField(

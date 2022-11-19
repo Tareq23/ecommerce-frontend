@@ -4,7 +4,7 @@ import 'package:ecommercefrontend/constants/controllers.dart';
 import 'package:ecommercefrontend/models/category_model.dart';
 import 'package:ecommercefrontend/models/product_model.dart';
 import 'package:ecommercefrontend/widgets/custom_text.dart';
-import 'package:ecommercefrontend/widgets/product_card_widget.dart';
+import 'package:ecommercefrontend/widgets/product/product_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';

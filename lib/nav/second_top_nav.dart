@@ -178,47 +178,6 @@ class _SecondTopNavState extends State<SecondTopNav> {
               ],
             ),
           ),
-          // SizedBox(
-          //   child: DropdownButton(
-          //     value: _selectedValue.isNotEmpty ? _selectedValue : null,
-          //     hint: Row(
-          //       children: [
-          //         SizedBox(
-          //           child: Row(
-          //             mainAxisAlignment: MainAxisAlignment.start,
-          //             children: const [
-          //               Icon(
-          //                 Icons.menu,
-          //                 color: TOP_NAV_SECOND,
-          //                 size: 26,
-          //               ),
-          //               CustomText(text: 'Categories'),
-          //             ],
-          //           ),
-          //         ),
-          //         const Icon(
-          //           Icons.keyboard_arrow_down_outlined,
-          //           color: TOP_NAV_SECOND,
-          //           size: 26,
-          //         )
-          //       ],
-          //     ),
-          //     items: _categoryItems
-          //         .map(
-          //           (e) => DropdownMenuItem<String>(
-          //         child: CustomText(
-          //           text: e.toString(),
-          //         ),
-          //       ),
-          //     )
-          //         .toList(),
-          //     onChanged: (newValue) {
-          //       setState(() {
-          //         _selectedValue = newValue!;
-          //       });
-          //     },
-          //   ),
-          // )
         ],
       ),
     );

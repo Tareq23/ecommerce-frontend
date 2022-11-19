@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 
-import '../constants/colors.dart';
-import '../constants/contants.dart';
+import '../../constants/colors.dart';
+import '../../constants/contants.dart';
 import 'package:url_launcher/link.dart';
 import 'package:url_launcher/url_launcher.dart';
 

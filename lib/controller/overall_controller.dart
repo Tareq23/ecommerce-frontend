@@ -22,6 +22,10 @@ class OverallController extends GetxController {
   var selectedImagePath = ''.obs;
 
   var selectedCategoryId = 0.obs;
+  var selectedCategoryName = 'Categories'.obs;
 
   var isFetchedCategoryProduct = false.obs;
+  var isDidChangeDependencies = false.obs;
+
+  var productQuantity = 1.obs;
 }
