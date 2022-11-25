@@ -7,7 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SelectProductQuantityForBuy extends StatefulWidget {
-  const SelectProductQuantityForBuy({Key? key}) : super(key: key);
+  final String quantityTitle;
+  const SelectProductQuantityForBuy({Key? key, this.quantityTitle='Quantity'}) : super(key: key);
 
   @override
   State<SelectProductQuantityForBuy> createState() => _SelectProductQuantityForBuyState();
@@ -20,7 +21,7 @@ class _SelectProductQuantityForBuyState extends State<SelectProductQuantityForBu
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         CustomText(
-          text: 'Quantity',
+          text: widget.quantityTitle,
           size: 16,
           color: TEXT_DARK.withOpacity(0.6),
           weight: FontWeight.w500,

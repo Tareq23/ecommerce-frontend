@@ -11,6 +11,7 @@ import 'package:ecommercefrontend/pages/customer/customer_profile_update_page.da
 import 'package:ecommercefrontend/pages/customer/customer_review_page.dart';
 import 'package:ecommercefrontend/pages/home/home_page.dart';
 import 'package:ecommercefrontend/pages/not_found.dart';
+import 'package:ecommercefrontend/pages/order_checkout_page.dart';
 import 'package:ecommercefrontend/pages/place_order_page.dart';
 import 'package:ecommercefrontend/pages/product/customer_visitor_product_details_page.dart';
 import 'package:ecommercefrontend/pages/product/product_details_page.dart';
@@ -54,6 +55,7 @@ const String customerAccountAddress = 'customerAccountAddress';
 const String customerAccountAddNewAddress = 'customerAccountAddNewAddress';
 
 const String shippingPlaceOrderPage = 'shippingPlaceOrderPage';
+const String checkoutPlaceOrderPage = 'checkoutPlaceOrderPage';
 
 GoRouter router = GoRouter(
   initialLocation: '/',
@@ -148,6 +150,22 @@ GoRouter router = GoRouter(
               child: const LargeScreen(
                 title: '/',
                 child: PlaceOrderPage(),
+              ),
+            );
+          },
+        ),
+
+        // order checkout page
+        GoRoute(
+          path: 'checkout/place-order',
+          name: checkoutPlaceOrderPage,
+          pageBuilder: (context, state) {
+            // print('-------> shipping/place-order');
+            return NoTransitionPage(
+              key: state.pageKey,
+              child: const LargeScreen(
+                title: '/',
+                child: OrderCheckoutPage(),
               ),
             );
           },

@@ -2,6 +2,7 @@ import 'package:ecommercefrontend/constants/colors.dart';
 import 'package:ecommercefrontend/constants/contants.dart';
 import 'package:ecommercefrontend/constants/controllers.dart';
 import 'package:ecommercefrontend/nav/nav_item.dart';
+import 'package:ecommercefrontend/services/routes/routes.dart';
 import 'package:ecommercefrontend/widgets/category_drop_down_widget.dart';
 import 'package:ecommercefrontend/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
@@ -63,119 +64,78 @@ class _SecondTopNavState extends State<SecondTopNav> {
                 SizedBox(
                   width: screenSize.width * 0.05,
                 ),
-                SizedBox(
-                  child: Row(
-                    children: [
-                      _nabItem(
-                        context,
-                        title: 'home',
-                        onTap: () {
-                          if (!itemButtonController.isActive('home')) {
-                            itemButtonController.changeActiveItemTo('home');
-                            context.go('/');
-                          }
-                        },
-                      ),
-                      _nabItem(
-                        context,
-                        title: 'shop',
-                        onTap: () {
-                          if (!itemButtonController.isActive('shop')) {
-                            itemButtonController.changeActiveItemTo('shop');
-                            context.go('/');
-                          }
-                        },
-                      ),
-                      _nabItem(
-                        context,
-                        title: 'shop detail',
-                        onTap: () {
-                          if (!itemButtonController.isActive('shop detail')) {
-                            itemButtonController
-                                .changeActiveItemTo('shop detail');
-                            context.go('/');
-                          }
-                        },
-                      ),
-                    ],
-                  ),
-                )
+                // SizedBox(
+                //   child: Row(
+                //     children: [
+                //       _nabItem(
+                //         context,
+                //         title: 'home',
+                //         onTap: () {
+                //           if (!itemButtonController.isActive('home')) {
+                //             itemButtonController.changeActiveItemTo('home');
+                //             context.go('/');
+                //           }
+                //         },
+                //       ),
+                //       _nabItem(
+                //         context,
+                //         title: 'shop',
+                //         onTap: () {
+                //           if (!itemButtonController.isActive('shop')) {
+                //             itemButtonController.changeActiveItemTo('shop');
+                //             context.go('/');
+                //           }
+                //         },
+                //       ),
+                //       _nabItem(
+                //         context,
+                //         title: 'shop detail',
+                //         onTap: () {
+                //           if (!itemButtonController.isActive('shop detail')) {
+                //             itemButtonController
+                //                 .changeActiveItemTo('shop detail');
+                //             context.go('/');
+                //           }
+                //         },
+                //       ),
+                //     ],
+                //   ),
+                // )
               ],
             ),
           ),
-          SizedBox(
-            width: screenSize.width * 0.15,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                InkWell(
-                  onTap: () {},
-                  child: SizedBox(
-                    child: Row(
-                      children: [
-                        const Icon(
-                          Icons.favorite,
-                          color: YELLOW,
-                          size: 24,
-                        ),
-                        Container(
-                          width: 20,
-                          height: 20,
-                          padding: const EdgeInsets.all(3),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
-                            border: Border.all(
-                              width: 0.8,
-                              color: ITEM_WHITE.withOpacity(0.7),
-                            ),
-                          ),
-                          alignment: Alignment.center,
-                          child: const CustomText(
-                            text: '0',
-                            size: 12,
-                            color: ITEM_WHITE,
-                          ),
-                        )
-                      ],
-                    ),
+          InkWell(
+            onTap: () {
+              GoRouter.of(context).goNamed(checkoutPlaceOrderPage);
+            },
+            child: SizedBox(
+              child: Row(
+                children: [
+                  const Icon(
+                    Icons.shopping_cart,
+                    color: YELLOW,
+                    size: 24,
                   ),
-                ),
-                const SizedBox(
-                  width: 30,
-                ),
-                InkWell(
-                  onTap: () {},
-                  child: SizedBox(
-                    child: Row(
-                      children: [
-                        const Icon(
-                          Icons.shopping_cart,
-                          color: YELLOW,
-                          size: 24,
-                        ),
-                        Container(
-                          width: 20,
-                          height: 20,
-                          padding: const EdgeInsets.all(3),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
-                            border: Border.all(
-                              width: 0.8,
-                              color: ITEM_WHITE.withOpacity(0.7),
-                            ),
-                          ),
-                          alignment: Alignment.center,
-                          child: const CustomText(
-                            text: '0',
-                            size: 12,
-                            color: ITEM_WHITE,
-                          ),
-                        )
-                      ],
+                  Container(
+                    width: 20,
+                    height: 20,
+                    padding: const EdgeInsets.all(3),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      border: Border.all(
+                        width: 0.8,
+                        color: ITEM_WHITE.withOpacity(0.7),
+                      ),
                     ),
-                  ),
-                ),
-              ],
+                    alignment: Alignment.center,
+                    child: const CustomText(
+                      text: '0',
+                      size: 12,
+                      color: ITEM_WHITE,
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ],
