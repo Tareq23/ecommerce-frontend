@@ -11,7 +11,7 @@ class ProductService
 {
 
 
-  static Future<List<ProductModel>> fetchAllProductAdmin() async {
+  static Future<List<HomeProductModel>> fetchAllProductAdmin() async {
     await authenticationController.getToken();
     try {
       var response = await ApiService.action(
@@ -28,7 +28,7 @@ class ProductService
       if (response.statusCode == 200) {
         var jsonString = jsonDecode(response.body) as List;
         return jsonString
-            .map((e) => ProductModel.parseJson(e))
+            .map((e) => HomeProductModel.parseJson(e))
             .toList();
       }
     } catch (e) {
@@ -37,7 +37,7 @@ class ProductService
     return [];
   }
 
-  static Future<dynamic> addProduct(ProductModel product, Uint8List image) async {
+  static Future<dynamic> addProduct(HomeProductModel product, Uint8List image) async {
     await authenticationController.getToken();
     return ApiService.action(
         url: API.ADMIN_ADD_PRODUCT,
@@ -55,7 +55,7 @@ class ProductService
   }
 
 
-  static Future deleteProduct(ProductModel product) async {
+  static Future deleteProduct(HomeProductModel product) async {
     await authenticationController.getToken();
     // print('Bearer ${authenticationController.accessToken.value}');
     return ApiService.action(
@@ -70,7 +70,7 @@ class ProductService
   }
 
 
-  static Future updateProduct(ProductModel product, Uint8List image) async {
+  static Future updateProduct(HomeProductModel product, Uint8List image) async {
     await authenticationController.getToken();
     // print('Bearer ${authenticationController.accessToken.value}');
     print('updateProduct api service selected product : ${product.id}');
@@ -105,8 +105,8 @@ class ProductService
     if (response.statusCode == 200) {
       var jsonString = jsonDecode(response.body);
       // print('category json $jsonString');
-      return ProductModel.parseJsonWithCategory(jsonString);
+      return HomeProductModel.parseJsonWithCategory(jsonString);
     }
-    return ProductModel.empty();
+    return HomeProductModel.empty();
   }
 }

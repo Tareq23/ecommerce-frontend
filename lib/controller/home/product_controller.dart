@@ -15,12 +15,12 @@ class ProductController extends GetxController
 
 
 
-  var selectProduct = ProductModel.empty().obs;
+  var selectProduct = HomeProductModel.empty().obs;
 
 
 
   var productListSerial = 0.obs;
-  var productList = <ProductModel>[].obs;
+  var productList = <HomeProductModel>[].obs;
 
 
   var isLoadImage = false.obs;
@@ -53,7 +53,7 @@ class ProductController extends GetxController
 
   Future<void> fetchProductById(int id) async{
     var result = await ProductService.fetchProductById(id);
-    selectProduct.value = result??ProductModel.empty();
+    selectProduct.value = result??HomeProductModel.empty();
     // CategoryModel category = CategoryModel(selectProduct.value.categoryId,selectProduct.value.categoryName,selectProduct.value.categoryImageUrl);
     // categoryController.selectedCategory.value = category;
     // print('selected product : ${selectProduct.value.id}');
@@ -69,7 +69,7 @@ class ProductController extends GetxController
 
 
   Future<void> updateProduct({required bool isImageChanged,required bool isImageExists, required Uint8List image}) async{
-    ProductModel product = ProductModel.empty();
+    HomeProductModel product = HomeProductModel.empty();
     // category.id = id;
     // category.name = name;
     // category.imageUrl = selectedCategory.value.imageUrl;

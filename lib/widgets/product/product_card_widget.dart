@@ -13,7 +13,7 @@ import 'package:url_launcher/link.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ProductCard extends StatelessWidget {
-  final Product product;
+  final ProductModel product;
   final double width;
   const ProductCard({Key? key, required this.product, required this.width}) : super(key: key);
   // static double _width = 0;
@@ -26,7 +26,7 @@ class ProductCard extends StatelessWidget {
         target: LinkTarget.self,
         uri: Uri.parse('/product/details/${product.id}'),
         builder: (context,followLink){
-          print('------------------------<>------------------->${Uri.base}');
+          // print('------------------------<>------------------->${Uri.base}');
           return InkWell(
             onTap: followLink,
             child: Container(

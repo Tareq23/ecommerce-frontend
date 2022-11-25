@@ -26,6 +26,24 @@ class TopNav extends StatefulWidget {
 }
 
 class _TopNavState extends State<TopNav> {
+
+
+
+
+
+  @override
+  void didChangeDependencies() {
+
+    // print(' top nav ------> overallController.isDidChangeDependencies.value ${overallController.isDidChangeDependencies.value}');
+    if(!overallController.isDidChangeDependencies.value){
+      print(' top nav ------> overallController.isDidChangeDependencies.value }');
+      overallController.isDidChangeDependencies.value = true;
+    }
+
+    super.didChangeDependencies();
+  }
+
+
   @override
   Widget build(BuildContext context) {
 
@@ -69,8 +87,8 @@ class _TopNavState extends State<TopNav> {
           ),
           // const CustomText(text: 'Checking Text'),
           Obx((){
-            print('authentication access token :=> ${authenticationController.accessToken.value.length}');
-            print('access token is expired   ${authenticationController.isExpired()}');
+            // print('authentication access token :=> ${authenticationController.accessToken.value.length}');
+            // print('access token is expired   ${authenticationController.isExpired()}');
             // print('authenticationController.isSuperAdmin.value   ${authenticationController.isSuperAdmin.value}');
             // print('access token is expired   ${authenticationController.isExpired()}');
             if(authenticationController.accessToken.value.length<20){
@@ -105,7 +123,9 @@ class _TopNavState extends State<TopNav> {
               );
             }
             else{
-              // print('--------------top nav : ${authenticationController.userLogin.value.isAdmin!}');
+              print('--------------top nav is admin : ${authenticationController.userLogin.value.isAdmin!}');
+              print('--------------top nav is customer : ${authenticationController.userLogin.value.isCustomer!}');
+              print('--------------top nav is token length : ${authenticationController.accessToken.value.length}');
               if(authenticationController.userLogin.value.isAdmin!){
                 return SizedBox(
                   child: Row(
@@ -147,6 +167,47 @@ class _TopNavState extends State<TopNav> {
                   ),
                 );
               }
+              else if(authenticationController.userLogin.value.isCustomer!){
+                return SizedBox(
+                  child: Row(
+                    children: [
+                      MouseRegion(
+                        cursor: SystemMouseCursors.click,
+                        child: Link(
+                          uri: Uri.parse('/user/1/account'),
+                          builder: (BuildContext context, Future<void> Function()? followLink) {
+                            return NavItem(
+                              title: 'my account'.toUpperCase(),
+                              onTap: () {
+                                // authenticationController.logout();
+                                // print('logout -------------------------> ${authenticationController.accessToken.value}');
+                                context.go('/user/1/account');
+                              },
+                            );
+                          },
+                        ),
+                      ),
+                      const SizedBox(width: 20,),
+                      MouseRegion(
+                        cursor: SystemMouseCursors.click,
+                        child: Link(
+                          uri: Uri.parse('/auth/logout'),
+                          builder: (BuildContext context, Future<void> Function()? followLink) {
+                            return NavItem(
+                              title: 'logout'.toUpperCase(),
+                              onTap: () {
+                                authenticationController.logout();
+                                // print('logout -------------------------> ${authenticationController.accessToken.value}');
+                                context.go('/');
+                              },
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }
               return SizedBox(
                 child: MouseRegion(
                   cursor: SystemMouseCursors.click,
@@ -155,9 +216,9 @@ class _TopNavState extends State<TopNav> {
                     builder: (BuildContext context, Future<void> Function()? followLink) {
                       return NavItem(
                         title: 'logout'.toUpperCase(),
-                        onTap: () {
-                          authenticationController.logout();
-                          // print('logout -------------------------> ${authenticationController.accessToken.value}');
+                        onTap: () async {
+                          await authenticationController.logout();
+                          print('logout -------------------------> ${authenticationController.accessToken.value}');
                           context.go('/');
                         },
                       );

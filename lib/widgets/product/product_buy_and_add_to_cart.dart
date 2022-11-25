@@ -1,16 +1,13 @@
 import 'package:ecommercefrontend/constants/colors.dart';
 import 'package:ecommercefrontend/constants/contants.dart';
+import 'package:ecommercefrontend/services/routes/routes.dart';
 import 'package:ecommercefrontend/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
-class ProductBuyAndCartButtonWidget extends StatefulWidget {
+class ProductBuyAndCartButtonWidget extends StatelessWidget {
   const ProductBuyAndCartButtonWidget({Key? key}) : super(key: key);
 
-  @override
-  State<ProductBuyAndCartButtonWidget> createState() => _ProductBuyAndCartButtonWidgetState();
-}
-
-class _ProductBuyAndCartButtonWidgetState extends State<ProductBuyAndCartButtonWidget> {
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
@@ -21,7 +18,10 @@ class _ProductBuyAndCartButtonWidgetState extends State<ProductBuyAndCartButtonW
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           InkWell(
-            onTap: () {},
+            onTap: () {
+              GoRouter.of(context).goNamed(shippingPlaceOrderPage);
+              // print('buy know--------------> ');
+            },
             child: Container(
               width: ((width * 0.5) - 20) * 0.4,
               height: 50,

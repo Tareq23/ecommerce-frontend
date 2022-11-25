@@ -1,11 +1,7 @@
-
-
-import 'dart:convert';
-import 'dart:js';
-
 import 'package:ecommercefrontend/constants/controllers.dart';
 import 'package:ecommercefrontend/models/authentication/login_model.dart';
 import 'package:ecommercefrontend/models/authentication/register_model.dart';
+import 'package:ecommercefrontend/models/location/division_model.dart';
 import 'package:ecommercefrontend/services/api/auth_api_service.dart';
 import 'package:ecommercefrontend/services/api/categorty_api_service.dart';
 import 'package:ecommercefrontend/services/jwt/jwt_service.dart';
@@ -46,7 +42,7 @@ class AuthenticationController extends GetxController
     CredentialModel credential = CredentialModel(loginUsername.value,loginPassword.value);
     var result = await AuthService.userLogin(credential);
     if(result.token != null){
-      _setToken(result.token!);
+      _setToken(result);
       // print('----------------- controller login method : ${result.isAdmin}');
       // print('----------------- controller login method : ${result.isManager}');
       // print('----------------- controller login method : ${result.isCustomer}');
@@ -54,6 +50,9 @@ class AuthenticationController extends GetxController
       userLogin.value = result;
     }
     print("login : ${accessToken.value}");
+    print("admin : ${userLogin.value.isAdmin}");
+    print("manager : ${userLogin.value.isManager}");
+    print("customer : ${userLogin.value.isCustomer}");
     isLoginAction.value = false;
   }
 
@@ -103,12 +102,12 @@ class AuthenticationController extends GetxController
 
 
 
-  Future<void> _setToken(String token) async {
+  Future<void> _setToken(LoginModel loginModel) async {
     final SharedPreferences prefs = await sharedPreference;
-    prefs.setString('token', token);
-    prefs.setBool('admin', userLogin.value.isAdmin!);
-    prefs.setBool('customer', userLogin.value.isAdmin!);
-    prefs.setBool('manager', userLogin.value.isAdmin!);
+    prefs.setString('token', loginModel.token!);
+    prefs.setBool('admin', loginModel.isAdmin!);
+    prefs.setBool('customer', loginModel.isCustomer!);
+    prefs.setBool('manager', loginModel.isManager!);
     await getToken();
   }
 
@@ -123,8 +122,11 @@ class AuthenticationController extends GetxController
   Future<void> logout() async{
     accessToken.value = '';
     final SharedPreferences prefs = await sharedPreference;
-    prefs.reload();
+    // prefs.reload();
+    userLogin.value = LoginModel("", "", "", false, false, false);
     isLogoutAction = false.obs;
+    await _setToken(userLogin.value);
+    print('logout --------------> access token : ${prefs.getString('token')}');
   }
 
 }

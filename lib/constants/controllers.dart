@@ -1,5 +1,6 @@
 
 
+import 'package:ecommercefrontend/controller/address_location_controller.dart';
 import 'package:ecommercefrontend/controller/authentication_controller.dart';
 import 'package:ecommercefrontend/controller/home/category_controller.dart';
 import 'package:ecommercefrontend/controller/home/product_controller.dart';
@@ -14,5 +15,6 @@ StateController stateController = StateController.instance;
 AuthenticationController authenticationController = AuthenticationController.instance;
 CategoryController categoryController = CategoryController.instance;
 ProductController productController = ProductController.instance;
+LocationController locationController = LocationController.instance;
 
 final Future<SharedPreferences> sharedPreference = SharedPreferences.getInstance();

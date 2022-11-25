@@ -5,7 +5,7 @@ import 'dart:convert';
 
 import 'package:ecommercefrontend/constants/controllers.dart';
 
-class ProductModel
+class HomeProductModel
 {
   int? id;
   String? name;
@@ -17,9 +17,9 @@ class ProductModel
   int? categoryId;
   String? categoryName;
   String? categoryImageUrl;
-  ProductModel(this.id,this.name,this.price,this.imageUrl,this.description);
+  HomeProductModel(this.id,this.name,this.price,this.imageUrl,this.description);
 
-  ProductModel.parseJson(Map<String,dynamic>json){
+  HomeProductModel.parseJson(Map<String,dynamic>json){
     id = json['id'];
     name = json['name'];
     price = json['price'];
@@ -27,7 +27,13 @@ class ProductModel
     description = json['description'];
   }
 
-  ProductModel.parseJsonWithCategory(Map<String,dynamic>json){
+  HomeProductModel.parseOrder(Map<String,dynamic>product){
+    id = product['productId'];
+    name = product['productName'];
+    imageUrl = product['imageUrl'];
+  }
+
+  HomeProductModel.parseJsonWithCategory(Map<String,dynamic>json){
     id = json['id'];
     name = json['name'];
     price = json['price'];
@@ -49,6 +55,6 @@ class ProductModel
     };
   }
 
-  ProductModel.empty();
+  HomeProductModel.empty();
 
 }

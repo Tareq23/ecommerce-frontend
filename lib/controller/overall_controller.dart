@@ -27,5 +27,9 @@ class OverallController extends GetxController {
   var isFetchedCategoryProduct = false.obs;
   var isDidChangeDependencies = false.obs;
 
+  var selectDivisionName = 'বিভাগ'.obs;
+  var selectDistrictName = 'জেলা'.obs;
+  var selectSubDistrictName = 'উপজেলা'.obs;
+
   var productQuantity = 1.obs;
 }

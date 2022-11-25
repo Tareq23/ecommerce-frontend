@@ -1,5 +1,6 @@
 import 'package:ecommercefrontend/constants/colors.dart';
 import 'package:ecommercefrontend/constants/controllers.dart';
+import 'package:ecommercefrontend/controller/address_location_controller.dart';
 import 'package:ecommercefrontend/controller/authentication_controller.dart';
 import 'package:ecommercefrontend/controller/home/category_controller.dart';
 import 'package:ecommercefrontend/controller/home/product_controller.dart';
@@ -20,6 +21,7 @@ void main() {
   Get.put(AuthenticationController());
   Get.put(CategoryController());
   Get.put(ProductController());
+  Get.put(LocationController());
   runApp(MyApp());
 }
 

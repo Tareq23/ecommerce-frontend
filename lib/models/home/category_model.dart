@@ -10,7 +10,7 @@ class CategoryModel
   bool? isImageExists;
   bool? isImageChanged;
   // ProductModel? productModel;
-  List<ProductModel>? productList;
+  List<HomeProductModel>? productList;
 
   // CategoryModel(this.id,this.name,this.imageUrl,this.productList);
   CategoryModel(this.id,this.name,this.imageUrl);
@@ -21,7 +21,7 @@ class CategoryModel
     imageUrl = json['imageUrl'];
     // productModel = ProductModel.parseJson(json['products']);
     var list = json['products']??[];
-    productList = list.map((e) => ProductModel.parseJson(e)).toList();
+    productList = list.map((e) => HomeProductModel.parseJson(e)).toList();
   }
 
 

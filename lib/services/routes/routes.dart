@@ -4,8 +4,14 @@ import 'package:ecommercefrontend/pages/admin/content/category_content.dart';
 import 'package:ecommercefrontend/pages/admin/content/product_content.dart';
 import 'package:ecommercefrontend/pages/auth/authentication.dart';
 import 'package:ecommercefrontend/pages/category/specific_category_products_pages.dart';
+import 'package:ecommercefrontend/pages/customer/customer_account_address_page.dart';
+import 'package:ecommercefrontend/pages/customer/customer_account_profile_page.dart';
+import 'package:ecommercefrontend/pages/customer/customer_order_page.dart';
+import 'package:ecommercefrontend/pages/customer/customer_profile_update_page.dart';
+import 'package:ecommercefrontend/pages/customer/customer_review_page.dart';
 import 'package:ecommercefrontend/pages/home/home_page.dart';
 import 'package:ecommercefrontend/pages/not_found.dart';
+import 'package:ecommercefrontend/pages/place_order_page.dart';
 import 'package:ecommercefrontend/pages/product/customer_visitor_product_details_page.dart';
 import 'package:ecommercefrontend/pages/product/product_details_page.dart';
 import 'package:ecommercefrontend/screen/admin_large_screen.dart';
@@ -37,6 +43,17 @@ const String adminSpecificProductDetails = 'adminSpecificProductDetails';
 const String adminAddNewProduct = 'adminAddNewProduct';
 const String adminSpecificCategoryAdd = 'adminSpecificCategoryAdd';
 const String adminCategoryViewAll = 'adminCategoryViewAll';
+
+
+const String customerAccount = 'customerAccount';
+const String customerProfile = 'customerProfile';
+const String customerProfileAccountUpdate = 'customerProfileAccountUpdate';
+const String customerAccountOrder = 'customerAccountOrder';
+const String customerAccountReview = 'customerAccountReview';
+const String customerAccountAddress = 'customerAccountAddress';
+const String customerAccountAddNewAddress = 'customerAccountAddNewAddress';
+
+const String shippingPlaceOrderPage = 'shippingPlaceOrderPage';
 
 GoRouter router = GoRouter(
   initialLocation: '/',
@@ -85,6 +102,9 @@ GoRouter router = GoRouter(
             );
           },
         ),
+
+
+        //auth
         GoRoute(
           path: 'auth/:auth',
           name: auth,
@@ -115,6 +135,114 @@ GoRouter router = GoRouter(
             );
           },
         ),
+
+
+        // place order page
+        GoRoute(
+          path: 'shipping/place-order',
+          name: shippingPlaceOrderPage,
+          pageBuilder: (context, state) {
+            // print('-------> shipping/place-order');
+            return NoTransitionPage(
+              key: state.pageKey,
+              child: const LargeScreen(
+                title: '/',
+                child: PlaceOrderPage(),
+              ),
+            );
+          },
+        ),
+
+        // user profile
+        GoRoute(
+          path: 'user/:id/account',
+          name: customerAccount,
+          pageBuilder: (context, state) {
+            return NoTransitionPage(
+              key: state.pageKey,
+              child: LargeScreen(
+                title: '/',
+                child: CustomerAccountPage(),
+              ),
+            );
+          },
+        ),
+
+        // user profile update
+        GoRoute(
+          path: 'user/update/:id/account',
+          name: customerProfileAccountUpdate,
+          pageBuilder: (context, state) {
+            return NoTransitionPage(
+              key: state.pageKey,
+              child: LargeScreen(
+                title: '/',
+                child: CustomerAccountProfilePage(),
+              ),
+            );
+          },
+        ),
+
+        // user account order page
+        GoRoute(
+          path: 'user/order/:id/account',
+          name: customerAccountOrder,
+          pageBuilder: (context, state) {
+            return NoTransitionPage(
+              key: state.pageKey,
+              child: LargeScreen(
+                title: '/',
+                child: CustomerOrderPage(),
+              ),
+            );
+          },
+        ),
+
+        // user account review page
+        GoRoute(
+          path: 'user/review/:id/account',
+          name: customerAccountReview,
+          pageBuilder: (context, state) {
+            return NoTransitionPage(
+              key: state.pageKey,
+              child: LargeScreen(
+                title: '/',
+                child: CustomerAccountReviewPage(),
+              ),
+            );
+          },
+        ),
+
+        // user account address page
+        GoRoute(
+          path: 'user/address/:id/account',
+          name: customerAccountAddress,
+          pageBuilder: (context, state) {
+            return NoTransitionPage(
+              key: state.pageKey,
+              child: LargeScreen(
+                title: '/',
+                child: CustomerAccountAddressPage(),
+              ),
+            );
+          },
+        ),
+
+        // user account add new address page
+        // GoRoute(
+        //   path: 'user/address/:id/account',
+        //   name: customerAccountAddress,
+        //   pageBuilder: (context, state) {
+        //     return NoTransitionPage(
+        //       key: state.pageKey,
+        //       child: LargeScreen(
+        //         title: '/',
+        //         child: CustomerAccountAddressPage(),
+        //       ),
+        //     );
+        //   },
+        // ),
+
 
         //specificCategoryProducts
         GoRoute(

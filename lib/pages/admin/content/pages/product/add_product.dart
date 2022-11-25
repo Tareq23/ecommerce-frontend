@@ -44,7 +44,7 @@ class _AddProductState extends State<AddProduct> {
   void didChangeDependencies() {
     if(!checkCategory){
       categoryController.selectedCategory.value = CategoryModel.empty();
-      productController.selectProduct.value = ProductModel.empty();
+      productController.selectProduct.value = HomeProductModel.empty();
       categoryController.fetchCategory();
       setState(() {
         checkCategory=true;
@@ -336,7 +336,7 @@ class _AddProductState extends State<AddProduct> {
                                 });
                                 productPriceController.text = '';
                                 productNameController.text = '';
-                                productController.selectProduct.value = ProductModel.empty();
+                                productController.selectProduct.value = HomeProductModel.empty();
                                 categoryController.selectedCategory.value = CategoryModel.empty();
                                 productController.missingImage.value=false;
                                 productController.uploadProductAction.value = false;

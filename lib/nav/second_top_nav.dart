@@ -15,12 +15,12 @@ class SecondTopNav extends StatefulWidget {
   State<SecondTopNav> createState() => _SecondTopNavState();
 }
 
-List _categoryItems = [
-  'home',
-  'shop',
-  'shop detail',
-  'contact',
-];
+// List _categoryItems = [
+//   'home',
+//   'shop',
+//   'shop detail',
+//   'contact',
+// ];
 
 class _SecondTopNavState extends State<SecondTopNav> {
 

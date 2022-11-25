@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 const Color TEXT_DARK = Color(0xff333333);
+const Color TEXT_LINK = Color(0xff168dbb);
 const Color TEXT_RED = Color(0xffc44949);
 const Color TEXT_DANGER = Color(0xe0d95c5c);
 const Color TEXT_WHITE = Color(0xfff1f1f1);
@@ -11,7 +12,7 @@ const Color BG_GREY = Color(0xc8e5e5e5);
 const Color BG_WHITE = Color(0xc8e5e5e5);
 const Color BG_YELLOW = Color(0xc88f933f);
 const Color BG_BUTTON = Color(0xc83a3b3a);
-const Color BORDER_GREY = Color(0xc8e0e0e0);
+const Color BORDER_GREY = Color(0xc8b4b3b3);
 const Color BORDER_RED = Color(0xc8dc4242);
 const Color TOP_NAV_SECOND = Color(0xff3d464d);
 const Color YELLOW = Color(0xffffd333);
