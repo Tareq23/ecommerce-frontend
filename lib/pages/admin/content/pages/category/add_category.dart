@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:ecommercefrontend/constants/colors.dart';
@@ -11,6 +10,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 // import 'dart:html' as html;
 
@@ -86,7 +86,9 @@ class _AddCategoryState extends State<AddCategory> {
                       const SizedBox(
                         height: 10,
                       ),
-                      AdminPageContentUpperWidget(pageTitle: 'Add New Category',onTap: (){},linkTitle: 'All Category',),
+                      AdminPageContentUpperWidget(pageTitle: 'Add New Category',onTap: (){
+                        context.go('/admin/dashboard/category');
+                      },linkTitle: 'All Category',),
                       const SizedBox(
                         height: 10,
                       ),

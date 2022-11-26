@@ -1,5 +1,6 @@
 import 'package:ecommercefrontend/helpers/responsive_widget.dart';
 import 'package:ecommercefrontend/pages/admin/admin_home_dashboard.dart';
+import 'package:ecommercefrontend/pages/admin/content/brand_content.dart';
 import 'package:ecommercefrontend/pages/admin/content/category_content.dart';
 import 'package:ecommercefrontend/pages/admin/content/product_content.dart';
 import 'package:ecommercefrontend/pages/auth/authentication.dart';
@@ -44,6 +45,13 @@ const String adminSpecificProductDetails = 'adminSpecificProductDetails';
 const String adminAddNewProduct = 'adminAddNewProduct';
 const String adminSpecificCategoryAdd = 'adminSpecificCategoryAdd';
 const String adminCategoryViewAll = 'adminCategoryViewAll';
+
+
+const String adminBrandViewAll = 'adminBrandViewAll';
+const String adminSpecificBrandAdd = 'adminSpecificBrandAdd';
+const String specificBrandUpdate = 'specificBrandUpdate';
+
+
 
 
 const String customerAccount = 'customerAccount';
@@ -331,6 +339,64 @@ GoRouter router = GoRouter(
               //
               //   ]
               // ),
+
+              // admin brand
+              GoRoute(
+                  path: 'brand',
+                  name: adminBrandViewAll,
+                  pageBuilder: (context, state){
+                    return NoTransitionPage(
+                      key: state.pageKey,
+                      child: ResponsiveWidget(
+                        key: state.pageKey,
+                        largeScreen: AdminLargeScreen(
+                          child: AdminBrandContentPage(title: "view",),
+                        ),
+                        mediumScreen: MediumScreen(),
+                        smallScreen: SmallScreen(),
+                      ),
+                    );
+                  },
+                  routes: [
+                    GoRoute(
+                      path: 'add',
+                      name: adminSpecificBrandAdd,
+                      pageBuilder: (context, state){
+                        return NoTransitionPage(
+                          key: state.pageKey,
+                          child: ResponsiveWidget(
+                            key: state.pageKey,
+                            largeScreen: AdminLargeScreen(
+                              child: AdminBrandContentPage(title: "add",),
+                            ),
+                            mediumScreen: MediumScreen(),
+                            smallScreen: SmallScreen(),
+                          ),
+                        );
+                      },
+                    ),
+                    GoRoute(
+                      path: 'update/:id',
+                      name: specificBrandUpdate,
+                      pageBuilder: (context, state){
+                        return NoTransitionPage(
+                          key: state.pageKey,
+                          child: ResponsiveWidget(
+                            key: state.pageKey,
+                            largeScreen: const AdminLargeScreen(
+                              child: AdminBrandContentPage(title: "update",),
+                            ),
+                            mediumScreen: MediumScreen(),
+                            smallScreen: SmallScreen(),
+                          ),
+                        );
+                      },
+                    ),
+                  ]
+              ),
+
+
+              // admin category
               GoRoute(
                   path: 'category',
                   name: adminCategoryViewAll,

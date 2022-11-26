@@ -8,8 +8,7 @@ import 'package:ecommercefrontend/services/api/product_api_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
-class ProductController extends GetxController
-{
+class ProductController extends GetxController{
 
   static ProductController instance = Get.find();
 

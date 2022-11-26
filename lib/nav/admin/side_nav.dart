@@ -17,6 +17,10 @@ List<String> _itemList = [
   'settings',
 ];
 
+List<String> _productSubItemList = ['add product','product list'];
+List<String> _categorySubItemList = ['add category','category list'];
+List<String> _brandSubItemList = ['add brand','brand list'];
+
 class SideNav extends StatelessWidget {
   SideNav({Key? key}) : super(key: key);
 
@@ -54,8 +58,9 @@ class SideNav extends StatelessWidget {
                   SideNavItem(title: 'overview',icon: Icons.menu_open_rounded,onTap: (){
                     context.go('/admin/dashboard/overview');
                   },),
-                  _expandableProductAction('products',context),
-                  _expandableCategoryAction('category',context),
+                  _expandableAction('product',context,_productSubItemList),
+                  _expandableAction('category',context,_categorySubItemList),
+                  _expandableAction('brand',context,_brandSubItemList),
                   SideNavItem(title: 'order',icon: Icons.shopping_bag,onTap: (){
                     context.go('/admin/dashboard/order');
                   },),
@@ -73,7 +78,7 @@ class SideNav extends StatelessWidget {
     );
   }
 
-  Widget _expandableProductAction(String title,BuildContext context) {
+  Widget _expandableAction(String title,BuildContext context,List<String> list) {
     return ExpansionTile(
       iconColor: TEXT_WHITE,
       collapsedIconColor: TEXT_WHITE,
@@ -89,9 +94,10 @@ class SideNav extends StatelessWidget {
       ),
       children: [
         NavItem(
-          title: 'add product'.toTitleCase(),
+          title: list[0].toTitleCase(),
           onTap: () {
-            context.go('/admin/dashboard/product/add');
+            // context.go('/admin/dashboard/product/add');
+            context.go('/admin/dashboard/$title/add');
           },
           color: TEXT_WHITE,
           textSize: 14,
@@ -100,53 +106,13 @@ class SideNav extends StatelessWidget {
           height: 15,
         ),
         NavItem(
-          title: 'product list'.toTitleCase(),
+          title: list[1].toTitleCase(),
           onTap: () {
-            context.go('/admin/dashboard/product');
+            // context.go('/admin/dashboard/product');
+            context.go('/admin/dashboard/$title');
           },
           color: TEXT_WHITE,
           textSize: 14,
-        ),
-      ],
-    );
-  }
-
-  Widget _expandableCategoryAction(String title,BuildContext context) {
-    return ExpansionTile(
-      iconColor: TEXT_WHITE,
-      collapsedIconColor: TEXT_WHITE,
-      childrenPadding: const EdgeInsets.only(left: 12),
-      tilePadding: const EdgeInsets.all(0),
-      title: CustomText(
-        text: title.toCapitalized(),
-        size: 14,
-        weight: FontWeight.w400,
-        // color: Colors.white,
-        color: TEXT_WHITE,
-      ),
-      expandedCrossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        NavItem(
-          title: 'add category'.toTitleCase(),
-          onTap: () {
-            context.go('/admin/dashboard/category/add');
-          },
-          color: TEXT_WHITE,
-          textSize: 14,
-        ),
-        const SizedBox(
-          height: 15,
-        ),
-        NavItem(
-          title: 'category list'.toTitleCase(),
-          onTap: () {
-            context.go('/admin/dashboard/category');
-          },
-          color: TEXT_WHITE,
-          textSize: 14,
-        ),
-        const SizedBox(
-          height: 15,
         ),
       ],
     );

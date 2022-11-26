@@ -119,7 +119,9 @@ class _UpdateCategoryState extends State<UpdateCategory> {
                       const SizedBox(
                         height: 10,
                       ),
-                      AdminPageContentUpperWidget(pageTitle: 'Category Update',onTap: (){},linkTitle: 'All Category',),
+                      AdminPageContentUpperWidget(pageTitle: 'Category Update',onTap: (){
+                        context.go('/admin/dashboard/category');
+                      },linkTitle: 'All Category',),
                       const SizedBox(
                         height: 10,
                       ),

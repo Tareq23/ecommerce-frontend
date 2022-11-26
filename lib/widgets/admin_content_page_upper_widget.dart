@@ -1,3 +1,4 @@
+import 'package:ecommercefrontend/constants/colors.dart';
 import 'package:ecommercefrontend/constants/controllers.dart';
 import 'package:ecommercefrontend/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +7,12 @@ class AdminPageContentUpperWidget extends StatelessWidget {
   final String pageTitle;
   final VoidCallback onTap;
   final String linkTitle;
-  const AdminPageContentUpperWidget({Key? key, required this.pageTitle, required this.onTap, required this.linkTitle}) : super(key: key);
+  const AdminPageContentUpperWidget(
+      {Key? key,
+      required this.pageTitle,
+      required this.onTap,
+      required this.linkTitle})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,14 +23,31 @@ class AdminPageContentUpperWidget extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          CustomText(text: pageTitle,size: 22,weight: FontWeight.w600,),
+          CustomText(
+            text: pageTitle,
+            size: 22,
+            weight: FontWeight.w600,
+          ),
           InkWell(
             onTap: onTap,
-            child: CustomText(text: linkTitle,size: 20,weight: FontWeight.w500,),
+            child: Container(
+              width: 200,
+              height: 45,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                color: YELLOW
+              ),
+              child: CustomText(
+                text: linkTitle,
+                size: 20,
+                weight: FontWeight.w500,
+                color: TEXT_WHITE,
+              ),
+            ),
           )
         ],
       ),
-
     );
   }
 }

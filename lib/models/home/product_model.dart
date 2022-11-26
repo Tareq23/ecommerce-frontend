@@ -15,6 +15,7 @@ class HomeProductModel
   bool? isImageExists;
   bool? isImageChanged;
   int? categoryId;
+  int? quantity;
   String? categoryName;
   String? categoryImageUrl;
   HomeProductModel(this.id,this.name,this.price,this.imageUrl,this.description);
@@ -37,6 +38,7 @@ class HomeProductModel
     id = json['id'];
     name = json['name'];
     price = json['price'];
+    quantity = json['quantity']??0;
     imageUrl = json['imageUrl'];
     description = json['description'];
     categoryId = json['categoryId'];

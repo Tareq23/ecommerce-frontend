@@ -7,6 +7,27 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+Widget customActionButton({Color textColor =TEXT_WHITE , required VoidCallback onTap, double width = 100, double height = 40, required String title, Color bgColor=YELLOW}) {
+  return InkWell(
+    onTap: onTap,
+    child: Container(
+      width: width,
+      height: height,
+      decoration: BoxDecoration(
+        color: bgColor,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      alignment: Alignment.center,
+      child: CustomText(
+        text: title,
+        size: 16,
+        weight: FontWeight.w600,
+        color: textColor,
+      ),
+    ),
+  );
+}
+
 Widget textFormFieldOnlyNumber(
     {required String hint, TextEditingController? controller}) {
   return TextFormField(
@@ -133,23 +154,30 @@ DropdownButtonFormField locationSelectDropDown(
     bool isSubDistrict = false}) {
   return DropdownButtonFormField(
     decoration: InputDecoration(
-        border: outlineInputBorder(),
-        focusedBorder: outlineInputBorder(),
-        enabledBorder: outlineInputBorder(),),
+      border: outlineInputBorder(),
+      focusedBorder: outlineInputBorder(),
+      enabledBorder: outlineInputBorder(),
+    ),
     isExpanded: true,
     value: null,
     hint: CustomText(
       text: isDivision
           ? overallController.selectDivisionName.value
           : isDistrict
-          ? overallController.selectDistrictName.value
-          : isSubDistrict
-          ? overallController.selectSubDistrictName.value
-          : '',
+              ? overallController.selectDistrictName.value
+              : isSubDistrict
+                  ? overallController.selectSubDistrictName.value
+                  : '',
     ),
     items: [
       DropdownMenuItem(
-        value: isDivision?  'বিভাগ' : isDistrict? 'জেলা' : isSubDistrict? 'উপজেলা' : '',
+        value: isDivision
+            ? 'বিভাগ'
+            : isDistrict
+                ? 'জেলা'
+                : isSubDistrict
+                    ? 'উপজেলা'
+                    : '',
         // value: isDivision
         //     ? overallController.selectDivisionName.value
         //     : isDistrict
@@ -165,52 +193,63 @@ DropdownButtonFormField locationSelectDropDown(
           //     : isSubDistrict
           //     ? overallController.selectSubDistrictName.value
           //     : '',
-          text: isDivision?  'বিভাগ' : isDistrict? 'জেলা' : isSubDistrict? 'উপজেলা' : '',
+          text: isDivision
+              ? 'বিভাগ'
+              : isDistrict
+                  ? 'জেলা'
+                  : isSubDistrict
+                      ? 'উপজেলা'
+                      : '',
         ),
       ),
-      if(isDivision && locationController.division.isNotEmpty)
-      ...locationController.division.map((e) => DropdownMenuItem<String>(
+      if (isDivision && locationController.division.isNotEmpty)
+        ...locationController.division.map(
+          (e) => DropdownMenuItem<String>(
             value: e.bnName,
             child: CustomText(
               text: e.bnName!,
             ),
-          ),),
-
-      if(isDistrict && locationController.district.isNotEmpty)
-      ...locationController.district.map((e) => DropdownMenuItem<String>(
+          ),
+        ),
+      if (isDistrict && locationController.district.isNotEmpty)
+        ...locationController.district.map(
+          (e) => DropdownMenuItem<String>(
             value: e.bnName,
             child: CustomText(
               text: e.bnName!,
             ),
-          ),),
-
-      if(isSubDistrict && locationController.subDistrict.isNotEmpty)
-      ...locationController.subDistrict.map((e) => DropdownMenuItem<String>(
+          ),
+        ),
+      if (isSubDistrict && locationController.subDistrict.isNotEmpty)
+        ...locationController.subDistrict.map(
+          (e) => DropdownMenuItem<String>(
             value: e.bnName,
             child: CustomText(
               text: e.bnName!,
             ),
-          ),)
+          ),
+        )
     ],
-    onChanged: (value) async{
-      if(isDivision) {
-        if(value != overallController.selectDivisionName.value ){
+    onChanged: (value) async {
+      if (isDivision) {
+        if (value != overallController.selectDivisionName.value) {
           overallController.selectDistrictName.value = 'জেলা';
           overallController.selectSubDistrictName.value = 'উপজেলা';
-          await locationController.reloadLocationData(isDivision: true,value : value);
+          await locationController.reloadLocationData(
+              isDivision: true, value: value);
         }
         overallController.selectDivisionName.value = value!;
       }
-      if(isDistrict) {
+      if (isDistrict) {
         // overallController.selectDistrictName.value = value!;
-        if(value != overallController.selectDistrictName.value ){
+        if (value != overallController.selectDistrictName.value) {
           overallController.selectSubDistrictName.value = 'উপজেলা';
-          await locationController.reloadLocationData(isDistrict: true,value : value);
+          await locationController.reloadLocationData(
+              isDistrict: true, value: value);
         }
         overallController.selectDistrictName.value = value!;
-
       }
-      if(isSubDistrict) {
+      if (isSubDistrict) {
         overallController.selectSubDistrictName.value = value!;
       }
     },

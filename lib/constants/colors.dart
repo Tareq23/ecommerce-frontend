@@ -20,7 +20,8 @@ const Color ROOT_BACKGROUND_COLOR = Color(0xffefefef);
 const Color FOOTER_BACKGROUND_COLOR = Color(0xff3d464d);
 const Color TEXT_FIELD_BORDER = Color(0xff656565);
 
-const Color ADMIN_BG_SEAL_BROWN = Color(0xff131313);
+const Color ADMIN_BG_SEAL_BROWN = Color(0xff343434);
 const Color DIVIDER = Color(0xff1f1f1f);
 const Color HIGH_LIGHT_COLOR = Color(0xff505050);
 const Color BUTTON_BLUE = Color(0xff288582);
+const Color BUTTON_BG = Color(0xff03132a);

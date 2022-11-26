@@ -23,7 +23,9 @@ class OrderModel {
 
 List<OrderModel> orderList = [
 OrderModel(id: 1,date: DateTime(2022,1,1),status: 'Cancelled',productList : [ProductModel.orderedProduct(id: 1,imageUrl: '',quantity: 1, title: 'product title/name')]),
-OrderModel(id: 1,date: DateTime(2022,1,1),status: 'Delivered',productList : [ProductModel.orderedProduct(id: 1,imageUrl: '',quantity: 1, title: 'product title/name'),ProductModel.orderedProduct(id: 1,imageUrl: '',quantity: 1, title: 'product title/name'),ProductModel.orderedProduct(id: 1,imageUrl: '',quantity: 1, title: 'product title/name')]),
+OrderModel(id: 1,date: DateTime(2022,1,1),status: 'Delivered',productList : [ProductModel.orderedProduct(id: 1,imageUrl: '',quantity: 1, title: 'product title/name'),
+  ProductModel.orderedProduct(id: 1,imageUrl: '',quantity: 1, title: 'product title/name'),
+  ProductModel.orderedProduct(id: 1,imageUrl: '',quantity: 1, title: 'product title/name')]),
 OrderModel(id: 1,date: DateTime(2022,1,1),status: 'Cancelled',productList : [ProductModel.orderedProduct(id: 1,imageUrl: '',quantity: 1, title: 'product title/name')]),
 OrderModel(id: 1,date: DateTime(2022,1,1),status: 'Delivered',productList : [ProductModel.orderedProduct(id: 1,imageUrl: '',quantity: 1, title: 'product title/name')]),
 ];
