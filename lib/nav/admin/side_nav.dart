@@ -17,9 +17,15 @@ List<String> _itemList = [
   'settings',
 ];
 
-List<String> _productSubItemList = ['add product','product list'];
-List<String> _categorySubItemList = ['add category','category list'];
-List<String> _brandSubItemList = ['add brand','brand list'];
+List<String> _productSubItemList = ['add product', 'product list'];
+List<String> _categorySubItemList = ['add category', 'category list'];
+List<String> _brandSubItemList = ['add brand', 'brand list'];
+List<String> _orderSubItemList = [
+  'view',
+  'payment complete',
+  'payment pending',
+  'new order'
+];
 
 class SideNav extends StatelessWidget {
   SideNav({Key? key}) : super(key: key);
@@ -29,9 +35,10 @@ class SideNav extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(0),
       decoration: const BoxDecoration(
-          border: Border(
-        right: BorderSide(width: 1.2, color: DIVIDER),
-      ),),
+        border: Border(
+          right: BorderSide(width: 1.2, color: DIVIDER),
+        ),
+      ),
       constraints: BoxConstraints(
         minHeight: overallController.adminSideNavHeight.value,
         maxWidth: overallController.adminSideNavWidth.value,
@@ -39,35 +46,52 @@ class SideNav extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            margin: const EdgeInsets.only(bottom: 20,top: 20),
-            child: NavItem(
-              title: 'Home',
-              textSize: 18,
-              color: TEXT_WHITE,
-              onTap: (){
-                context.go('/');
-              },
-            )
-          ),
+              margin: const EdgeInsets.only(bottom: 20, top: 20),
+              child: NavItem(
+                title: 'Home',
+                textSize: 18,
+                color: TEXT_WHITE,
+                onTap: () {
+                  context.go('/');
+                },
+              )),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SideNavItem(title: 'overview',icon: Icons.menu_open_rounded,onTap: (){
-                    context.go('/admin/dashboard/overview');
-                  },),
-                  _expandableAction('product',context,_productSubItemList),
-                  _expandableAction('category',context,_categorySubItemList),
-                  _expandableAction('brand',context,_brandSubItemList),
-                  SideNavItem(title: 'order',icon: Icons.shopping_bag,onTap: (){
-                    context.go('/admin/dashboard/order');
-                  },),
-                  const SizedBox(height: 20,),
-                  SideNavItem(title: 'settings',icon: Icons.settings,onTap: (){
-                    context.go('/admin/dashboard/settings');
-                  },),
+                  SideNavItem(
+                    title: 'overview',
+                    icon: Icons.menu_open_rounded,
+                    onTap: () {
+                      context.go('/admin/dashboard');
+                    },
+                  ),
+                  _expandableAction('product', context, _productSubItemList),
+                  _expandableAction('category', context, _categorySubItemList),
+                  _expandableAction('brand', context, _brandSubItemList),
+                  _expandableOrderAction('order', context, _orderSubItemList),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  SideNavItem(
+                    title: 'settings',
+                    icon: Icons.settings,
+                    onTap: () {
+                      context.go('/admin/dashboard/settings');
+                    },
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  SideNavItem(
+                    title: 'My Account',
+                    icon: Icons.person_sharp,
+                    onTap: () {
+                      context.go('/user/1/account');
+                    },
+                  ),
                 ],
               ),
             ),
@@ -78,7 +102,8 @@ class SideNav extends StatelessWidget {
     );
   }
 
-  Widget _expandableAction(String title,BuildContext context,List<String> list) {
+  Widget _expandableAction(
+      String title, BuildContext context, List<String> list) {
     return ExpansionTile(
       iconColor: TEXT_WHITE,
       collapsedIconColor: TEXT_WHITE,
@@ -110,6 +135,74 @@ class SideNav extends StatelessWidget {
           onTap: () {
             // context.go('/admin/dashboard/product');
             context.go('/admin/dashboard/$title');
+          },
+          color: TEXT_WHITE,
+          textSize: 14,
+        ),
+      ],
+    );
+  }
+
+  Widget _expandableOrderAction(
+      String title, BuildContext context, List<String> list) {
+    return ExpansionTile(
+      iconColor: TEXT_WHITE,
+      collapsedIconColor: TEXT_WHITE,
+      childrenPadding: const EdgeInsets.all(0),
+      expandedCrossAxisAlignment: CrossAxisAlignment.start,
+      tilePadding: const EdgeInsets.all(0),
+      title: CustomText(
+        text: title.toCapitalized(),
+        size: 14,
+        weight: FontWeight.w400,
+        // color: Colors.white,
+        color: TEXT_WHITE,
+      ),
+      children: [
+        NavItem(
+          title: 'All $title List',
+          onTap: () {
+            // context.go('/admin/dashboard/product/add');
+            context.go('/admin/dashboard/$title');
+          },
+          color: TEXT_WHITE,
+          textSize: 14,
+        ),
+        const SizedBox(
+          height: 15,
+        ),
+        NavItem(
+          title: list[1].toTitleCase(),
+          onTap: () {
+            // context.go('/admin/dashboard/product');
+            context
+                .go('/admin/dashboard/$title/${list[1].split(" ").join("/")}');
+          },
+          color: TEXT_WHITE,
+          textSize: 14,
+        ),
+        const SizedBox(
+          height: 15,
+        ),
+        NavItem(
+          title: list[2].toTitleCase(),
+          onTap: () {
+            // context.go('/admin/dashboard/product');
+            context
+                .go('/admin/dashboard/$title/${list[2].split(" ").join("/")}');
+          },
+          color: TEXT_WHITE,
+          textSize: 14,
+        ),
+        const SizedBox(
+          height: 15,
+        ),
+        NavItem(
+          title: list[3].toTitleCase(),
+          onTap: () {
+            // context.go('/admin/dashboard/product');
+            context
+                .go('/admin/dashboard/$title/${list[3].split(" ").join("-")}');
           },
           color: TEXT_WHITE,
           textSize: 14,
@@ -150,7 +243,9 @@ class SideNavItem extends StatelessWidget {
                     ? ITEM_HOVER
                     : TEXT_WHITE,
               ),
-              const SizedBox(width: 17,),
+              const SizedBox(
+                width: 17,
+              ),
               Container(
                 decoration: BoxDecoration(
                   color: Colors.transparent,

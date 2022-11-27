@@ -1,5 +1,6 @@
 
 
+import 'package:ecommercefrontend/models/address_model.dart';
 import 'package:ecommercefrontend/models/product_model.dart';
 
 class OrderModel {
@@ -8,9 +9,14 @@ class OrderModel {
   DateTime? date;
   String? status;
   List<ProductModel>? productList;
+  AddressModel? address;
 
 
   OrderModel({this.id,this.date,this.status,this.productList});
+
+  OrderModel.withAddress({this.id,this.date,this.status,this.productList,this.address});
+
+
 
   OrderModel.parseJson(Map<String,dynamic>json){
     id = json['id'];
@@ -19,7 +25,11 @@ class OrderModel {
     productList = json['products'].map((e) => ProductModel.parseOrder(e));
   }
 
+  OrderModel.empty();
+
 }
+
+
 
 List<OrderModel> orderList = [
 OrderModel(id: 1,date: DateTime(2022,1,1),status: 'Cancelled',productList : [ProductModel.orderedProduct(id: 1,imageUrl: '',quantity: 1, title: 'product title/name')]),

@@ -27,7 +27,7 @@ List<Widget> _contentWidget = [
   AdminProductContentPage(),//0
   AdminCategoryContentPage(),//1
   SettingsContent(),//2
-  OderContent(),//3
+  AdminOderContentPage(title: 'view',),//3
   CustomerContent(),//4
   OverviewContent(),//5
   AddProduct(),//6

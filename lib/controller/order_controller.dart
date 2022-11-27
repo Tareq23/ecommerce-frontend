@@ -1,11 +1,17 @@
 
 
 import 'package:ecommercefrontend/constants/controllers.dart';
+import 'package:ecommercefrontend/models/order_model.dart';
+import 'package:ecommercefrontend/models/product_model.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class OrderController extends GetxController{
 
+  static OrderController instance = Get.find();
+
+
+  var singleOrder = OrderModel.empty().obs;
 
   Future<void> resetOrderedProductId() async {
     final SharedPreferences prefs = await sharedPreference;

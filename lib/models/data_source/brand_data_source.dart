@@ -29,6 +29,7 @@ class BrandDataSource extends DataTableSource{
   @override
   DataRow? getRow(int index) {
     return DataRow(cells: [
+      //id
       DataCell(
         CustomText(
           text: '${categoryController.categoryListAdmin[index].id}',
@@ -36,6 +37,8 @@ class BrandDataSource extends DataTableSource{
           color: TEXT_WHITE.withOpacity(0.8),
         ),
       ),
+
+      //name
       DataCell(
         CustomText(
           text: '${categoryController.categoryListAdmin[index].name}',
@@ -43,15 +46,10 @@ class BrandDataSource extends DataTableSource{
           color: TEXT_WHITE,
         ),
       ),
-      DataCell(
-        // CustomText(text: dataList[index]['image_url'].toString(),size: 16,color: TEXT_DARK.withOpacity(0.8),),
-        loadImage(
-            imageUrl: 'd',
-            width: 200,
-            height: 120),
-      ),
 
 
+
+      // brand products
       DataCell(
         InkWell(
           onTap: (){
@@ -74,6 +72,8 @@ class BrandDataSource extends DataTableSource{
           ),
         ),
       ),
+
+      // brand edit
       DataCell(
         InkWell(
           onTap: (){
@@ -97,6 +97,8 @@ class BrandDataSource extends DataTableSource{
           ),
         ),
       ),
+
+      // brand delete
       DataCell(
         InkWell(
           onTap: (){

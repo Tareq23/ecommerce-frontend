@@ -2,6 +2,7 @@ import 'package:ecommercefrontend/helpers/responsive_widget.dart';
 import 'package:ecommercefrontend/pages/admin/admin_home_dashboard.dart';
 import 'package:ecommercefrontend/pages/admin/content/brand_content.dart';
 import 'package:ecommercefrontend/pages/admin/content/category_content.dart';
+import 'package:ecommercefrontend/pages/admin/content/order_content.dart';
 import 'package:ecommercefrontend/pages/admin/content/product_content.dart';
 import 'package:ecommercefrontend/pages/auth/authentication.dart';
 import 'package:ecommercefrontend/pages/category/specific_category_products_pages.dart';
@@ -52,6 +53,13 @@ const String adminSpecificBrandAdd = 'adminSpecificBrandAdd';
 const String specificBrandUpdate = 'specificBrandUpdate';
 
 
+const String adminOrderContentPage = 'adminOrderContentPage';
+const String adminOrderPaymentCompletePage = 'adminOrderPaymentCompletePage';
+const String adminOrderPaymentPendingPage = 'adminOrderPaymentPendingPage';
+const String adminOrderNewOrderPage = 'adminOrderNewOrderPage';
+const String adminOrderDetailsPage = 'adminOrderDetailsPage';
+
+
 
 
 const String customerAccount = 'customerAccount';
@@ -64,6 +72,7 @@ const String customerAccountAddNewAddress = 'customerAccountAddNewAddress';
 
 const String shippingPlaceOrderPage = 'shippingPlaceOrderPage';
 const String checkoutPlaceOrderPage = 'checkoutPlaceOrderPage';
+
 
 GoRouter router = GoRouter(
   initialLocation: '/',
@@ -254,20 +263,6 @@ GoRouter router = GoRouter(
           },
         ),
 
-        // user account add new address page
-        // GoRoute(
-        //   path: 'user/address/:id/account',
-        //   name: customerAccountAddress,
-        //   pageBuilder: (context, state) {
-        //     return NoTransitionPage(
-        //       key: state.pageKey,
-        //       child: LargeScreen(
-        //         title: '/',
-        //         child: CustomerAccountAddressPage(),
-        //       ),
-        //     );
-        //   },
-        // ),
 
 
         //specificCategoryProducts
@@ -395,7 +390,6 @@ GoRouter router = GoRouter(
                   ]
               ),
 
-
               // admin category
               GoRoute(
                   path: 'category',
@@ -450,6 +444,8 @@ GoRouter router = GoRouter(
                     ),
                   ]
               ),
+
+              // admin product
               GoRoute(
                   path: 'product',
                   name: adminProductContentPage,
@@ -511,6 +507,96 @@ GoRouter router = GoRouter(
                             key: state.pageKey,
                             largeScreen: AdminLargeScreen(
                               child: AdminProductContentPage(title: 'add',),
+                            ),
+                            mediumScreen: MediumScreen(),
+                            smallScreen: SmallScreen(),
+                          ),
+                        );
+                      },
+                    ),
+                  ]
+              ),
+
+
+              // admin order section
+              GoRoute(
+                  path: 'order',
+                  name: adminOrderContentPage,
+                  pageBuilder: (context, state){
+                    return NoTransitionPage(
+                      key: state.pageKey,
+                      child: ResponsiveWidget(
+                        key: state.pageKey,
+                        largeScreen: AdminLargeScreen(
+                          child: AdminOderContentPage(title: 'view',),
+                        ),
+                        mediumScreen: MediumScreen(),
+                        smallScreen: SmallScreen(),
+                      ),
+                    );
+                  },
+                  routes: [
+                    GoRoute(
+                      path: 'payment/complete',
+                      name: adminOrderPaymentCompletePage,
+                      pageBuilder: (context, state){
+                        return NoTransitionPage(
+                          key: state.pageKey,
+                          child: ResponsiveWidget(
+                            key: state.pageKey,
+                            largeScreen: AdminLargeScreen(
+                              child: AdminOderContentPage(title: 'payment/complete',),
+                            ),
+                            mediumScreen: MediumScreen(),
+                            smallScreen: SmallScreen(),
+                          ),
+                        );
+                      },
+                    ),
+                    GoRoute(
+                      path: 'payment/pending',
+                      name: adminOrderPaymentPendingPage,
+                      pageBuilder: (context, state){
+                        return NoTransitionPage(
+                          key: state.pageKey,
+                          child: ResponsiveWidget(
+                            key: state.pageKey,
+                            largeScreen: AdminLargeScreen(
+                              child: AdminOderContentPage(title: 'payment/pending',),
+                            ),
+                            mediumScreen: MediumScreen(),
+                            smallScreen: SmallScreen(),
+                          ),
+                        );
+                      },
+                    ),
+                    GoRoute(
+                      path: 'new-order',
+                      name: adminOrderNewOrderPage,
+                      pageBuilder: (context, state){
+                        return NoTransitionPage(
+                          key: state.pageKey,
+                          child: ResponsiveWidget(
+                            key: state.pageKey,
+                            largeScreen: AdminLargeScreen(
+                              child: AdminOderContentPage(title: 'new-order',),
+                            ),
+                            mediumScreen: MediumScreen(),
+                            smallScreen: SmallScreen(),
+                          ),
+                        );
+                      },
+                    ),
+                    GoRoute(
+                      path: 'details/:id',
+                      name: adminOrderDetailsPage,
+                      pageBuilder: (context, state){
+                        return NoTransitionPage(
+                          key: state.pageKey,
+                          child: ResponsiveWidget(
+                            key: state.pageKey,
+                            largeScreen: const AdminLargeScreen(
+                              child: AdminOderContentPage(title: 'details',),
                             ),
                             mediumScreen: MediumScreen(),
                             smallScreen: SmallScreen(),

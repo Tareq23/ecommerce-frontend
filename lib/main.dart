@@ -6,6 +6,7 @@ import 'package:ecommercefrontend/controller/brand_controller.dart';
 import 'package:ecommercefrontend/controller/home/category_controller.dart';
 import 'package:ecommercefrontend/controller/home/product_controller.dart';
 import 'package:ecommercefrontend/controller/item_button_controller.dart';
+import 'package:ecommercefrontend/controller/order_controller.dart';
 import 'package:ecommercefrontend/controller/overall_controller.dart';
 import 'package:ecommercefrontend/controller/route_state_controller.dart';
 import 'package:ecommercefrontend/services/jwt/jwt_service.dart';
@@ -24,6 +25,7 @@ void main() {
   Get.put(ProductController());
   Get.put(LocationController());
   Get.put(BrandController());
+  Get.put(OrderController());
   runApp(MyApp());
 }
 
