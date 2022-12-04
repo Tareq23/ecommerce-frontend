@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:ecommercefrontend/constants/controllers.dart';
+import 'package:ecommercefrontend/models/category_model.dart';
 import 'package:ecommercefrontend/models/home/category_model.dart';
 import 'package:ecommercefrontend/services/api/api.dart';
 import 'package:ecommercefrontend/services/api/api_service.dart';
@@ -9,7 +10,7 @@ import 'package:ecommercefrontend/services/api/api_service.dart';
 
 class CategoryService {
 
-  static Future<List<CategoryModel>> homeCategory(Object object) async {
+  static Future<List<HomeCategoryModel>> homeCategory(Object object) async {
     try {
       var response = await ApiService.action(
         url: API.CATEGORY_URL,
@@ -23,7 +24,7 @@ class CategoryService {
       if (response.statusCode == 200) {
         var jsonString = jsonDecode(response.body) as List;
         return jsonString
-            .map((e) => CategoryModel.parseJsonWithoutProduct(e))
+            .map((e) => HomeCategoryModel.parseJsonWithoutProduct(e))
             .toList();
       }
     } catch (e) {
@@ -45,7 +46,7 @@ class CategoryService {
       if (response.statusCode == 200) {
         var jsonString = jsonDecode(response.body) as List;
         return jsonString
-            .map((e) => CategoryModel.parseJsonAll(e))
+            .map((e) => CategoryModel.parseJsonForHomeProduct(e))
             .toList();
       }
     } catch (e) {
@@ -53,7 +54,7 @@ class CategoryService {
     }
     return [];
   }
-  static Future<List<CategoryModel>> fetchAllCategoryAdmin(Object object) async {
+  static Future<List<HomeCategoryModel>> fetchAllCategoryAdmin(Object object) async {
     await authenticationController.getToken();
     try {
       var response = await ApiService.action(
@@ -70,7 +71,7 @@ class CategoryService {
       if (response.statusCode == 200) {
         var jsonString = jsonDecode(response.body) as List;
         return jsonString
-            .map((e) => CategoryModel.parseJsonWithoutProduct(e))
+            .map((e) => HomeCategoryModel.parseJsonWithoutProduct(e))
             .toList();
       }
     } catch (e) {
@@ -103,7 +104,7 @@ class CategoryService {
     // return [];
   }
 
-  static Future addCategory(CategoryModel category, Uint8List image) async {
+  static Future addCategory(HomeCategoryModel category, Uint8List image) async {
     await authenticationController.getToken();
     return ApiService.action(
         url: API.ADD_CATEGORY_URL,
@@ -118,7 +119,7 @@ class CategoryService {
         body: category);
   }
 
-  static Future deleteCategory(CategoryModel category) async {
+  static Future deleteCategory(HomeCategoryModel category) async {
     await authenticationController.getToken();
     // print('Bearer ${authenticationController.accessToken.value}');
     return ApiService.action(
@@ -133,7 +134,7 @@ class CategoryService {
   }
 
 
-  static Future updateCategory(CategoryModel category, Uint8List image) async {
+  static Future updateCategory(HomeCategoryModel category, Uint8List image) async {
     await authenticationController.getToken();
     // print('Bearer ${authenticationController.accessToken.value}');
     return ApiService.action(
@@ -151,7 +152,7 @@ class CategoryService {
     );
   }
 
-  static Future<CategoryModel> fetchCategoryById(int id) async {
+  static Future<HomeCategoryModel> fetchCategoryById(int id) async {
     await authenticationController.getToken();
     // print('Bearer ${authenticationController.accessToken.value}');
     var response = await ApiService.action(
@@ -167,8 +168,8 @@ class CategoryService {
     if (response.statusCode == 200) {
       var jsonString = jsonDecode(response.body);
       // print('category json $jsonString');
-      return CategoryModel.parseJsonWithoutProduct(jsonString);
+      return HomeCategoryModel.parseJsonWithoutProduct(jsonString);
     }
-    return CategoryModel.empty();
+    return HomeCategoryModel.empty();
   }
 }

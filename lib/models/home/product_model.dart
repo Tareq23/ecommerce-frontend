@@ -18,6 +18,7 @@ class HomeProductModel
   int? quantity;
   String? categoryName;
   String? categoryImageUrl;
+
   HomeProductModel(this.id,this.name,this.price,this.imageUrl,this.description);
 
   HomeProductModel.parseJson(Map<String,dynamic>json){
@@ -34,7 +35,7 @@ class HomeProductModel
     imageUrl = product['imageUrl'];
   }
 
-  HomeProductModel.parseJsonWithCategory(Map<String,dynamic>json){
+  HomeProductModel.parseJsonWithCategoryAndBrand(Map<String,dynamic>json){
     id = json['id'];
     name = json['name'];
     price = json['price'];

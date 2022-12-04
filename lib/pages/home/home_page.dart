@@ -26,10 +26,10 @@ class _HomePageState extends State<HomePage> {
 
 
   @override
-  void didChangeDependencies() {
+  void didChangeDependencies() async{
 
     if(!_check){
-      // categoryController.fetchAllCategory();
+      await categoryController.fetchAllCategoryWithProductForHomePage();
       // overallController.isFetchedCategoryProduct.value = true;
       setState(() {
         _check = true;
@@ -71,9 +71,33 @@ class _HomePageState extends State<HomePage> {
         //   if(e.productList!.isEmpty) return const SizedBox.shrink();
         //   return ProductSection(sectionTitle: '${e.name}');
         // }),
-        const ProductSection(sectionTitle: 'FEATURE PRODUCT'),
+        // ProductSection(sectionTitle: 'FEATURE PRODUCT'),
         const SizedBox(height: 24,),
-        const ProductSection(sectionTitle: 'RECENT PRODUCT'),
+
+        Obx((){
+          if(categoryController.categoryListWithProduct.isEmpty){
+            return CircularProgressIndicator(strokeWidth: 10,color: Colors.grey,);
+          }
+          return SizedBox(
+            child: Column(
+              children: [
+                ...categoryController.categoryListWithProduct.asMap().entries.map((e){
+                  if(e.value.products!.isEmpty){
+                    return const SizedBox.shrink();
+                  }
+                  return Padding(
+                    padding: const EdgeInsets.only(top: 35.0),
+                    child: ProductSection(sectionTitle: e.value.title!,index:e.key),
+                  );
+                })
+              ],
+            )
+          );
+        }),
+
+
+        const SizedBox(height: 24,),
+        // ProductSection(sectionTitle: 'RECENT PRODUCT'),
         const SizedBox(height: 24,),
         FooterSection(height: 500,),
         // homePageWidgetList.elementAt(homePageContentIndex),

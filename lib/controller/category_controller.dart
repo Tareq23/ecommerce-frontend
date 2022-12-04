@@ -2,6 +2,7 @@
 
 import 'dart:typed_data';
 
+import 'package:ecommercefrontend/models/category_model.dart';
 import 'package:ecommercefrontend/models/home/category_model.dart';
 import 'package:ecommercefrontend/services/api/categorty_api_service.dart';
 import 'package:flutter/foundation.dart';
@@ -15,8 +16,8 @@ class CategoryController extends GetxController
   var categoryListSerial = 0.obs;
 
 
-  var categoryList = <CategoryModel>[].obs;
-  var categoryListAdmin = <CategoryModel>[].obs;
+  var categoryList = <HomeCategoryModel>[].obs;
+  var categoryListAdmin = <HomeCategoryModel>[].obs;
   var categoryListWithProduct = <CategoryModel>[].obs;
 
   var isLoadImage = false.obs;
@@ -25,7 +26,7 @@ class CategoryController extends GetxController
   var uploadCategoryAction = false.obs;
   var updateCategoryAction = false.obs;
 
-  var selectedCategory = CategoryModel.empty().obs;
+  var selectedCategory = HomeCategoryModel.empty().obs;
 
   @override
   void onInit() {
@@ -49,7 +50,7 @@ class CategoryController extends GetxController
   }
 
   Future<void> addCategory({required Uint8List? image,required String name}) async{
-    CategoryModel category = CategoryModel.addNew(name: name);
+    HomeCategoryModel category = HomeCategoryModel.addNew(name: name);
     var result = await CategoryService.addCategory(category, image!);
     uploadCategoryAction.value = false;
   }
@@ -65,7 +66,7 @@ class CategoryController extends GetxController
 
   }
   Future<void> updateCategory({required bool isImageChanged,required int id,required bool isImageExists, required Uint8List image,required String name}) async{
-    CategoryModel category = CategoryModel.empty();
+    HomeCategoryModel category = HomeCategoryModel.empty();
     category.id = id;
     category.name = name;
     category.imageUrl = selectedCategory.value.imageUrl;
@@ -75,8 +76,9 @@ class CategoryController extends GetxController
     updateCategoryAction.value = false;
   }
 
-  Future<void> fetchAllCategory() async{
+  Future<void> fetchAllCategoryWithProductForHomePage() async{
     var result = await CategoryService.fetchAllCategory({});
+
     categoryListWithProduct.assignAll(result);
 
   }

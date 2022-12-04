@@ -95,13 +95,13 @@ class _SpecificCategoryProductsPageState extends State<SpecificCategoryProductsP
                       ],
                     ),
                   ),
-                  Wrap(
-                    spacing: 20,
-                    runSpacing: 40,
-                    children: productList
-                        .map((product) => ProductCard(product: product,width: screenSize.width * 0.73,),)
-                        .toList(),
-                  ),
+                  // Wrap(
+                  //   spacing: 20,
+                  //   runSpacing: 40,
+                  //   children: productList
+                  //       .map((product) => ProductCard(product: product,width: screenSize.width * 0.73,),)
+                  //       .toList(),
+                  // ),
                   const SizedBox(height: 30,),
                 ],
               )

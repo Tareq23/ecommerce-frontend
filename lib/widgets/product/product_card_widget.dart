@@ -1,5 +1,6 @@
 
 import 'package:ecommercefrontend/constants/controllers.dart';
+import 'package:ecommercefrontend/constants/function.dart';
 import 'package:ecommercefrontend/models/category_model.dart';
 import 'package:ecommercefrontend/models/product_model.dart';
 import 'package:ecommercefrontend/widgets/custom_text.dart';
@@ -20,6 +21,17 @@ class ProductCard extends StatelessWidget {
   final double _cardHeight = 320;
   @override
   Widget build(BuildContext context) {
+    // print('-----------------------> product card  section : ${product.title}');
+    product.title= '${product.title} ${product.title} ${product.title} ${product.title}';
+    var titleLength = product.title!.length;
+    var text = product.title!;
+    print('-----------------------> product card  section title length : ${text.length}');
+
+    if(titleLength>50){
+      text = product.title!.substring(0,50);
+      text = '${product.title} ....';
+    }
+    print('-----------------------> product card  section title length : ${text.length}');
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       child: Link(
@@ -29,69 +41,83 @@ class ProductCard extends StatelessWidget {
           // print('------------------------<>------------------->${Uri.base}');
           return InkWell(
             onTap: followLink,
-            child: Container(
-              width: width*0.247,
-              height: _cardHeight,
-              padding: const EdgeInsets.all(0),
-              margin: const EdgeInsets.all(0),
-              color: Colors.white,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    width: double.infinity,
-                    height: _cardHeight * 0.6,
-                    padding: const EdgeInsets.all(8),
-                    child: Image.network(
-                      product.imageUrl.toString(),
+            child: Card(
+              elevation: 0,
+              margin: EdgeInsets.zero,
+              child: Container(
+                width:  width,
+                padding: const EdgeInsets.all(0),
+                margin: const EdgeInsets.all(0),
+                color: BG_WHITE,
+                height: 500,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
                       width: double.infinity,
-                      height: double.infinity,
-                      fit: BoxFit.fill,
+                      padding: const EdgeInsets.all(0),
+                      child: loadImage(imageUrl: product.imageUrl.toString(), width: width, height: 300),
                     ),
-                  ),
-                  Container(
-                    width: double.infinity,
-                    height: _cardHeight * 0.4,
-                    padding: const EdgeInsets.only(left: 10),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        CustomText(
-                          text: product.title.toString(),
-                          size: 18,
-                          weight: FontWeight.w500,
-                          color: TEXT_DARK,
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        CustomText(
-                          text:"\$${product.price}",
-                          size: 18,
-                          weight: FontWeight.w500,
-                          color: TEXT_DARK,
-                        ),
-                        RatingBar.builder(
-                          initialRating: 3.2,
-                          minRating: 1,
-                          direction: Axis.horizontal,
-                          allowHalfRating: true,
-                          itemCount: 5,
-                          itemPadding: const EdgeInsets.symmetric(horizontal: 2.0),
-                          itemSize: 23,
-                          itemBuilder: (context, _) => const Icon(
-                            Icons.star,
-                            color: Colors.amber,
+                    Container(
+                      width: double.infinity,
+                      // height: 320 * 0.4,
+                      padding: const EdgeInsets.only(left: 10),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const SizedBox(
+                            height: 12,
                           ),
-                          onRatingUpdate: (rating) {
-                            print('-------------------------------> rating $rating');
-                          },
-                        ),
-                      ],
+                          CustomText(
+                            text: titleLength>50 ? '${product.title!.substring(0,50)}....' : product.title!,
+                            size: 18,
+                            weight: FontWeight.w500,
+                            color: TEXT_DARK,
+                          ),
+                          const SizedBox(
+                            height: 18,
+                          ),
+                          CustomText(
+                            text:"\$${product.regularPrice}",
+                            size: 18,
+                            weight: FontWeight.w500,
+                            color: TEXT_DARK,
+                          ),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          CustomText(
+                            text:"\$${product.discountPrice}",
+                            size: 18,
+                            weight: FontWeight.w500,
+                            color: TEXT_DARK,
+                          ),
+                          const SizedBox(
+                            height: 18,
+                          ),
+                          RatingBar.builder(
+                            initialRating: 3.2,
+                            minRating: 1,
+                            direction: Axis.horizontal,
+                            allowHalfRating: true,
+                            itemCount: 5,
+                            itemPadding: const EdgeInsets.symmetric(horizontal: 2.0),
+                            itemSize: 23,
+                            itemBuilder: (context, _) => const Icon(
+                              Icons.star,
+                              color: Colors.amber,
+                            ),
+                            onRatingUpdate: (rating) {
+                              print('-------------------------------> rating $rating');
+                            },
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           );

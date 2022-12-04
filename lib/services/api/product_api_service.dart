@@ -105,7 +105,7 @@ class ProductService
     if (response.statusCode == 200) {
       var jsonString = jsonDecode(response.body);
       // print('category json $jsonString');
-      return HomeProductModel.parseJsonWithCategory(jsonString);
+      return HomeProductModel.parseJsonWithCategoryAndBrand(jsonString);
     }
     return HomeProductModel.empty();
   }

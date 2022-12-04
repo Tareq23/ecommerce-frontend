@@ -2,7 +2,7 @@
 
 import 'package:ecommercefrontend/models/home/product_model.dart';
 
-class CategoryModel
+class HomeCategoryModel
 {
   int? id;
   String? name;
@@ -13,9 +13,9 @@ class CategoryModel
   List<HomeProductModel>? productList;
 
   // CategoryModel(this.id,this.name,this.imageUrl,this.productList);
-  CategoryModel(this.id,this.name,this.imageUrl);
-  CategoryModel.empty();
-  CategoryModel.parseJsonAll(Map<String,dynamic>json){
+  HomeCategoryModel(this.id,this.name,this.imageUrl);
+  HomeCategoryModel.empty();
+  HomeCategoryModel.parseJsonAll(Map<String,dynamic>json){
     id = json['id'];
     name = json['name'];
     imageUrl = json['imageUrl'];
@@ -25,7 +25,7 @@ class CategoryModel
   }
 
 
-  CategoryModel.parseJsonWithoutProduct(Map<String,dynamic>json){
+  HomeCategoryModel.parseJsonWithoutProduct(Map<String,dynamic>json){
     id = json['id'];
     name = json['name'];
     imageUrl = json['imageUrl'];
@@ -41,6 +41,6 @@ class CategoryModel
     };
   }
 
-  CategoryModel.addNew({this.name});
-  CategoryModel.delete({this.id,this.name,this.imageUrl});
+  HomeCategoryModel.addNew({this.name});
+  HomeCategoryModel.delete({this.id,this.name,this.imageUrl});
 }

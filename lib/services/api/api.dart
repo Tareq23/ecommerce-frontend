@@ -26,7 +26,7 @@ class API
 
 
   // VISITOR OR CUSTOMER
-  static const String VISITOR_OR_CUSTOMER_ALL_CATEGORY_WITH_PRODUCT = '$BASE_URL/home/category/show/all';
+  static const String VISITOR_OR_CUSTOMER_ALL_CATEGORY_WITH_PRODUCT = '$BASE_URL/visitor-or-customer/products';
 
 
 }

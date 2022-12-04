@@ -3,8 +3,8 @@
 import 'package:ecommercefrontend/controller/address_location_controller.dart';
 import 'package:ecommercefrontend/controller/authentication_controller.dart';
 import 'package:ecommercefrontend/controller/brand_controller.dart';
-import 'package:ecommercefrontend/controller/home/category_controller.dart';
-import 'package:ecommercefrontend/controller/home/product_controller.dart';
+import 'package:ecommercefrontend/controller/category_controller.dart';
+import 'package:ecommercefrontend/controller/product_controller.dart';
 import 'package:ecommercefrontend/controller/item_button_controller.dart';
 import 'package:ecommercefrontend/controller/order_controller.dart';
 import 'package:ecommercefrontend/controller/overall_controller.dart';

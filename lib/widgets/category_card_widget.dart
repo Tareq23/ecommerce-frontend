@@ -11,7 +11,7 @@ import 'package:get/get.dart';
 import 'package:url_launcher/link.dart';
 
 class CategoryCard extends StatelessWidget {
-  final CategoryModel category;
+  final HomeCategoryModel category;
   CategoryCard({Key? key, required this.category}) : super(key: key);
   static double _width=0;
   double _cardHeight = 150;

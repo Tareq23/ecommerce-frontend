@@ -103,7 +103,7 @@ class _UpdateProductState extends State<UpdateProduct> {
           borderRadius: BorderRadius.circular(12),
           items: categoryController.categoryList
               .map(
-                (e) => DropdownMenuItem<CategoryModel>(
+                (e) => DropdownMenuItem<HomeCategoryModel>(
               value: e,
               child: CustomText(
                 text: e.name.toString(),
