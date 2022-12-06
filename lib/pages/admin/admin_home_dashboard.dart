@@ -25,9 +25,13 @@ class _AdminHomeState extends State<AdminHome> {
 
   @override
   Widget build(BuildContext context) {
-    if(!authenticationController.userLogin.value.isAdmin!){
-      context.go('/');
-    }
+    // if(mounted){
+    //   if(!authenticationController.isSuperAdmin.value){
+    //     context.go('/');
+    //   }
+    // }
+
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       mainAxisSize: MainAxisSize.min,

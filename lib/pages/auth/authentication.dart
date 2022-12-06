@@ -24,7 +24,7 @@ class AuthenticationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var authIndex = _rightItem.indexOf(title);
-    print('Authentication page .....................> > >   $title');
+    // print('Authentication page .....................> > >   $title');
     return Column(
       children: [
         const SecondTopNav(),

@@ -3,6 +3,7 @@
 import 'package:ecommercefrontend/constants/controllers.dart';
 import 'package:ecommercefrontend/models/home/category_model.dart';
 import 'package:ecommercefrontend/models/home/product_model.dart';
+import 'package:ecommercefrontend/models/product_model.dart';
 import 'package:ecommercefrontend/services/api/categorty_api_service.dart';
 import 'package:ecommercefrontend/services/api/product_api_service.dart';
 import 'package:flutter/foundation.dart';
@@ -15,6 +16,9 @@ class ProductController extends GetxController{
 
 
   var selectProduct = HomeProductModel.empty().obs;
+
+
+  var selectedProductForDetails = ProductModel.empty().obs;
 
 
 
@@ -64,6 +68,13 @@ class ProductController extends GetxController{
         categoryController.selectedCategory.value = categoryController.categoryList[i];
       }
     }
+  }
+
+  Future<void> fetchProductByIdForVisitorOrCustomer(int id) async{
+    var result = await ProductService.fetchProductByIdForVisitorOrCustomer(id);
+    selectedProductForDetails.value = result??ProductModel.empty();
+
+    print('-------------  selectedProductForDetails  : ${selectedProductForDetails.value.title}');
   }
 
 

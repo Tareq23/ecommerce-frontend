@@ -39,8 +39,8 @@ class _LoginWidgetState extends State<LoginWidget> {
       authenticationController.loginPassword.value = _passwordController.text;
     });
 
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      if(authenticationController.accessToken.value.length>20){
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async{
+      if(await authenticationController.isLoggedIn()){
         context.go('/');
       }
     });

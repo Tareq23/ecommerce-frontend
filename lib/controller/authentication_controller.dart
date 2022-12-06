@@ -25,6 +25,10 @@ class AuthenticationController extends GetxController
   var accessToken = ''.obs;
   var isLoginAction = false.obs;
   var isLogoutAction = false.obs;
+  var isLogIn = false.obs;
+  var isAdmin = false.obs;
+  var isManager = false.obs;
+  var isCustomer = false.obs;
   var userLogin = LoginModel("", "", "", false, false, false).obs;
 
 
@@ -32,9 +36,15 @@ class AuthenticationController extends GetxController
   var userRegister = RegisterModel("", "", "", "", "").obs;
   var isRegisterAction = false.obs;
 
+  var checkOnInit = false.obs;
+
   @override
-  void onInit() {
-    getToken();
+  void onInit() async {
+    if(!checkOnInit.value){
+      await isLoggedIn();
+      checkOnInit.value = true;
+    }
+
     super.onInit();
   }
 
@@ -42,17 +52,9 @@ class AuthenticationController extends GetxController
     CredentialModel credential = CredentialModel(loginUsername.value,loginPassword.value);
     var result = await AuthService.userLogin(credential);
     if(result.token != null){
-      _setToken(result);
-      // print('----------------- controller login method : ${result.isAdmin}');
-      // print('----------------- controller login method : ${result.isManager}');
-      // print('----------------- controller login method : ${result.isCustomer}');
       accessToken.value = result.token!;
-      userLogin.value = result;
+      await _setToken(result);
     }
-    print("login : ${accessToken.value}");
-    print("admin : ${userLogin.value.isAdmin}");
-    print("manager : ${userLogin.value.isManager}");
-    print("customer : ${userLogin.value.isCustomer}");
     isLoginAction.value = false;
   }
 
@@ -65,10 +67,6 @@ class AuthenticationController extends GetxController
       "phoneNumber" : userRegister.value.phoneNumber.toString(),
       "password" : userRegister.value.password.toString(),
     });
-    print('-----------------user register email : => ${result.username}');
-    print('-----------------user register last name : => ${result.firstName}');
-    print('-----------------user register first name : => ${result.lastName}');
-    print('-----------------user register password : => ${result.password}');
     if(result.username!.contains(userRegister.value.username.toString())){
       loginUsername.value = result.username.toString();
       loginPassword.value = userRegister.value.password.toString();
@@ -77,24 +75,30 @@ class AuthenticationController extends GetxController
     isRegisterAction.value = false;
   }
 
-  bool isExpired(){
-    // isSuperAdmin.value = JwtService.isSuperAdmin();
-    _validToken();
-    if(authenticationController.accessToken.value.length<20) return false;
-    print('-----  jwt service -----------is expired');
-    return  JwtDecoder.isExpired(accessToken.value);
-  }
 
-
-
-  _validToken(){
-    final checkToken = accessToken.value.split(".");
-    if(checkToken.length == 3){
-      print('----access token first part ----- ${checkToken[0]}');
+  Future<bool> isLoggedIn() async{
+    await getToken();
+    // isLogIn.value = false;
+    if(accessToken.value.isEmpty){
+      print('is loged in -----------> ${accessToken.value.isEmpty}');
+      return false;
     }
-    else{
-      print('----------------------------> invalid token');
+    bool checkLoggedIn = JwtDecoder.isExpired(accessToken.value);
+
+    // print('checkLoggedIn -----------> ${checkLoggedIn}');
+    // int time = JwtDecoder.getRemainingTime(accessToken.value).inSeconds;
+    // print('getRemainingTime -----------> ${JwtDecoder.getRemainingTime(accessToken.value).inSeconds} $time');
+    if(!checkLoggedIn){
+      isLogIn.value = true;
+      isAdmin.value = JwtService.isSuperAdmin();
+      isManager.value = JwtService.isManager();
+      isCustomer.value = JwtService.isCustomer();
+
+      return true;
     }
+    // await _setToken(LoginModel("", "", "", false, false, false));
+    await logout();
+    return false;
   }
 
 
@@ -105,28 +109,28 @@ class AuthenticationController extends GetxController
   Future<void> _setToken(LoginModel loginModel) async {
     final SharedPreferences prefs = await sharedPreference;
     prefs.setString('token', loginModel.token!);
-    prefs.setBool('admin', loginModel.isAdmin!);
-    prefs.setBool('customer', loginModel.isCustomer!);
-    prefs.setBool('manager', loginModel.isManager!);
-    await getToken();
+    prefs.setBool('admin', JwtService.isSuperAdmin());
+    prefs.setBool('customer', JwtService.isCustomer());
+    prefs.setBool('manager', JwtService.isManager());
+    await isLoggedIn();
   }
 
   Future<void> getToken() async{
     final SharedPreferences prefs = await sharedPreference;
     accessToken.value = prefs.getString('token')??'';
-    userLogin.value.isAdmin = prefs.getBool('admin')??false;
-    userLogin.value.isManager = prefs.getBool('manager')??false;
-    userLogin.value.isCustomer = prefs.getBool('customer')??false;
+    isAdmin.value = prefs.getBool('admin')??false;
+    isManager.value = prefs.getBool('manager')??false;
+    isCustomer.value = prefs.getBool('customer')??false;
   }
 
   Future<void> logout() async{
     accessToken.value = '';
     final SharedPreferences prefs = await sharedPreference;
-    // prefs.reload();
-    userLogin.value = LoginModel("", "", "", false, false, false);
-    isLogoutAction = false.obs;
-    await _setToken(userLogin.value);
-    print('logout --------------> access token : ${prefs.getString('token')}');
+    prefs.setString('token', '');
+    prefs.setBool('admin', false);
+    prefs.setBool('customer', false);
+    prefs.setBool('manager', false);
+    isLogIn.value = false;
   }
 
 }

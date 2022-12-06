@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:ecommercefrontend/nav/nav_item.dart';
 import 'package:ecommercefrontend/services/api/categorty_api_service.dart';
 import 'package:ecommercefrontend/services/jwt/jwt_service.dart';
+import 'package:ecommercefrontend/services/routes/routes.dart';
 import 'package:ecommercefrontend/widgets/common_widgets.dart';
 import 'package:ecommercefrontend/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
@@ -32,11 +33,13 @@ class _TopNavState extends State<TopNav> {
 
 
   @override
-  void didChangeDependencies() {
+  void didChangeDependencies() async{
 
     // print(' top nav ------> overallController.isDidChangeDependencies.value ${overallController.isDidChangeDependencies.value}');
     if(!overallController.isDidChangeDependencies.value){
-      print(' top nav ------> overallController.isDidChangeDependencies.value }');
+      await  authenticationController.isLoggedIn();
+      // print('access token ---------------> ${authenticationController.accessToken.value}');
+      // print('isLogIn ---------------> ${authenticationController.isLogIn.value}');
       overallController.isDidChangeDependencies.value = true;
     }
 
@@ -91,7 +94,8 @@ class _TopNavState extends State<TopNav> {
             // print('access token is expired   ${authenticationController.isExpired()}');
             // print('authenticationController.isSuperAdmin.value   ${authenticationController.isSuperAdmin.value}');
             // print('access token is expired   ${authenticationController.isExpired()}');
-            if(authenticationController.accessToken.value.length<20){
+            // if(authenticationController.accessToken.value.length<20){
+            if(!authenticationController.isLogIn.value){
               return SizedBox(
                 width: overallController.currentWidgetWidth.value * 0.4,
                 child: Row(
@@ -123,10 +127,10 @@ class _TopNavState extends State<TopNav> {
               );
             }
             else{
-              print('--------------top nav is admin : ${authenticationController.userLogin.value.isAdmin!}');
-              print('--------------top nav is customer : ${authenticationController.userLogin.value.isCustomer!}');
-              print('--------------top nav is token length : ${authenticationController.accessToken.value.length}');
-              if(authenticationController.userLogin.value.isAdmin!){
+              // print('--------------top nav is admin : ${authenticationController.userLogin.value.isAdmin!}');
+              // print('--------------top nav is customer : ${authenticationController.userLogin.value.isCustomer!}');
+              // print('--------------top nav is token length : ${authenticationController.accessToken.value.length}');
+              if(authenticationController.isAdmin.value || authenticationController.isManager.value){
                 return SizedBox(
                   child: Row(
                     children: [
@@ -140,7 +144,8 @@ class _TopNavState extends State<TopNav> {
                                 onTap: () {
                                   // authenticationController.logout();
                                   // print('logout -------------------------> ${authenticationController.accessToken.value}');
-                                  context.go('/admin/dashboard');
+                                  // context.go('/admin/dashboard');
+                                  GoRouter.of(context).pushNamed(adminRoot);
                                 },
                               );
                             },
@@ -167,7 +172,7 @@ class _TopNavState extends State<TopNav> {
                   ),
                 );
               }
-              else if(authenticationController.userLogin.value.isCustomer!){
+              else if(authenticationController.isCustomer.value){
                 return SizedBox(
                   child: Row(
                     children: [

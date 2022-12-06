@@ -39,8 +39,8 @@ class _ProductSectionState extends State<ProductSection> {
       color: Colors.transparent,
       alignment: Alignment.centerLeft,
       child: Obx((){
-        print('categoryController.categoryListWithProduct.elementAt(widget.index!).products! --------------> '
-            '${categoryController.categoryListWithProduct.elementAt(widget.index!).products!.length}');
+        // print('categoryController.categoryListWithProduct.elementAt(widget.index!).products! --------------> '
+        //     '${categoryController.categoryListWithProduct.elementAt(widget.index!).products!.length}');
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

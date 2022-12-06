@@ -20,7 +20,7 @@ class ProductDetails extends StatelessWidget {
         SizedBox(
           width: overallController.screenWidth.value,
           height: 400,
-          child: Center(
+          child: const Center(
             child: CustomText(text: 'specific category Product List Pages!!!!',),
           ),
         ),

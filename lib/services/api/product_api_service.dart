@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:ecommercefrontend/constants/controllers.dart';
 import 'package:ecommercefrontend/models/home/product_model.dart';
+import 'package:ecommercefrontend/models/product_model.dart';
 import 'package:ecommercefrontend/services/api/api.dart';
 import 'package:ecommercefrontend/services/api/api_service.dart';
 
@@ -108,5 +109,26 @@ class ProductService
       return HomeProductModel.parseJsonWithCategoryAndBrand(jsonString);
     }
     return HomeProductModel.empty();
+  }
+
+
+  static Future<dynamic> fetchProductByIdForVisitorOrCustomer(int id) async {
+    await authenticationController.getToken();
+    // print('Bearer ${authenticationController.accessToken.value}');
+    var response = await ApiService.action(
+      url: '${API.VISITOR_OR_CUSTOMER_PRODUCT_DETAILS_BY_ID}$id',
+      actionType: 'get',
+      headers:<String,String> {
+        'Content-Type': 'application/json',
+      },
+      body: {},
+    );
+    // print('Future<CategoryModel> fetchCategoryById status code : ${response.statusCode} \n response :  ${response.body}');
+    if (response.statusCode == 200) {
+      var jsonString = jsonDecode(response.body);
+      // print('category json $jsonString');
+      return ProductModel.parseJsonForProductDetails(jsonString);
+    }
+    return ProductModel.empty();
   }
 }

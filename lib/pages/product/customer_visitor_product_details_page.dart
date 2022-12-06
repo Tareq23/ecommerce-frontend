@@ -26,6 +26,21 @@ class CustomerOrVisitorProductDetailsPage extends StatefulWidget {
 
 class _CustomerOrVisitorProductDetailsPageState
     extends State<CustomerOrVisitorProductDetailsPage> {
+
+
+  @override
+  void didChangeDependencies() async {
+    String url = Uri.base.path;
+    print('------------------> product url path $url');
+    if(url.length>10){
+      int productId = int.parse(url.split('/').last);
+      productController.fetchProductByIdForVisitorOrCustomer(productId);
+    }
+
+    super.didChangeDependencies();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
@@ -42,58 +57,60 @@ class _CustomerOrVisitorProductDetailsPageState
         ),
 
         // product image, quantity, buy, add to cart button
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: commonPadding),
-          width: double.infinity,
-          child: Row(
-            children: [
-              Container(
-                width: width * 0.5,
-                height: 320,
-                padding: const EdgeInsets.all(10),
-                // color: Colors.red,
-                child: loadImage(imageUrl: 'image-url',width: width * 0.5,height: 300),
-              ),
-              Container(
-                width: width * 0.5,
-                // color: Colors.greenAccent,
-                padding: const EdgeInsets.all(10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    // PRODUCT NAME OR TITLE
-                    const CustomText(
-                      text: 'Product Name or Titile',
-                      size: 16,
-                      weight: FontWeight.w500,
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    // PRICE
-                    const CustomText(
-                      text: 'ট 456',
-                      size: 16,
-                      weight: FontWeight.w500,
-                      color: TEXT_RED,
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    // PRODUCT QUANTITY
-                    const SelectProductQuantityForBuy(),
-                    const SizedBox(
-                      height: 130,
-                    ),
-                    // product buy and add to button cart
-                    ProductBuyAndCartButtonWidget(),
-                  ],
+        Obx((){
+          return Container(
+            padding: EdgeInsets.symmetric(horizontal: commonPadding),
+            width: double.infinity,
+            child: Row(
+              children: [
+                Container(
+                  width: width * 0.5,
+                  height: 320,
+                  padding: const EdgeInsets.all(10),
+                  // color: Colors.red,
+                  child: loadImage(imageUrl: '${productController.selectedProductForDetails.value.imageUrl}',width: width * 0.5,height: 300),
                 ),
-              ),
-            ],
-          ),
-        ),
+                Container(
+                  width: width * 0.5,
+                  // color: Colors.greenAccent,
+                  padding: const EdgeInsets.all(10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      // PRODUCT NAME OR TITLE
+                      CustomText(
+                        text: '${productController.selectedProductForDetails.value.title}',
+                        size: 16,
+                        weight: FontWeight.w500,
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      // PRICE
+                      CustomText(
+                        text: 'Price : ট ${productController.selectedProductForDetails.value.regularPrice}',
+                        size: 16,
+                        weight: FontWeight.w500,
+                        color: TEXT_RED,
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      // PRODUCT QUANTITY
+                      const SelectProductQuantityForBuy(),
+                      const SizedBox(
+                        height: 130,
+                      ),
+                      // product buy and add to button cart
+                      ProductBuyAndCartButtonWidget(),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
+        }),
         const SizedBox(height: 40,),
 
         // product details portion

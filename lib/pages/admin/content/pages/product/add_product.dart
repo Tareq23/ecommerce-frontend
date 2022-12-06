@@ -45,14 +45,12 @@ class _AddProductState extends State<AddProduct> {
 
   @override
   void didChangeDependencies()async {
-    if (!checkCategory) {
+    if (!overallController.isDidChangeDependencies.value) {
       categoryController.selectedCategory.value = HomeCategoryModel.empty();
       productController.selectProduct.value = HomeProductModel.empty();
       await categoryController.fetchCategory();
 
-      setState(() {
-        checkCategory = true;
-      });
+      overallController.isDidChangeDependencies.value = true;
     }
 
     if(!checkBrand){

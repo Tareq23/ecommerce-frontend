@@ -25,13 +25,13 @@ class ProductCard extends StatelessWidget {
     product.title= '${product.title} ${product.title} ${product.title} ${product.title}';
     var titleLength = product.title!.length;
     var text = product.title!;
-    print('-----------------------> product card  section title length : ${text.length}');
+    // print('-----------------------> product card  section title length : ${text.length}');
 
     if(titleLength>50){
       text = product.title!.substring(0,50);
       text = '${product.title} ....';
     }
-    print('-----------------------> product card  section title length : ${text.length}');
+    // print('-----------------------> product card  section title length : ${text.length}');
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       child: Link(
@@ -99,10 +99,12 @@ class ProductCard extends StatelessWidget {
                           ),
                           RatingBar.builder(
                             initialRating: 3.2,
-                            minRating: 1,
+                            minRating: 3.2,
+                            maxRating: 3.2,
                             direction: Axis.horizontal,
                             allowHalfRating: true,
                             itemCount: 5,
+                            glow: false,
                             itemPadding: const EdgeInsets.symmetric(horizontal: 2.0),
                             itemSize: 23,
                             itemBuilder: (context, _) => const Icon(

@@ -20,29 +20,26 @@ class JwtService{
   }
 
   static bool isSuperAdmin(){
-
-    // if(!isLogin()) return false;
-
-    Map<String, dynamic> decodedToken = JwtDecoder.decode(getToken().toString());
-    if(decodedToken['ADMIN'] != null){
+    Map<String, dynamic> decodedToken = JwtDecoder.decode(authenticationController.accessToken.value);
+    print('JwtDecoder.decode(authenticationController.accessToken.value) ----------> $decodedToken');
+    if(decodedToken['ADMIN'] != null || decodedToken['isAdmin'] != null){
       return true;
     }
     return false;
   }
 
   static bool isCustomer(){
-    if(!isLogin()) return false;
-    Map<String, dynamic> decodedToken = JwtDecoder.decode(getToken().toString());
-    if(decodedToken['CUSTOMER'] != null){
+    Map<String, dynamic> decodedToken = JwtDecoder.decode(authenticationController.accessToken.value);
+    if(decodedToken['CUSTOMER'] != null || decodedToken['isCustomer'] != null){
+      print('JwtDecoder.decode(authenticationController.accessToken.value) isCustomer ----------> $decodedToken');
       return true;
     }
     return false;
   }
 
   static bool isManager(){
-    if(!isLogin()) return false;
-    Map<String, dynamic> decodedToken = JwtDecoder.decode(getToken().toString());
-    if(decodedToken['MANAGER'] != null){
+    Map<String, dynamic> decodedToken = JwtDecoder.decode(authenticationController.accessToken.value);
+    if(decodedToken['MANAGER'] != null || decodedToken['isManager'] != null){
       return true;
     }
     return false;

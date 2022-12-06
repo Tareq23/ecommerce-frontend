@@ -12,6 +12,7 @@ class ProductModel
   dynamic? discountPrice;
   // dynamic? rating;
   // ProductModel({this.id,this.title,this.quantity,this.description,this.imageUrl,this.price});
+  ProductModel.empty();
   ProductModel(this.id,this.title,this.imageUrl,this.regularPrice,this.discountPrice,this.description);
 
   ProductModel.orderedProduct({required this.id,required this.title, required this.imageUrl,required this.quantity});
@@ -32,6 +33,18 @@ class ProductModel
   // },
 
   ProductModel.parseJsonForCategory(Map<String,dynamic> json){
+    id = json['id'];
+    title  = json['name'];
+    regularPrice = json['regularPrice'];
+    discountPrice = json['discountPrice'];
+    imageUrl = json['imageUrl'];
+    description = json['description'];
+  }
+
+
+
+
+  ProductModel.parseJsonForProductDetails(Map<String,dynamic>json){
     id = json['id'];
     title  = json['name'];
     regularPrice = json['regularPrice'];

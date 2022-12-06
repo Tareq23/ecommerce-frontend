@@ -14,6 +14,19 @@ class _AdminLargeScreenState extends State<AdminLargeScreen> {
 
   @override
   void initState() {
+
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+
+    super.didChangeDependencies();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       overallController.screenHeight.value = MediaQuery.of(context).size.height;
       overallController.screenWidth.value = MediaQuery.of(context).size.width;
@@ -25,11 +38,6 @@ class _AdminLargeScreenState extends State<AdminLargeScreen> {
       overallController.adminMainContentHeight.value = overallController.screenHeight.value;
 
     },);
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
 
     return Scaffold(
         backgroundColor: ADMIN_BG_SEAL_BROWN,
