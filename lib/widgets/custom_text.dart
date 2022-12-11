@@ -17,21 +17,74 @@ class CustomText extends StatelessWidget {
       this.weight = FontWeight.w400,
       this.color = TEXT_DARK,
       this.letterSpacing = 1,
-      this.wordSpacing = 1.2,this.textAlign})
+      this.wordSpacing = 1.2,
+      this.textAlign})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Text(
       text,
-      textAlign: textAlign?? TextAlign.left,
+      textAlign: textAlign ?? TextAlign.left,
       style: TextStyle(
-          color: color,
-          fontSize: size,
-          fontWeight: weight,
+        color: color,
+        fontSize: size,
+        fontWeight: weight,
+        letterSpacing: letterSpacing,
+        wordSpacing: wordSpacing,
+      ),
+    );
+  }
+}
+
+class CustomRichText extends StatelessWidget {
+  final String titleText;
+  final String valueText;
+  final FontWeight weight;
+  final double size;
+  final double letterSpacing;
+  final double wordSpacing;
+  final Color titleColor;
+  final Color valueColor;
+  final TextAlign? textAlign;
+  const CustomRichText(
+      {Key? key,
+        required this.titleText,
+        required this.valueText,
+        this.size = 14,
+        this.weight = FontWeight.w400,
+        this.titleColor = TEXT_DARK,
+        this.valueColor = TEXT_DARK,
+        this.letterSpacing = 1,
+        this.wordSpacing = 1.2,
+        this.textAlign})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return RichText(
+      textAlign: textAlign??TextAlign.left,
+      text: TextSpan(
+        text: titleText,
+        style: TextStyle(
+          color: titleColor,
+          fontSize: 17,
+          fontWeight: FontWeight.w600,
           letterSpacing: letterSpacing,
           wordSpacing: wordSpacing,
-
+        ),
+        children: [
+          TextSpan(
+              text: ' $valueText',
+              style: TextStyle(
+                color: valueColor,
+                fontSize: size,
+                fontWeight: weight,
+                letterSpacing: letterSpacing,
+                wordSpacing: wordSpacing,
+              ),
+          ),
+        ]
       ),
     );
   }

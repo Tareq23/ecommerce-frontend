@@ -34,7 +34,7 @@ class CategoryDataSource extends DataTableSource{
     return DataRow(cells: [
       DataCell(
         CustomText(
-          text: '${categoryController.categoryListAdmin[index].id}',
+          text: '${index+1}',
           size: 16,
           color: TEXT_WHITE.withOpacity(0.8),
         ),
@@ -50,8 +50,8 @@ class CategoryDataSource extends DataTableSource{
         // CustomText(text: dataList[index]['image_url'].toString(),size: 16,color: TEXT_DARK.withOpacity(0.8),),
         loadImage(
             imageUrl: 'd',
-            width: 200,
-            height: 120),
+            width: 120,
+            height: 80),
       ),
 
 

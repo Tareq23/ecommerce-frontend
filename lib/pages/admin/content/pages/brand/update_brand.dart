@@ -30,29 +30,27 @@ class BrandUpdate extends StatefulWidget {
 
 class _BrandUpdateState extends State<BrandUpdate> {
   final textEditingController = TextEditingController(
-      text: categoryController.selectedCategory.value.name);
+      text: ' ');
   Uint8List? webImage;
   List<int>? selectedFile;
   File? pickedImage;
-  bool _check = false;
-  bool _isImageExists = true;
-  bool _isImageChanged = false;
+
 
   final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
     textEditingController.addListener(() {
-      categoryController.selectedCategory.value.name =
-          textEditingController.text.trim();
+      brandController.selectedBrand.value.name =
+          textEditingController.text;
     });
+    loadData();
+    super.initState();
   }
 
   @override
   void didChangeDependencies() async{
-    if (!_check) {
-      textEditingController.text='brand name';
-    }
+
     super.didChangeDependencies();
   }
 
@@ -60,6 +58,20 @@ class _BrandUpdateState extends State<BrandUpdate> {
   void dispose() {
     textEditingController.dispose();
     super.dispose();
+  }
+
+  loadData() async{
+    if (!overallController.isDidChangeDependencies.value) {
+      textEditingController.text=' ';
+      var url = Uri.base.path.split("/");
+      int id = int.parse(url.elementAt(url.length-1));
+
+      if(await brandController.getBrandById(id)){
+    textEditingController.text=brandController.selectedBrand.value.name!;
+    }
+    print('update brand url -------------> $url');
+    }
+    overallController.isDidChangeDependencies.value = true;
   }
 
 
@@ -93,39 +105,26 @@ class _BrandUpdateState extends State<BrandUpdate> {
                         height: 10,
                       ),
                       AdminPageContentUpperWidget(pageTitle: 'Brand Update',onTap: (){
-                        context.goNamed(adminBrandViewAll);
+                        GoRouter.of(context).goNamed(adminBrandViewAll);
                       },linkTitle: 'All Brand',),
                       const SizedBox(
                         height: 10,
                       ),
-                      // Obx((){
-                      //   if(categoryController.selectedCategory.value.name!.isEmpty){
-                      //   return const CircularProgressIndicator(color: TEXT_DARK,);
-                      //   }
-                      //   textEditingController.text = categoryController.selectedCategory.value.name!;
-                      //   return TextFieldWidget(
-                      //     controller: textEditingController,
-                      //     hint: 'Name',
-                      //     validator: (value) {
-                      //       return textFieldValidation(
-                      //           title: 'Category name',
-                      //           value: value!,
-                      //           min: 5,
-                      //           max: 50);
-                      //     },
-                      //   );
-                      // }),
-                      TextFieldWidget(
-                        controller: textEditingController,
-                        hint: 'Name',
-                        validator: (value) {
-                          return textFieldValidation(
-                              title: 'Category name',
-                              value: value!,
-                              min: 5,
-                              max: 50);
-                        },
-                      ),
+
+                      Obx((){
+                        textEditingController.text = brandController.selectedBrand.value.name??' ';
+                        return  TextFieldWidget(
+                          controller: textEditingController,
+                          hint: 'Name',
+                          validator: (value) {
+                            return textFieldValidation(
+                                title: 'Brand name',
+                                value: value!,
+                                min: 5,
+                                max: 50);
+                          },
+                        );
+                      }),
                       const SizedBox(
                         height: 20,
                       ),
@@ -139,9 +138,14 @@ class _BrandUpdateState extends State<BrandUpdate> {
                               onTap: () async {
                                 if(_formKey.currentState!.validate()){
                                   brandController.updateActionButton.value = true;
+                                  brandController.selectedBrand.value.name = textEditingController.text.trim();
 
 
-                                  // here call api
+                                  if(await brandController.updateBrand()){
+                                    print('update brand----------------> success');
+                                  }
+
+
 
                                   brandController.updateActionButton.value = false;
                                 }

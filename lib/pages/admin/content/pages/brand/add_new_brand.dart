@@ -3,8 +3,10 @@ import 'package:ecommercefrontend/constants/controllers.dart';
 import 'package:ecommercefrontend/constants/function.dart';
 import 'package:ecommercefrontend/services/routes/routes.dart';
 import 'package:ecommercefrontend/widgets/admin_content_page_upper_widget.dart';
+import 'package:ecommercefrontend/widgets/custom_text.dart';
 import 'package:ecommercefrontend/widgets/text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 
 class AddNewBrand extends StatefulWidget {
@@ -82,13 +84,55 @@ class _AddNewBrandState extends State<AddNewBrand> {
 
                       Align(
                         alignment: Alignment.centerRight,
-                        child: customActionButton(bgColor: BG_BUTTON,
-                            onTap: (){
-                          if(_formKey.currentState!.validate()){
-                            // print(textEditingController.text);
+                        // child: customActionButton(bgColor: BG_BUTTON,
+                        //     onTap: (){
+                        //   if(_formKey.currentState!.validate()){
+                        //     // print(textEditingController.text);
+                        //   }
+                        //
+                        // }, title: 'Add'),
+                        child: Obx(() {
+                          if (brandController.updateActionButton.value) {
+                            return circularProgressIndicator();
                           }
+                          return InkWell(
+                            onTap: () async {
+                              if(_formKey.currentState!.validate()){
+                                brandController.updateActionButton.value = true;
+                                brandController.selectedBrand.value.name = textEditingController.text.trim();
 
-                        }, title: 'Add'),
+
+                                if(await brandController.addNewBrand()){
+                                  print('add brand----------------> success');
+                                  GoRouter.of(context).goNamed(adminBrandViewAll);
+                                }
+
+
+
+                                brandController.updateActionButton.value = false;
+                              }
+                            },
+                            child: Container(
+                              width: 100,
+                              height: 40,
+                              margin: const EdgeInsets.only(top: 35),
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 6, horizontal: 10),
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                                color: BG_BUTTON,
+                              ),
+                              child: const CustomText(
+                                text: 'Save',
+                                color: TEXT_WHITE,
+                                size: 16,
+                                weight: FontWeight.w500,
+                                letterSpacing: 1.2,
+                              ),
+                            ),
+                          );
+                        }),
                       ),
                     ],
                   ),

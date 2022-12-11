@@ -60,7 +60,7 @@ class ProductService
     await authenticationController.getToken();
     // print('Bearer ${authenticationController.accessToken.value}');
     return ApiService.action(
-      url: API.DELETE_CATEGORY_URL,
+      url: API.ADMIN_PRODUCT_DELETE,
       actionType: 'delete',
       headers:<String,String> {
         'Content-Type': 'application/json',
@@ -80,6 +80,21 @@ class ProductService
       actionType: 'put',
       multipart: product.isImageChanged! || product.isImageExists!,
       file: image,
+      headers:<String,String> {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ${authenticationController.accessToken.value}',
+      },
+      isImageChanged: product.isImageChanged!,
+      isImageExists: product.isImageExists!,
+      body: product,
+    );
+  }
+  static Future updateProductWithoutImage(HomeProductModel product) async {
+    await authenticationController.getToken();
+    print('updateProduct api service selected product : ${product.id}');
+    return ApiService.action(
+      url: API.ADMIN_PRODUCT_UPDATE_WITHOUT_IMAGE,
+      actionType: 'put',
       headers:<String,String> {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ${authenticationController.accessToken.value}',

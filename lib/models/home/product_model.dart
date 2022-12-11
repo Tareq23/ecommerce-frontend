@@ -10,6 +10,8 @@ class HomeProductModel
   int? id;
   String? name;
   dynamic? price;
+  dynamic? regularPrice;
+  dynamic? discountPrice;
   String? imageUrl;
   String? description;
   bool? isImageExists;
@@ -18,15 +20,20 @@ class HomeProductModel
   int? quantity;
   String? categoryName;
   String? categoryImageUrl;
+  String? brandName;
+  int? brandId;
 
   HomeProductModel(this.id,this.name,this.price,this.imageUrl,this.description);
 
   HomeProductModel.parseJson(Map<String,dynamic>json){
     id = json['id'];
     name = json['name'];
-    price = json['price'];
-    imageUrl = json['imageUrl'];
-    description = json['description'];
+    quantity = json['quantity']??0;
+    regularPrice = json['regularPrice']??0;
+    discountPrice = json['discountPrice']??0;
+    imageUrl = json['imageUrl']??'';
+    description = json['description']??'';
+    print('----------> product regular price : ${json['regularPrice']}');
   }
 
   HomeProductModel.parseOrder(Map<String,dynamic>product){
@@ -38,23 +45,31 @@ class HomeProductModel
   HomeProductModel.parseJsonWithCategoryAndBrand(Map<String,dynamic>json){
     id = json['id'];
     name = json['name'];
-    price = json['price'];
+
+    regularPrice = json['regularPrice']??0;
+    discountPrice = json['discountPrice']??0;
     quantity = json['quantity']??0;
     imageUrl = json['imageUrl'];
     description = json['description'];
     categoryId = json['categoryId'];
     categoryName = json['categoryName'];
     categoryImageUrl = json['categoryImageUrl'];
+    brandName = json['brandName'];
+    brandId = json['brandId'];
+    print('----------> product regular price : ${json['regularPrice']}');
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'id' : id,
+      "id" : id,
       'name' : name,
       'imageUrl' : imageUrl,
-      'price' : price,
+      'quantity' : quantity,
+      'regularPrice' : regularPrice,
+      'discountPrice' : discountPrice??0,
       'description' : description,
       'category' : categoryController.selectedCategory.value,
+      'brand' : brandController.selectedBrand.value,
     };
   }
 

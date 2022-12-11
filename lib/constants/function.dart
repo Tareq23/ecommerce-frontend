@@ -269,9 +269,12 @@ String? textFieldValidation(
     int? max,
     bool isNumber = false}) {
   if (isNumber) {
-    int valInt = int.tryParse(value) ?? 0;
-    double valDouble = double.tryParse(value) ?? 0;
-    if (valInt == 0 && valDouble == 0) {
+    if(value.trim().isEmpty){
+      return '$title can not be empty';
+    }
+    int valInt = int.tryParse(value) ?? -1;
+    double valDouble = double.tryParse(value) ?? -1.0;
+    if (valInt == -1 && valDouble == -1.0) {
       return '$title must be number and can not be 0';
     }
     return null;

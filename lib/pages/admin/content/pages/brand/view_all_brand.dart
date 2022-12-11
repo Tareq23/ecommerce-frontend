@@ -2,9 +2,11 @@
 import 'package:ecommercefrontend/constants/colors.dart';
 import 'package:ecommercefrontend/constants/controllers.dart';
 import 'package:ecommercefrontend/models/data_source/brand_data_source.dart';
+import 'package:ecommercefrontend/services/routes/routes.dart';
 import 'package:ecommercefrontend/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 
 class ViewAllBrand extends StatefulWidget {
   const ViewAllBrand({Key? key}) : super(key: key);
@@ -24,14 +26,13 @@ class _ViewAllBrandState extends State<ViewAllBrand> {
 
   @override
   void didChangeDependencies() async {
-    // await categoryController.fetchCategoryAllAdmin();
-    // print(
-    //     'categoryController.fetchCategoryAllAdmin : ${categoryController.categoryListAdmin.length}');
-    // if (!_check) {
-    //   setState(() {
-    //     _check = true;
-    //   });
-    // }
+
+    await brandController.fetchAllBrand();
+    if (!_check) {
+      setState(() {
+        _check = true;
+      });
+    }
     super.didChangeDependencies();
   }
 
@@ -47,26 +48,30 @@ class _ViewAllBrandState extends State<ViewAllBrand> {
             behavior:
             ScrollConfiguration.of(context).copyWith(scrollbars: false),
             child: SingleChildScrollView(child: Obx(() {
-              if (categoryController.categoryListAdmin.isEmpty) {
+              if (brandController.brandList.isEmpty) {
                 return const CircularProgressIndicator(
-                  color: TEXT_DARK,
+                  color: TEXT_WHITE,
                 );
               }
               // return _createDataTable();
               return Theme(
-                data: ThemeData(
-                  cardColor: ADMIN_BG_SEAL_BROWN,
-                ),
+                // data: ThemeData(
+                //   cardColor: ADMIN_BG_SEAL_BROWN,
+                // ),
+                data: ThemeData(cardColor: ADMIN_BG_SEAL_BROWN, textTheme: TextTheme(caption: TextStyle(color: Colors.white))),
                 child: PaginatedDataTable(
+                  source: BrandDataSource(context: context),
                   arrowHeadColor: TEXT_WHITE,
                   headingRowHeight: 50,
                   showFirstLastButtons: true,
                   rowsPerPage: 5,
-                  dataRowHeight: 150,
-                  header: const CustomText(text: 'Category List',color: TEXT_WHITE,size: 18,weight: FontWeight.w500,),
+                  dataRowHeight: 50,
+                  header: const CustomText(text: 'Brand List',color: TEXT_WHITE,size: 18,weight: FontWeight.w500,),
                   actions: [
                     InkWell(
-                      onTap: (){},
+                      onTap: (){
+                        GoRouter.of(context).goNamed(adminSpecificBrandAdd);
+                      },
                       child: Container(
                         width: 100,
                         height: 40,
@@ -106,10 +111,10 @@ class _ViewAllBrandState extends State<ViewAllBrand> {
                       ),
                     ),
                   ],
-                  source: BrandDataSource(context: context),
+
                 ),
               );
-            })),
+            },),),
           ),
         ),
       ],

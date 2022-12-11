@@ -43,14 +43,9 @@ class _ViewAllProductState extends State<ViewAllProduct> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          height: 100,
-          width: double.infinity,
-          color: Colors.greenAccent,
-        ),
         SizedBox(
           width: overallController.adminMainContentWidth.value,
-          height: overallController.adminMainContentHeight.value - 100,
+          height: overallController.adminMainContentHeight.value,
           child: ScrollConfiguration(
             behavior:
                 ScrollConfiguration.of(context).copyWith(scrollbars: true),
@@ -63,19 +58,34 @@ class _ViewAllProductState extends State<ViewAllProduct> {
                 }
                 // return _createDataTable();
                 return Theme(
-                  data: ThemeData(
-                    cardColor: ADMIN_BG_SEAL_BROWN,
-                  ),
+                  data: ThemeData(cardColor: ADMIN_BG_SEAL_BROWN, textTheme: const TextTheme(caption: TextStyle(color: Colors.white),),),
                   child: PaginatedDataTable(
+                    source: ProductDataSource(context: context),
                     headingRowHeight: 50,
+                    arrowHeadColor: TEXT_WHITE,
                     showFirstLastButtons: true,
                     rowsPerPage: 5,
-                    dataRowHeight: 150,
+                    dataRowHeight: 110,
                     header: CustomText(text: 'Product List',color: TEXT_WHITE,),
                     dragStartBehavior: DragStartBehavior.down,
                     actions: [
                       IconButton(onPressed: (){}, icon: Icon(Icons.arrow_back_ios_rounded,size: 22,color: TEXT_WHITE,),),
                       IconButton(onPressed: (){}, icon: Icon(Icons.arrow_forward_ios_rounded,size: 22,color: TEXT_WHITE,),),
+                      InkWell(
+                        onTap: (){
+                          GoRouter.of(context).goNamed(adminAddNewProduct);
+                        },
+                        child: Container(
+                          width: 100,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            color: TEXT_DANGER,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          alignment: Alignment.center,
+                          child: const CustomText(text: 'Add New',size: 16,weight: FontWeight.w600,color: TEXT_WHITE,),
+                        ),
+                      )
                     ],
                     columns: [
                       DataColumn(
@@ -99,8 +109,22 @@ class _ViewAllProductState extends State<ViewAllProduct> {
                         ),
                       ),
                       DataColumn(
-                        label: CustomText(
-                          text: 'Price',color: TEXT_WHITE,
+                        label: Container(
+                          width:50,
+                          constraints: BoxConstraints(
+                            maxWidth: 50,
+                          ),
+                          child: CustomText(
+                            text: 'Regular\nPrice',color: TEXT_WHITE,
+                          ),
+                        ),
+                      ),
+                      DataColumn(
+                        label: SizedBox(
+                          width:50,
+                          child: CustomText(
+                            text: 'Discount\nPrice',color: TEXT_WHITE,
+                          ),
                         ),
                       ),
                       DataColumn(
@@ -119,7 +143,7 @@ class _ViewAllProductState extends State<ViewAllProduct> {
                         ),
                       ),
                     ],
-                    source: ProductDataSource(context: context),
+
                   ),
                 );
               },

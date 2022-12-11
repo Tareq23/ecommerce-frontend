@@ -1,5 +1,7 @@
 
 
+import 'dart:convert';
+
 import 'package:ecommercefrontend/constants/controllers.dart';
 import 'package:ecommercefrontend/models/home/category_model.dart';
 import 'package:ecommercefrontend/models/home/product_model.dart';
@@ -32,6 +34,7 @@ class ProductController extends GetxController{
   var uploadProductAction = false.obs;
   var updateProductAction = false.obs;
   var isSelectCategory = true.obs;
+  var isSelectBrand = true.obs;
 
   @override
   void onInit() {
@@ -52,20 +55,24 @@ class ProductController extends GetxController{
     selectProduct.value.isImageExists=false;
     selectProduct.value.isImageChanged=true;
     var result = ProductService.addProduct(selectProduct.value, image!);
+    print('------------> $result');
   }
 
   Future<void> fetchProductById(int id) async{
     var result = await ProductService.fetchProductById(id);
     selectProduct.value = result??HomeProductModel.empty();
-    // CategoryModel category = CategoryModel(selectProduct.value.categoryId,selectProduct.value.categoryName,selectProduct.value.categoryImageUrl);
-    // categoryController.selectedCategory.value = category;
-    // print('selected product : ${selectProduct.value.id}');
-    // print('selected category : ${categoryController.selectedCategory.value.name}');
-    // print('selected category : ${categoryController.selectedCategory.value.imageUrl}');
-    // print('selected category : ${categoryController.selectedCategory.value.id}');
+
     for(int i=0; i<categoryController.categoryList.length; i++){
       if(categoryController.categoryList[i].id == selectProduct.value.categoryId){
         categoryController.selectedCategory.value = categoryController.categoryList[i];
+        break;
+      }
+    }
+
+    for(int i=0; i<brandController.brandList.length; i++){
+      if(brandController.brandList[i].id == selectProduct.value.brandId){
+        brandController.selectedBrand.value = brandController.brandList[i];
+        break;
       }
     }
   }
@@ -80,15 +87,28 @@ class ProductController extends GetxController{
 
   Future<void> updateProduct({required bool isImageChanged,required bool isImageExists, required Uint8List image}) async{
     HomeProductModel product = HomeProductModel.empty();
-    // category.id = id;
-    // category.name = name;
-    // category.imageUrl = selectedCategory.value.imageUrl;
-    // category.isImageChanged = isImageChanged;
-    // category.isImageExists = isImageExists;
+
     selectProduct.value.isImageChanged = isImageChanged;
     selectProduct.value.isImageExists = isImageExists;
 
     var result = await ProductService.updateProduct(selectProduct.value,image);
+    print('--------------> update product model : ${jsonEncode(selectProduct.value)}');
+    updateProductAction.value = false;
+  }
+  Future<void> updateProductWithoutImage({required bool isImageExists}) async{
+    HomeProductModel product = HomeProductModel.empty();
+
+    selectProduct.value.isImageExists = isImageExists;
+
+    var result = await ProductService.updateProductWithoutImage(selectProduct.value);
+    print('--------------> update product model : ${jsonEncode(selectProduct.value)}');
+    updateProductAction.value = false;
+  }
+
+
+  Future<void> deleteProduct(HomeProductModel product) async{
+
+    var result = await ProductService.deleteProduct(product);
     updateProductAction.value = false;
   }
 

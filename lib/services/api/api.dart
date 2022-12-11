@@ -9,7 +9,7 @@ class API
 
   // ADMIN CATEGORY
   static const String CATEGORY_URL = '$BASE_URL/visitor-or-customer/only-category';
-  static const String ADMIN_SHOW_ONLY_CATEGORY_URL = '$BASE_URL/admin/category/all-only-category';
+  static const String ADMIN_SHOW_ONLY_CATEGORY_URL = '$BASE_URL/admin/category/show-only-category';
   static const String ADD_CATEGORY_URL = '$BASE_URL/admin/category/add';
   static const String DELETE_CATEGORY_URL = '$BASE_URL/admin/category/delete';
   static const String UPDATE_CATEGORY_URL = '$BASE_URL/admin/category/update';
@@ -21,8 +21,18 @@ class API
   static const String ADMIN_SHOW_ALL_PRODUCT = '$BASE_URL/admin/product/view/all';
   static const String ADMIN_ADD_PRODUCT = '$BASE_URL/admin/product/add';
   static const String ADMIN_PRODUCT_DETAILS_BY_ID = '$BASE_URL/admin/product/view/details/';
-  static const String ADMIN_PRODUCT_UPDATE = '$BASE_URL/admin/product/update';
+  static const String ADMIN_PRODUCT_UPDATE_WITHOUT_IMAGE = '$BASE_URL/admin/product/update';
+  static const String ADMIN_PRODUCT_DELETE= '$BASE_URL/admin/product/delete';
   static const String ADMIN_PRODUCT_UPDATE_WITH_IMAGE = '$BASE_URL/admin/product/update-with-image';
+
+
+  // ADMIN BRAND
+
+  static const String ADMIN_SHOW_ALL_BRAND = '$BASE_URL/admin/brand/all';
+  static const String ADMIN_SHOW_BRAND_BY_ID = '$BASE_URL/admin/brand/details/';
+  static const String ADMIN_ADD_BRAND = '$BASE_URL/admin/brand/add';
+  static const String ADMIN_UPDATE_BRAND = '$BASE_URL/admin/brand/update';
+  static const String ADMIN_DELETE_BRAND = '$BASE_URL/admin/brand/delete';
 
 
   // VISITOR OR CUSTOMER

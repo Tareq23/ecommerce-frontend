@@ -6,6 +6,7 @@ import 'package:ecommercefrontend/constants/function.dart';
 import 'package:ecommercefrontend/models/brand_model.dart';
 import 'package:ecommercefrontend/models/home/category_model.dart';
 import 'package:ecommercefrontend/models/home/product_model.dart';
+import 'package:ecommercefrontend/services/routes/routes.dart';
 import 'package:ecommercefrontend/widgets/admin_content_page_upper_widget.dart';
 import 'package:ecommercefrontend/widgets/category_drop_down_widget.dart';
 import 'package:ecommercefrontend/widgets/custom_text.dart';
@@ -27,7 +28,7 @@ class AddProduct extends StatefulWidget {
 
 class _AddProductState extends State<AddProduct> {
   final productNameController = TextEditingController();
-  final productPriceController = TextEditingController();
+  final productRegularPrice = TextEditingController();
   final productQuantityController = TextEditingController();
   Uint8List? webImage;
   List<int>? selectedFile;
@@ -55,7 +56,7 @@ class _AddProductState extends State<AddProduct> {
 
     if(!checkBrand){
       brandController.selectedBrand.value = BrandModel.empty();
-      brandController.fetchAllBrand();
+      await brandController.fetchAllBrand();
       setState(() {
         checkBrand = true;
       });
@@ -67,7 +68,7 @@ class _AddProductState extends State<AddProduct> {
   @override
   void dispose() {
     productNameController.dispose();
-    productPriceController.dispose();
+    productRegularPrice.dispose();
     productQuantityController.dispose();
     super.dispose();
   }
@@ -117,10 +118,6 @@ class _AddProductState extends State<AddProduct> {
           )
           .toList(),
       onChanged: (newValue) {
-        // print("----------> $newValue\n---------------> $_selectedValue");
-        // setState(() {
-        //   _selectedValue = newValue!;
-        // });
         categoryController.selectedCategory.value = newValue;
       },
     );
@@ -184,11 +181,11 @@ class _AddProductState extends State<AddProduct> {
           centerTitle: false,
           backgroundColor: ADMIN_BG_SEAL_BROWN,
           actions: [
-            customActionButton(onTap: (){},width: 200, height: 40, title: 'All Product'),
+            customActionButton(onTap: (){
+              GoRouter.of(context).namedLocation(adminProductContentPage);
+            },width: 200, height: 40, title: 'All Product'),
           ],
         ),
-
-
         SliverList(
           delegate: SliverChildListDelegate(
             [
@@ -240,11 +237,11 @@ class _AddProductState extends State<AddProduct> {
                                     ),
                                     // product price
                                     TextFieldWidget(
-                                      controller: productPriceController,
-                                      hint: 'Product Price',
+                                      controller: productRegularPrice,
+                                      hint: 'Regular Price',
                                       validator: (value) {
                                         return textFieldValidation(
-                                            title: 'Product Price',
+                                            title: 'Regular Price',
                                             value: value!,
                                             min: 5,
                                             max: 50,
@@ -326,7 +323,7 @@ class _AddProductState extends State<AddProduct> {
                                         border: Border.all(
                                             width: 1.2,
                                             color: !productController
-                                                .isSelectCategory.value
+                                                .isSelectBrand.value
                                                 ? TEXT_RED.withOpacity(0.8)
                                                 : TEXT_FIELD_BORDER),
                                       ),
@@ -335,13 +332,13 @@ class _AddProductState extends State<AddProduct> {
                                       // child: CategoryDropdownWidget()
                                     ),
                                     Obx(() {
-                                      if (categoryController
-                                          .selectedCategory.value.id ==
+                                      if (brandController
+                                          .selectedBrand.value.id ==
                                           null &&
                                           !productController
-                                              .isSelectCategory.value) {
+                                              .isSelectBrand.value) {
                                         return const CustomText(
-                                          text: 'Category Missing',
+                                          text: 'Brand Missing',
                                           color: TEXT_RED,
                                           size: 16,
                                           weight: FontWeight.w500,
@@ -454,7 +451,6 @@ class _AddProductState extends State<AddProduct> {
                                 onTap: () async {
                                   productController
                                       .uploadProductAction.value = true;
-
                                   _formKey.currentState!.save();
                                   if (!_formKey.currentState!
                                       .validate()) {
@@ -466,6 +462,10 @@ class _AddProductState extends State<AddProduct> {
                                       productController.isSelectCategory
                                           .value = false;
                                     }
+                                    if(brandController.selectedBrand.value.id == null){
+                                      productController.isSelectBrand.value =
+                                      false;
+                                    }
                                     if (!productController
                                         .isLoadImage.value) {
                                       productController
@@ -476,12 +476,18 @@ class _AddProductState extends State<AddProduct> {
                                         .value = false;
                                     return;
                                   }
-                                  // print('product : category : ${categoryController.selectedCategory.value.id}');
-                                  // print('product : name : ${productNameController.text}');
-                                  // print('product : name : ${productPriceController.text}');
+
 
                                   if (categoryController
                                           .selectedCategory.value.id ==
+                                      null) {
+                                    productController
+                                        .uploadProductAction
+                                        .value = false;
+                                    return;
+                                  }
+                                  if (brandController
+                                      .selectedBrand.value.id ==
                                       null) {
                                     productController
                                         .uploadProductAction
@@ -505,20 +511,20 @@ class _AddProductState extends State<AddProduct> {
                                         .value = false;
                                     return;
                                   }
-
                                   productController
                                           .selectProduct.value.name =
                                       productNameController.text.trim();
                                   productController
-                                          .selectProduct.value.price =
-                                      productPriceController.text
-                                          .trim();
+                                          .selectProduct.value.regularPrice =
+                                      double.parse(productRegularPrice.text
+                                          .trim());
+                                  productController.selectProduct.value.quantity = int.parse(productQuantityController.text.trim());
                                   await productController.addProduct(
                                       image: webImage);
                                   setState(() {
                                     pickedImage = null;
                                   });
-                                  productPriceController.text = '';
+                                  productRegularPrice.text = '';
                                   productNameController.text = '';
                                   productController.selectProduct
                                       .value = HomeProductModel.empty();

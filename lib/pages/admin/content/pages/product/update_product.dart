@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:ecommercefrontend/constants/colors.dart';
 import 'package:ecommercefrontend/constants/controllers.dart';
 import 'package:ecommercefrontend/constants/function.dart';
+import 'package:ecommercefrontend/models/brand_model.dart';
 import 'package:ecommercefrontend/models/home/category_model.dart';
 import 'package:ecommercefrontend/models/home/product_model.dart';
 import 'package:ecommercefrontend/widgets/admin_content_page_upper_widget.dart';
@@ -31,13 +32,15 @@ class _UpdateProductState extends State<UpdateProduct> {
 
 
   final productNameController = TextEditingController();
-  final productPriceController = TextEditingController();
+  final productRegularPriceController = TextEditingController();
+  final productDiscountPriceController = TextEditingController();
+  final productQuantityController = TextEditingController();
   Uint8List? webImage;
   List<int>? selectedFile;
   File? pickedImage;
   final _formKey = GlobalKey<FormState>();
   final HtmlEditorController productDescController = HtmlEditorController();
-  bool _isImageExists = true;
+  bool _isImageExists = false;
   bool _isImageChanged = false;
 
   bool checkProduct = false;
@@ -51,6 +54,7 @@ class _UpdateProductState extends State<UpdateProduct> {
   void didChangeDependencies() async {
     if(!checkProduct){
       await categoryController.fetchCategory();
+      await brandController.fetchAllBrand();
       var url = GoRouter.of(context).location.split("/");
       int id = int.parse(url.elementAt(url.length - 1)) ?? 0;
       print('--------------------> product Details : id : $id');
@@ -59,7 +63,9 @@ class _UpdateProductState extends State<UpdateProduct> {
       }
       await productController.fetchProductById(id);
       productNameController.text = productController.selectProduct.value.name.toString();
-      productPriceController.text = productController.selectProduct.value.price.toString();
+      productRegularPriceController.text = productController.selectProduct.value.regularPrice.toString();
+      productDiscountPriceController.text = productController.selectProduct.value.discountPrice.toString();
+      productQuantityController.text = productController.selectProduct.value.quantity.toString();
       setState((){
         checkProduct=true;
       });
@@ -72,7 +78,9 @@ class _UpdateProductState extends State<UpdateProduct> {
   @override
   void dispose() {
     productNameController.dispose();
-    productPriceController.dispose();
+    productRegularPriceController.dispose();
+    productDiscountPriceController.dispose();
+    productQuantityController.dispose();
     super.dispose();
   }
 
@@ -113,21 +121,49 @@ class _UpdateProductState extends State<UpdateProduct> {
               .toList(),
           onChanged: (newValue) {
             categoryController.selectedCategory.value = newValue!;
-            print('selected category : ${categoryController.selectedCategory.value.id}');
+            // print('selected category : ${categoryController.selectedCategory.value.id}');
+          },
+        );
+      })
+    );
+  }
+  Widget _selectBrand(BuildContext context){
+    return SizedBox(
+      child: Obx((){
+        return DropdownButton(
+          alignment: Alignment.centerLeft,
+          value: brandController.selectedBrand.value,
+          icon: const SizedBox.shrink(),
+          isDense:true,
+          underline: const SizedBox.shrink(),
+          borderRadius: BorderRadius.circular(12),
+          items: brandController.brandList
+              .map(
+                (e) => DropdownMenuItem<BrandModel>(
+              value: e,
+              child: CustomText(
+                text: e.name.toString(),
+              ),
+            ),
+          )
+              .toList(),
+          onChanged: (newValue) {
+            brandController.selectedBrand.value = newValue!;
+            // print('selected category : ${categoryController.selectedCategory.value.id}');
           },
         );
       })
     );
   }
 
-  Future<File> getImageFileFromAssets(String path) async {
-    final byteData = await rootBundle.load(path);
-
-    final file = File('${(await getTemporaryDirectory()).path}/$path');
-    await file.writeAsBytes(byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
-
-    return file;
-  }
+  // Future<File> getImageFileFromAssets(String path) async {
+  //   final byteData = await rootBundle.load(path);
+  //
+  //   final file = File('${(await getTemporaryDirectory()).path}/$path');
+  //   await file.writeAsBytes(byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+  //   print(file);
+  //   return file;
+  // }
 
 
   @override
@@ -143,11 +179,7 @@ class _UpdateProductState extends State<UpdateProduct> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Container(
-          //   width: overallController.adminMainContentWidth.value - 18,
-          //   height: 100,
-          //   decoration: BoxDecoration(color: Colors.yellow),
-          // ),
+
           Container(
             width: overallController.adminMainContentWidth.value,
             height: overallController.adminMainContentHeight.value,
@@ -185,42 +217,9 @@ class _UpdateProductState extends State<UpdateProduct> {
                       const SizedBox(
                         height: 20,
                       ),
-                      // product price
-                      TextFieldWidget(
-                        controller: productPriceController,
-                        hint: 'Product Price',
-                        validator: (value) {
-                          return textFieldValidation(
-                              title: 'Product Price',
-                              value: value!,
-                              min: 5,
-                              max: 50,
-                              isNumber: true);
-                        },
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-
-                      // product description
-                      Container(
-
-                        height: overallController.screenHeight.value * 0.3,
-                        padding: const EdgeInsets.all(0),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          border:
-                          Border.all(width: 1.2, color: TEXT_FIELD_BORDER),
-                        ),
-                        child: HtmlTextEditorWidget(
-                          controller: productDescController,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-
                       // select product category
+                      const CustomText(text: 'Category : ',size: 16,weight: FontWeight.w500,),
+                      const SizedBox(height: 10,),
                       Container(
                         width: double.infinity,
                         padding: const EdgeInsets.only(left: 10),
@@ -241,9 +240,86 @@ class _UpdateProductState extends State<UpdateProduct> {
                         return const SizedBox.shrink();
                       }),
 
+                      const SizedBox(height: 20,),
+                      // select product brand
+                      const CustomText(text: 'Brand : ',size: 16,weight: FontWeight.w500,),
+                      const SizedBox(height: 10,),
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.only(left: 10),
+                        height: 50,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          border:
+                          Border.all(width: 1.2, color: !productController.isSelectCategory.value ? TEXT_RED.withOpacity(0.8) : TEXT_FIELD_BORDER),
+                        ),
+                        alignment: Alignment.centerLeft,
+                        child: checkProduct ?  _selectBrand(context) : const CustomText(text: 'Brand Missing',size: 16,weight: FontWeight.w600,),
+                      ),
+                      // select product brand error
+                      Obx((){
+                        if(brandController.selectedBrand.value.id == null && !productController.isSelectCategory.value) {
+                          return const CustomText(text: 'Brand Missing',color: TEXT_RED,size: 16,weight: FontWeight.w500,);
+                        }
+                        return const SizedBox.shrink();
+                      }),
+
+
+                      const SizedBox(height: 20,),
+                      // product discount price
+                      TextFieldWidget(
+                        controller: productQuantityController,
+                        hint: 'Quantity',
+                        validator: (value) {
+                          return textFieldValidation(
+                              title: 'Product quantity',
+                              value: value!,
+                              min: 5,
+                              max: 50,
+                              isNumber: true);
+                        },
+                      ),
                       const SizedBox(
                         height: 20,
                       ),
+
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      // product Regular Price
+                      TextFieldWidget(
+                        controller: productRegularPriceController,
+                        hint: 'Regular Price',
+                        validator: (value) {
+                          return textFieldValidation(
+                              title: 'Regular Price',
+                              value: value!,
+                              isNumber: true);
+                        },
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+
+
+
+                      // product discount price
+                      TextFieldWidget(
+                        controller: productDiscountPriceController,
+                        hint: 'Discount Price',
+                        validator: (value) {
+                          return textFieldValidation(
+                              title: 'Product Price',
+                              value: value!,
+                              min: 5,
+                              max: 50,
+                              isNumber: true);
+                        },
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+
                       SizedBox(
                         width: double.infinity,
                         height: 300,
@@ -263,9 +339,26 @@ class _UpdateProductState extends State<UpdateProduct> {
                                 width: double.infinity,
                                 height: double.infinity,
                                 fit: BoxFit.fill,
+                                loadingBuilder:(context, child, loadingProgress) {
+                                  if(loadingProgress == null){
+                                    print('loadingProgress null-------------------> $loadingProgress');
+                                    return child;
+                                  }
+                                  if(loadingProgress != null && _isImageExists == false){
+                                    _isImageExists = !_isImageExists;
+                                    print('image is exists -->: $_isImageExists');
+                                  }
+                                  // print('loadingProgress -------------------> $loadingProgress');
+                                  return Center(
+                                    child: CircularProgressIndicator(
+                                      value: loadingProgress.expectedTotalBytes != null ?
+                                      loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+                                          : null,
+                                    ),
+                                  );
+                                },
                                 errorBuilder: (context, object, stacktrace) {
-                                  _isImageExists = false;
-                                  print('image is exists : $_isImageExists');
+
                                   return Image.asset(
                                     'assets/images/no_image_available.png',
                                     width: double.infinity,
@@ -317,10 +410,10 @@ class _UpdateProductState extends State<UpdateProduct> {
                                       },
                                       child: CustomText(
                                         text: 'Choose Image',
-                                        color: !categoryController
-                                            .missingImage.value
-                                            ? TEXT_WHITE
-                                            : TEXT_RED,
+                                        color: !productController
+                                          .missingImage.value
+                                          ? TEXT_WHITE
+                                          : TEXT_RED,
                                         size: 18,
                                         weight: FontWeight.w600,
                                         letterSpacing: 1.2,
@@ -333,6 +426,27 @@ class _UpdateProductState extends State<UpdateProduct> {
                           ],
                         ),
                       ),
+
+                      const SizedBox(
+                        height: 20,
+                      ),
+
+
+                      // product description
+                      Container(
+
+                        height: overallController.screenHeight.value * 0.3,
+                        padding: const EdgeInsets.all(0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          border:
+                          Border.all(width: 1.2, color: TEXT_FIELD_BORDER),
+                        ),
+                        child: HtmlTextEditorWidget(
+                          controller: productDescController,
+                        ),
+                      ),
+
                       const SizedBox(
                         height: 20,
                       ),
@@ -355,7 +469,7 @@ class _UpdateProductState extends State<UpdateProduct> {
                                   if(categoryController.selectedCategory.value.id == null){
                                     productController.isSelectCategory.value = false;
                                   }
-                                  if(_isImageChanged && _isImageExists){
+                                  if(!_isImageChanged && !_isImageExists){
                                     productController.missingImage.value = true;
                                   }
                                   productController.uploadProductAction.value = false;
@@ -367,10 +481,15 @@ class _UpdateProductState extends State<UpdateProduct> {
 
 
                                 if(categoryController.selectedCategory.value.id == null){
+
                                   productController.uploadProductAction.value = false;
                                   return;
                                 }
-                                if(_isImageChanged && _isImageExists){
+                                if(!_isImageChanged && !_isImageExists){
+                                  productController.missingImage.value = true;
+                                  print('check update product image : _isImageChanged ->>>>>>>> $_isImageChanged');
+                                  print('check update product image : _isImageExists ->>>>>>>> $_isImageExists');
+                                  // print('check----------------> !_isImageChanged && !_isImageExists : ${!_isImageChanged && !_isImageExists}');
                                   productController.uploadProductAction.value = false;
                                   return;
                                 }
@@ -381,22 +500,32 @@ class _UpdateProductState extends State<UpdateProduct> {
 
                                 productController.selectProduct.value.name =
                                     productNameController.text.trim();
-                                productController.selectProduct.value.price =
-                                    productPriceController.text.trim();
-                                if(!_isImageChanged){
-                                  File image = await getImageFileFromAssets('images/no_image_available.png');
-                                  var f = await image.readAsBytes();
-                                  setState(() {
-                                    webImage = f;
-                                    // print('web image : $f');
-                                    pickedImage = File('a');
-                                  });
+                                productController.selectProduct.value.regularPrice =
+                                    double.parse(productRegularPriceController.text.trim());
+                                productController.selectProduct.value.quantity = int.parse(productQuantityController.text.trim());
+                                productController.selectProduct.value.discountPrice = double.parse(productDiscountPriceController.text.trim());
+                                // if(!_isImageChanged){
+                                //   File image = await getImageFileFromAssets('images/no_image_available.png');
+                                //   var f = await image.readAsBytes();
+                                //   setState(() {
+                                //     webImage = f;
+                                //     // print('web image : $f');
+                                //     pickedImage = File('a');
+                                //   });
+                                // }
+                                if(_isImageChanged){
+                                  print('------> productController.updateProduct(image: webImage!,isImageChanged: _isImageChanged,isImageExists: _isImage');
+                                  await productController.updateProduct(image: webImage!,isImageChanged: _isImageChanged,isImageExists: _isImageExists);
                                 }
-                                await productController.updateProduct(image: webImage!,isImageChanged: _isImageChanged,isImageExists: _isImageExists);
+                                else{
+                                  print('------> productController.updateProductWithoutImage(isImageExists: _isImageExists);');
+                                  await productController.updateProductWithoutImage(isImageExists: _isImageExists);
+                                }
                                 setState(() {
                                   pickedImage = null;
                                 });
-                                productPriceController.text = '';
+                                productRegularPriceController.text = '';
+                                productDiscountPriceController.text = '';
                                 productNameController.text = '';
                                 // productController.selectProduct.value = ProductModel.empty();
                                 // categoryController.selectedCategory.value = CategoryModel.empty();

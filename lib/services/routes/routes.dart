@@ -344,7 +344,7 @@ GoRouter router = GoRouter(
                       key: state.pageKey,
                       child: ResponsiveWidget(
                         key: state.pageKey,
-                        largeScreen: AdminLargeScreen(
+                        largeScreen: const AdminLargeScreen(
                           child: AdminBrandContentPage(title: "view",),
                         ),
                         mediumScreen: MediumScreen(),

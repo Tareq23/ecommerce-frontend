@@ -45,6 +45,16 @@ class ApiService
         return statusCode;
       }
       // uploaded without file
+
+      if(actionType.toLowerCase().contains("put")){
+        return await http.put(
+          Uri.parse(url),
+          headers: headers,
+          // body: {"username":loginModel.username,"password":loginModel.password},
+          body: jsonEncode(body),
+        );
+      }
+
       return await http.post(
         Uri.parse(url),
         headers: headers,

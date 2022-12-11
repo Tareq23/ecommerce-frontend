@@ -32,7 +32,7 @@ class BrandDataSource extends DataTableSource{
       //id
       DataCell(
         CustomText(
-          text: '${categoryController.categoryListAdmin[index].id}',
+          text: '${index+1}',
           size: 16,
           color: TEXT_WHITE.withOpacity(0.8),
         ),
@@ -41,7 +41,7 @@ class BrandDataSource extends DataTableSource{
       //name
       DataCell(
         CustomText(
-          text: '${categoryController.categoryListAdmin[index].name}',
+          text: '${brandController.brandList[index].name}',
           size: 16,
           color: TEXT_WHITE,
         ),
@@ -67,7 +67,7 @@ class BrandDataSource extends DataTableSource{
             child: CustomText(
               text: 'Products',
               size: 16,
-              color: TEXT_DARK.withOpacity(0.8),
+              color: TEXT_WHITE,
             ),
           ),
         ),
@@ -77,9 +77,7 @@ class BrandDataSource extends DataTableSource{
       DataCell(
         InkWell(
           onTap: (){
-            // GoRouter.of(context).goNamed(adminSpecificProductUpdate,
-            //     params: {"id":productController.productList[index].id.toString()});
-            // GoRouter.of(context)
+            GoRouter.of(context).goNamed(specificBrandUpdate,params: {"id":'${brandController.brandList[index].id}'});
           },
           child: Container(
             width: 80,
@@ -92,7 +90,7 @@ class BrandDataSource extends DataTableSource{
             child: CustomText(
               text: 'Edit',
               size: 16,
-              color: TEXT_DARK.withOpacity(0.8),
+              color: TEXT_WHITE,
             ),
           ),
         ),
@@ -101,10 +99,13 @@ class BrandDataSource extends DataTableSource{
       // brand delete
       DataCell(
         InkWell(
-          onTap: (){
-            // GoRouter.of(context).goNamed(adminSpecificProductUpdate,
-            //     params: {"id":productController.productList[index].id.toString()});
-            // GoRouter.of(context)
+          onTap: ()async{
+            brandController.selectedBrand.value.id = brandController.brandList[index].id;
+
+            if(await brandController.deleteBrand()){
+              GoRouter.of(context).pushNamed(adminBrandViewAll);
+            }
+
           },
           child: Container(
             width: 80,
@@ -117,7 +118,7 @@ class BrandDataSource extends DataTableSource{
             child: CustomText(
               text: 'Delete',
               size: 16,
-              color: TEXT_DARK.withOpacity(0.8),
+              color: TEXT_WHITE
             ),
           ),
         ),
@@ -131,7 +132,7 @@ class BrandDataSource extends DataTableSource{
 
   @override
   // TODO: implement rowCount
-  int get rowCount => categoryController.categoryListAdmin.length;
+  int get rowCount => brandController.brandList.length;
 
   @override
   // TODO: implement selectedRowCount

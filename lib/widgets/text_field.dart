@@ -14,6 +14,9 @@ class TextFieldWidget extends StatefulWidget {
   String? initialValue;
   Color? textColor;
   bool isNumber;
+
+
+
   TextFieldWidget({Key? key,this.isNumber=false, this.textColor,required this.hint, this.labelText,this.validator,this.expands,this.maxLines=1,this.minLines=1,this.controller,this.initialValue}) : super(key: key);
 
   @override
@@ -24,6 +27,9 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onChanged: (value){
+
+      },
       initialValue: widget.initialValue,
       controller: widget.controller,
       validator: widget.validator,

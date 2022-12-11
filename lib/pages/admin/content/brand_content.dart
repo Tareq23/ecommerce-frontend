@@ -39,9 +39,9 @@ class _AdminBrandContentPageState extends State<AdminBrandContentPage> {
             width: overallController.adminMainContentWidth.value,
             height: overallController.adminMainContentHeight.value,
             child: _brandContentWidgetList.elementAt(
-                _brandItem.indexOf(widget.title!) == -1
+                _brandItem.indexOf(widget.title) == -1
                     ? 3
-                    : _brandItem.indexOf(widget.title!)),
+                    : _brandItem.indexOf(widget.title)),
           ),
         ),
       ],

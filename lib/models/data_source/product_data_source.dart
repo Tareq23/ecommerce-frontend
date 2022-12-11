@@ -14,18 +14,18 @@ class ProductDataSource extends DataTableSource{
   final BuildContext context;
   ProductDataSource({required this.context});
 
-  final List<Map<String, dynamic>> dataList = List.generate(
-      500,
-      (index) => {
-            "id": index + 1,
-            "name": "product name ${index + 1}",
-            "imageUrl": 'https://image_url',
-            "price": Random().nextInt(1000),
-            "quantity": Random().nextInt(100),
-            "details": "details",
-            "edit": "edit",
-            "delete": "delete",
-          });
+  // final List<Map<String, dynamic>> dataList = List.generate(
+  //     500,
+  //     (index) => {
+  //           "id": index + 1,
+  //           "name": "product name ${index + 1}",
+  //           "imageUrl": 'https://image_url',
+  //           "price": Random().nextInt(1000),
+  //           "quantity": Random().nextInt(100),
+  //           "details": "details",
+  //           "edit": "edit",
+  //           "delete": "delete",
+  //         });
 
   @override
   DataRow? getRow(int index) {
@@ -33,25 +33,31 @@ class ProductDataSource extends DataTableSource{
       DataCell(
         // CustomText(text: dataList[index]['id'].toString(),size: 16,color: TEXT_DARK.withOpacity(0.8),),
         CustomText(
-          text: '${productController.productList[index].id}',
+          text: '${index+1}',
           size: 16,
           color: TEXT_WHITE.withOpacity(0.8),
         ),
       ),
       DataCell(
         // CustomText(text: dataList[index]['name'].toString(),size: 16,color: TEXT_DARK.withOpacity(0.8),),
-        CustomText(
-          text: '${productController.productList[index].name}',
-          size: 16,
-          color: TEXT_WHITE.withOpacity(0.8),
+        Container(
+          padding: EdgeInsets.zero,
+          constraints: BoxConstraints(
+            maxWidth: 200,
+          ),
+          child: CustomText(
+            text: '${productController.productList[index].name}',
+            size: 16,
+            color: TEXT_WHITE.withOpacity(0.8),
+          ),
         ),
       ),
       DataCell(
         // CustomText(text: dataList[index]['image_url'].toString(),size: 16,color: TEXT_DARK.withOpacity(0.8),),
         loadImage(
             imageUrl: '${productController.productList[index].imageUrl}',
-            width: 200,
-            height: 120),
+            width: 120,
+            height: 80),
       ),
       DataCell(
         // CustomText(text: dataList[index]['quantity'].toString(),size: 16,color: TEXT_DARK.withOpacity(0.8),),
@@ -63,7 +69,13 @@ class ProductDataSource extends DataTableSource{
       ),
       DataCell(
         CustomText(
-          text: '${productController.productList[index].price}',
+          text: '${productController.productList[index].regularPrice}',
+          size: 16,
+          color: TEXT_WHITE,
+        ),
+      ),DataCell(
+        CustomText(
+          text: '${productController.productList[index].discountPrice}',
           size: 16,
           color: TEXT_WHITE,
         ),
@@ -93,8 +105,8 @@ class ProductDataSource extends DataTableSource{
       DataCell(
         InkWell(
           onTap: (){
-            // GoRouter.of(context).goNamed(adminSpecificProductUpdate,
-            //     params: {"id":productController.productList[index].id.toString()});
+            GoRouter.of(context).goNamed(adminSpecificProductUpdate,
+                params: {"id":productController.productList[index].id.toString()});
             // GoRouter.of(context)
           },
           child: Container(
@@ -116,9 +128,8 @@ class ProductDataSource extends DataTableSource{
       DataCell(
         InkWell(
           onTap: (){
-            // GoRouter.of(context).goNamed(adminSpecificProductUpdate,
-            //     params: {"id":productController.productList[index].id.toString()});
-            // GoRouter.of(context)
+            productController.deleteProduct(productController.productList[index]);
+            GoRouter.of(context).pushNamed(adminProductContentPage);
           },
           child: Container(
             width: 80,

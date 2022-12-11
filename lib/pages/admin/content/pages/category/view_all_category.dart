@@ -57,15 +57,14 @@ class _ViewAllCategoryState extends State<ViewAllCategory> {
               }
               // return _createDataTable();
               return Theme(
-                data: ThemeData(
-                  cardColor: ADMIN_BG_SEAL_BROWN,
-                ),
+                data: ThemeData(cardColor: ADMIN_BG_SEAL_BROWN, textTheme: const TextTheme(caption: TextStyle(color: Colors.white),),),
                 child: PaginatedDataTable(
+                  source: CategoryDataSource(context: context),
                   arrowHeadColor: TEXT_WHITE,
                   headingRowHeight: 50,
                   showFirstLastButtons: true,
                   rowsPerPage: 5,
-                  dataRowHeight: 150,
+                  dataRowHeight: 100,
                   header: const CustomText(text: 'Category List', color: TEXT_WHITE,size: 18,weight: FontWeight.w500,),
                   actions: [
                     customActionButton(onTap: (){
@@ -104,7 +103,7 @@ class _ViewAllCategoryState extends State<ViewAllCategory> {
                       ),
                     ),
                   ],
-                  source: CategoryDataSource(context: context),
+
                 ),
               );
             })),

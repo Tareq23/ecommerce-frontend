@@ -12,7 +12,7 @@ class BrandModel
   BrandModel.parseJson(Map<String, dynamic>json){
     id = json['id'];
     name = json['name'];
-    slug = json['slug'];
+    slug = name?.split(" ").join("-");
   }
 
 
@@ -20,7 +20,6 @@ class BrandModel
     return {
       'id' : id,
       'name' : name,
-      'slug' : slug,
     };
   }
   BrandModel.empty();
