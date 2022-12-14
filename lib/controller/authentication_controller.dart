@@ -85,7 +85,7 @@ class AuthenticationController extends GetxController
     }
     bool checkLoggedIn = JwtDecoder.isExpired(accessToken.value);
 
-    // print('checkLoggedIn -----------> ${checkLoggedIn}');
+
     // int time = JwtDecoder.getRemainingTime(accessToken.value).inSeconds;
     // print('getRemainingTime -----------> ${JwtDecoder.getRemainingTime(accessToken.value).inSeconds} $time');
     if(!checkLoggedIn){
@@ -93,7 +93,7 @@ class AuthenticationController extends GetxController
       isAdmin.value = JwtService.isSuperAdmin();
       isManager.value = JwtService.isManager();
       isCustomer.value = JwtService.isCustomer();
-
+      print('checkLoggedIn -----------> ${checkLoggedIn}');
       return true;
     }
     // await _setToken(LoginModel("", "", "", false, false, false));

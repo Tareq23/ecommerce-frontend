@@ -1,8 +1,10 @@
 import 'package:ecommercefrontend/constants/colors.dart';
+import 'package:ecommercefrontend/constants/controllers.dart';
 import 'package:ecommercefrontend/constants/function.dart';
 import 'package:ecommercefrontend/services/routes/routes.dart';
 import 'package:ecommercefrontend/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 
 class UserProfileWidget extends StatefulWidget {
@@ -14,6 +16,17 @@ class UserProfileWidget extends StatefulWidget {
 }
 
 class _UserProfileWidgetState extends State<UserProfileWidget> {
+
+  @override
+  void didChangeDependencies() async{
+
+    if(!overallController.isDidChangeDependencies.value){
+      await overallController.fetchUserInfo();
+      overallController.isDidChangeDependencies.value = true;
+    }
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -26,64 +39,72 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
           CustomText(text: 'My Profile',size: 16,weight: FontWeight.w500,color: TEXT_DARK.withOpacity(0.9),),
           const SizedBox(height: 15,),
           SizedBox(
-            width:widget.totalScreenWidth * 0.65,
-            child: Wrap(
-              children: [
-                Container(
-                  width: (widget.totalScreenWidth * 0.65) * 0.4,
-                  margin: const EdgeInsets.only(bottom: 20,right: 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      CustomText(text: 'Full Name',size: 14,weight: FontWeight.w500,color: TEXT_DARK.withOpacity(0.9),),
-                      const SizedBox(height: 5,),
-                      textFormField(hint: '',initialValue: 'user full name',enable: false),
-                    ],
-                  ),
-                ),
-                Container(
-                  width: (widget.totalScreenWidth * 0.65) * 0.4,
-                  margin: const EdgeInsets.only(bottom: 20,right: 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      CustomText(text: 'My Username',size: 14,weight: FontWeight.w500,color: TEXT_DARK.withOpacity(0.9),),
-                      const SizedBox(height: 5,),
-                      textFormField(hint: '',initialValue: 'username@example.com',enable: false),
-                    ],
-                  ),
-                ),
-                Container(
-                  width: (widget.totalScreenWidth * 0.65) * 0.4,
-                  margin: const EdgeInsets.only(bottom: 20,right: 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      CustomText(text: 'Mobile Number',size: 14,weight: FontWeight.w500,color: TEXT_DARK.withOpacity(0.9),),
-                      const SizedBox(height: 5,),
-                      textFormField(hint: '',initialValue: '1234567****',enable: false),
-                    ],
-                  ),
-                ),
-                Container(
-                  width: (widget.totalScreenWidth * 0.65) * 0.4,
-                  margin: const EdgeInsets.only(bottom: 20,right: 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      CustomText(text: 'Birthday',size: 14,weight: FontWeight.w500,color: TEXT_DARK.withOpacity(0.9),),
-                      const SizedBox(height: 5,),
-                      textFormField(hint: '',initialValue: 'Please Enter Your birthday',enable: false),
-                    ],
-                  ),
-                ),
+            width: double.infinity,
+            child: Obx((){
+              if(overallController.customerInfo.value.firstName!.isEmpty || overallController.customerInfo.value.firstName == null){
+                return const CircularProgressIndicator();
+              }
+              return SizedBox(
+                width:widget.totalScreenWidth * 0.65,
+                child: Wrap(
+                  children: [
+                    Container(
+                      width: (widget.totalScreenWidth * 0.65) * 0.4,
+                      margin: const EdgeInsets.only(bottom: 20,right: 20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          CustomText(text: 'Full Name',size: 14,weight: FontWeight.w500,color: TEXT_DARK.withOpacity(0.9),),
+                          const SizedBox(height: 5,),
+                          textFormField(hint: '',initialValue: '${overallController.customerInfo.value.name}',enable: false),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      width: (widget.totalScreenWidth * 0.65) * 0.4,
+                      margin: const EdgeInsets.only(bottom: 20,right: 20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          CustomText(text: 'My Username',size: 14,weight: FontWeight.w500,color: TEXT_DARK.withOpacity(0.9),),
+                          const SizedBox(height: 5,),
+                          textFormField(hint: '',initialValue: '${overallController.customerInfo.value.username}',enable: false),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      width: (widget.totalScreenWidth * 0.65) * 0.4,
+                      margin: const EdgeInsets.only(bottom: 20,right: 20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          CustomText(text: 'Mobile Number',size: 14,weight: FontWeight.w500,color: TEXT_DARK.withOpacity(0.9),),
+                          const SizedBox(height: 5,),
+                          textFormField(hint: '',initialValue: '${overallController.customerInfo.value.phoneNumber}',enable: false),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      width: (widget.totalScreenWidth * 0.65) * 0.4,
+                      margin: const EdgeInsets.only(bottom: 20,right: 20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          CustomText(text: 'Birthday',size: 14,weight: FontWeight.w500,color: TEXT_DARK.withOpacity(0.9),),
+                          const SizedBox(height: 5,),
+                          textFormField(hint: '',initialValue: '${overallController.customerInfo.value.dateOfBirth}',enable: false),
+                        ],
+                      ),
+                    ),
 
-              ],
-            ),
+                  ],
+                ),
+              );
+            }),
           ),
           InkWell(
             onTap: (){

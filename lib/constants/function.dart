@@ -97,14 +97,37 @@ Widget textFormField(
   );
 }
 
+Widget textFormFieldWithController(
+    {required String hint,
+      TextEditingController? controller,
+      String? labelText,
+      String? Function(String? value)? validator,
+      String initialValue = '',
+      bool hintDisable = false,
+      bool enable = true}) {
+  return TextFormField(
+    enabled: enable,
+    validator: validator,
+    controller: controller,
+    decoration: InputDecoration(
+      hintText: hintDisable == false ? hint : "",
+      labelText: labelText ?? hint,
+      border: outlineInputBorder(enable: enable),
+      focusedBorder: outlineInputBorder(enable: enable),
+    ),
+  );
+}
+
 Widget textFormFieldDatePicker(
     {required String hint,
     required VoidCallback onTap,
     TextEditingController? controller,
     String? labelText,
-    String Function(String? value)? validator,
+    String? Function(String? value)? validator,
+      void Function(String? value)? onChange,
     bool enable = true}) {
   return TextFormField(
+    onChanged: onChange,
       enabled: enable,
       validator: validator,
       controller: controller,
@@ -233,8 +256,10 @@ DropdownButtonFormField locationSelectDropDown(
     onChanged: (value) async {
       if (isDivision) {
         if (value != overallController.selectDivisionName.value) {
-          overallController.selectDistrictName.value = 'জেলা';
-          overallController.selectSubDistrictName.value = 'উপজেলা';
+          // overallController.selectDistrictName.value = 'জেলা';
+          // overallController.selectSubDistrictName.value = 'উপজেলা';
+          locationController.subDistrict.clear();
+          locationController.district.clear();
           await locationController.reloadLocationData(
               isDivision: true, value: value);
         }
@@ -243,7 +268,8 @@ DropdownButtonFormField locationSelectDropDown(
       if (isDistrict) {
         // overallController.selectDistrictName.value = value!;
         if (value != overallController.selectDistrictName.value) {
-          overallController.selectSubDistrictName.value = 'উপজেলা';
+          // overallController.selectSubDistrictName.value = 'উপজেলা';
+          locationController.subDistrict.clear();
           await locationController.reloadLocationData(
               isDistrict: true, value: value);
         }

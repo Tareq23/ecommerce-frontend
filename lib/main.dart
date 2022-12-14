@@ -3,6 +3,7 @@ import 'package:ecommercefrontend/constants/controllers.dart';
 import 'package:ecommercefrontend/controller/address_location_controller.dart';
 import 'package:ecommercefrontend/controller/authentication_controller.dart';
 import 'package:ecommercefrontend/controller/brand_controller.dart';
+import 'package:ecommercefrontend/controller/cart_controller.dart';
 import 'package:ecommercefrontend/controller/category_controller.dart';
 import 'package:ecommercefrontend/controller/product_controller.dart';
 import 'package:ecommercefrontend/controller/item_button_controller.dart';
@@ -26,6 +27,7 @@ void main() {
   Get.put(LocationController());
   Get.put(BrandController());
   Get.put(OrderController());
+  Get.put(CartController());
   runApp(MyApp());
 }
 

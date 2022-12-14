@@ -34,8 +34,10 @@ class _CustomerOrVisitorProductDetailsPageState
     print('------------------> product url path $url');
     if(url.length>10){
       int productId = int.parse(url.split('/').last);
-      productController.fetchProductByIdForVisitorOrCustomer(productId);
+      await productController.fetchProductByIdForVisitorOrCustomer(productId);
     }
+
+    await authenticationController.isLoggedIn();
 
     super.didChangeDependencies();
   }
@@ -89,10 +91,22 @@ class _CustomerOrVisitorProductDetailsPageState
                       ),
                       // PRICE
                       CustomText(
-                        text: 'Price : ট ${productController.selectedProductForDetails.value.regularPrice}',
+                        text: 'Regular Price : ট ${productController.selectedProductForDetails.value.regularPrice}',
                         size: 16,
                         weight: FontWeight.w500,
                         color: TEXT_RED,
+                        decoration: productController.selectedProductForDetails.value.discountPrice == 0 ? TextDecoration.none : TextDecoration.lineThrough,
+                      ),
+                      // discount price
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      CustomText(
+                        text: 'Discount Price : ট ${productController.selectedProductForDetails.value.discountPrice}',
+                        size: 16,
+                        weight: FontWeight.w500,
+                        color: TEXT_RED,
+                        decoration: productController.selectedProductForDetails.value.discountPrice == 0 ? TextDecoration.lineThrough : TextDecoration.none,
                       ),
                       const SizedBox(
                         height: 20,

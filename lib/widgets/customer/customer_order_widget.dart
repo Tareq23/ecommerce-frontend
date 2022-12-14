@@ -1,8 +1,10 @@
 import 'package:ecommercefrontend/constants/colors.dart';
+import 'package:ecommercefrontend/constants/controllers.dart';
 import 'package:ecommercefrontend/constants/function.dart';
 import 'package:ecommercefrontend/models/order_model.dart';
 import 'package:ecommercefrontend/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class CustomerOrderedWidget extends StatefulWidget {
   final double totalScreenWidth;
@@ -14,6 +16,16 @@ class CustomerOrderedWidget extends StatefulWidget {
 }
 
 class _CustomerOrderedWidgetState extends State<CustomerOrderedWidget> {
+
+
+  @override
+  void didChangeDependencies() async{
+    await orderController.fetchCustomerOrderByCustomer();
+    // print('customer order list length : ${orderController.orderList.length}');
+    super.didChangeDependencies();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
@@ -21,15 +33,22 @@ class _CustomerOrderedWidgetState extends State<CustomerOrderedWidget> {
     return Container(
       width: widget.totalScreenWidth * 0.7,
       padding: const EdgeInsets.all(0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          ...orderList.asMap().entries.map((e){
-            return _orderCard(context,width: width, order : e.value);
-          })
-        ],
-      ),
+      child: Obx((){
+        if(orderController.orderList.isEmpty){
+          return CircularProgressIndicator();
+        }
+        return SizedBox(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              ...orderController.orderList.asMap().entries.map((e){
+                return _orderCard(context,width: width, order : e.value);
+              })
+            ],
+          ),
+        );
+      })
     );
   }
 
@@ -81,21 +100,21 @@ class _CustomerOrderedWidgetState extends State<CustomerOrderedWidget> {
             ),
             Column(
               children: [
-                ...order.productList!.asMap().entries.map((product){
+                ...order.orderDetailsList!.asMap().entries.map((details){
                   return Container(
                     margin: const EdgeInsets.only(bottom: 10),
                     padding: const EdgeInsets.only(right: 20),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        loadImage(imageUrl: '${product.value.imageUrl}', width: 200, height: 160),
+                        loadImage(imageUrl: '${details.value.product!.imageUrl}', width: 200, height: 160),
                         const SizedBox(
                           width: 12,
                         ),
                         Expanded(
                           child: CustomText(
                             text:
-                            '${product.value.title}',
+                            '${details.value.product!.title}',
                             size: 16,
                             color: TEXT_DARK.withOpacity(0.8),
                             weight: FontWeight.w500,
@@ -105,7 +124,7 @@ class _CustomerOrderedWidgetState extends State<CustomerOrderedWidget> {
                           width: 12,
                         ),
                         CustomText(
-                          text: 'Qty : ${product.value.quantity}',
+                          text: 'Qty : ${details.value.productQuantity}',
                           size: 16,
                           color: TEXT_DARK.withOpacity(0.8),
                           weight: FontWeight.w500,

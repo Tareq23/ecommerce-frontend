@@ -51,6 +51,7 @@ class ProductModel
     discountPrice = json['discountPrice'];
     imageUrl = json['imageUrl'];
     description = json['description'];
+    // print('--------------> parseJsonForProductDetails $title $imageUrl, $id, $regularPrice');
   }
 
 
@@ -59,6 +60,12 @@ class ProductModel
     id = product['productId'];
     title = product['productName'];
     imageUrl = product['imageUrl'];
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "id" : id,
+    };
   }
 
 }

@@ -3,6 +3,7 @@
 import 'package:ecommercefrontend/controller/address_location_controller.dart';
 import 'package:ecommercefrontend/controller/authentication_controller.dart';
 import 'package:ecommercefrontend/controller/brand_controller.dart';
+import 'package:ecommercefrontend/controller/cart_controller.dart';
 import 'package:ecommercefrontend/controller/category_controller.dart';
 import 'package:ecommercefrontend/controller/product_controller.dart';
 import 'package:ecommercefrontend/controller/item_button_controller.dart';
@@ -20,5 +21,6 @@ ProductController productController = ProductController.instance;
 LocationController locationController = LocationController.instance;
 BrandController brandController = BrandController.instance;
 OrderController orderController = OrderController.instance;
+CartController cartController = CartController.instance;
 
 final Future<SharedPreferences> sharedPreference = SharedPreferences.getInstance();

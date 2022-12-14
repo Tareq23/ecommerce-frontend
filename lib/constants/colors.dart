@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 const Color TEXT_DARK = Color(0xff333333);
 const Color TEXT_LINK = Color(0xff168dbb);
 const Color TEXT_RED = Color(0xffc44949);
+const Color TEXT_GREEN = Color(0xff69cc38);
 const Color TEXT_DANGER = Color(0xe0d95c5c);
 const Color TEXT_WHITE = Color(0xfff1f1f1);
 const Color ITEM_HOVER = Color(0xcdc55338);

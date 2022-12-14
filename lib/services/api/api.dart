@@ -40,4 +40,28 @@ class API
   static String VISITOR_OR_CUSTOMER_PRODUCT_DETAILS_BY_ID = '$BASE_URL/visitor-or-customer/product/';
 
 
+
+
+  // customer cart
+  static String CUSTOMER_CART_ADD = '$BASE_URL/customer/cart/add';
+  static String CUSTOMER_CART_ALL = '$BASE_URL/customer/cart/all';
+  static String CUSTOMER_CART_DELETE = '$BASE_URL/customer/cart/delete';
+
+
+  // customer order
+  static String CUSTOMER_ORDER_ADD = '$BASE_URL/customer/order/add';
+  static String CUSTOMER_ORDER_ALL = '$BASE_URL/customer/order/all';
+
+
+  // customer address
+  static String CUSTOMER_ADDRESS_ADD = '$BASE_URL/customer/address/add';
+  static String CUSTOMER_ADDRESS_All = '$BASE_URL/customer/address/all';
+  static String CUSTOMER_DEFAULT_ADDRESS_UPDATE = '$BASE_URL/customer/address/update/default-address/';
+
+
+  // CUSTOMER INFO
+  static const String CUSTOMER_INFO = '$BASE_URL/customer/info';
+  static const String CUSTOMER_INFO_UPDATE = '$BASE_URL/customer/info/update';
+
+
 }

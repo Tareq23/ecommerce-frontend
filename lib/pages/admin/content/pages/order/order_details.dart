@@ -24,7 +24,7 @@ class _OrderDetailsState extends State<OrderDetails> {
   void didChangeDependencies() {
     if(!overallController.isDidChangeDependencies.value){
 
-      orderController.singleOrder.value = OrderModel.withAddress(id: 1,date: DateTime(2022,1,1),status: 'Delivered',productList : [ProductModel.orderedProduct(id: 1,imageUrl: '',quantity: 1, title: 'product title/name'),
+      orderController.singleOrder.value = OrderModel.withAddress(id: 1,date: '2022/1/1',status: 'Delivered',productList : [ProductModel.orderedProduct(id: 1,imageUrl: '',quantity: 1, title: 'product title/name'),
         ProductModel.orderedProduct(id: 1,imageUrl: '',quantity: 1, title: 'product title/name'),
         ProductModel.orderedProduct(id: 1,imageUrl: '',quantity: 1, title: 'product title/name')],address: AddressModel(id: 1,receiverName: 'Jon',district: 'Tangail',division: 'Dhaka', subDistrict: 'Tangail Sodor',phoneNumber: '0172*******'));
 

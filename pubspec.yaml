@@ -47,6 +47,7 @@ dependencies:
   html_editor_enhanced: ^2.5.0
   flutter_html: ^2.2.1
   path_provider: ^2.0.11
+  universal_html:
 
   #Take Date of Birth From User Manually
   intl: ^0.17.0

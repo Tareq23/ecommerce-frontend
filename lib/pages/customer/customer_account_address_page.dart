@@ -34,7 +34,6 @@ class _CustomerAccountAddressPageState extends State<CustomerAccountAddressPage>
         Container(
           width: screenSize.width - commonPadding*2,
           padding: const EdgeInsets.all(0),
-          height: 500,
           color: Colors.grey.withOpacity(0.4),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,

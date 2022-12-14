@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:ecommercefrontend/constants/colors.dart';
 import 'package:ecommercefrontend/constants/controllers.dart';
 import 'package:ecommercefrontend/constants/function.dart';
+import 'package:ecommercefrontend/models/address_model.dart';
 import 'package:ecommercefrontend/services/routes/routes.dart';
 import 'package:ecommercefrontend/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
@@ -19,17 +22,43 @@ class CustomerAccountAddressWidget extends StatefulWidget {
 
 class _CustomerAccountAddressWidgetState
     extends State<CustomerAccountAddressWidget> {
+  TextEditingController nameTextEditingController = TextEditingController();
+  TextEditingController emailTextEditingController = TextEditingController();
+  TextEditingController detailsTextEditingController = TextEditingController();
+  TextEditingController phoneTextEditingController = TextEditingController();
+
+  bool isValidated = true;
+  bool isDefaultAddress = false;
+
+  @override
+  void initState() {
+
+    super.initState();
+  }
+
   @override
   void didChangeDependencies() async {
     await locationController.loadDivision();
     await locationController.loadDistrict();
     await locationController.loadSubDistrict();
 
+
+    await locationController.getAllAddress();
+
+    print('-------------> address List length : ${locationController.addressList.length}');
+
+
     super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async{
+      if(!overallController.isDidChangeDependencies.value){
+
+        overallController.isDidChangeDependencies.value = true;
+      }
+    });
     Size screenSize = MediaQuery.of(context).size;
     return Container(
       width: widget.totalScreenWidth * 0.7,
@@ -38,66 +67,76 @@ class _CustomerAccountAddressWidgetState
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              CustomText(
-                text: 'Address List',
-                size: 16,
-                weight: FontWeight.w500,
-                color: TEXT_DARK.withOpacity(0.9),
-              ),
-              InkWell(
-                onTap: () async {
-                  await _addressAlertDialog(context);
-                },
-                child: Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
-                    decoration: BoxDecoration(
-                      color: YELLOW,
-                      border: Border.all(color: BG_GREY, width: 1.2),
-                      borderRadius: BorderRadius.circular(5),
+          CustomText(
+            text: 'Address List',
+            size: 16,
+            weight: FontWeight.w500,
+            color: TEXT_DARK.withOpacity(0.9),
+          ),
+          Obx((){
+            if(locationController.addressList.isEmpty){
+              return const SizedBox(height: 10,);
+            }
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                  const SizedBox(height: 10,),
+                ...locationController.addressList.asMap().entries.map((e){
+                  print(e.value.division);
+                  return Container(
+                    width: (widget.totalScreenWidth * 0.7) * 0.88,
+                    padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                    child: Card(
+                      elevation: 0,
+                      child: Wrap(
+                        children: [
+                          CustomRichText(titleText: 'Name : ', valueText: e.value.receiverName!),const SizedBox(width: 20,),
+                          CustomRichText(titleText: 'Email : ', valueText: e.value.email!),const SizedBox(width: 20,),
+                          CustomRichText(titleText: 'Mobile : ', valueText: e.value.phoneNumber!),const SizedBox(width: 20,),
+                          CustomRichText(titleText: 'Division : ', valueText: '${e.value.division}'),const SizedBox(width: 20,),
+                          CustomRichText(titleText: 'District : ', valueText: '${e.value.district}'),const SizedBox(width: 20,),
+                          CustomRichText(titleText: 'Sub District : ', valueText: '${e.value.subDistrict}'),const SizedBox(width: 20,),
+                          CustomRichText(titleText: 'Details : ', valueText: '${e.value.details}'),const SizedBox(width: 20,),
+                        ],
+                      ),
                     ),
-                    height: 40,
-                    child: const CustomText(
-                      text: 'Add New Address',
-                      size: 16,
-                      weight: FontWeight.w500,
-                      color: TEXT_DARK,
-                    )),
-              ),
-            ],
+                  );
+                })
+              ],
+            );
+          }),
+
+          InkWell(
+            onTap: () async {
+              await _addressAlertDialog(context);
+            },
+            child: Container(
+                padding:
+                const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+                decoration: BoxDecoration(
+                  color: YELLOW,
+                  border: Border.all(color: BG_GREY, width: 1.2),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                height: 40,
+                child: const CustomText(
+                  text: 'Add New Address',
+                  size: 16,
+                  weight: FontWeight.w500,
+                  color: TEXT_DARK,
+                )),
           ),
           const SizedBox(
             height: 15,
           ),
-          InkWell(
-            onTap: () {
-              GoRouter.of(context)
-                  .goNamed(customerProfileAccountUpdate, params: {"id": "1"});
-            },
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
-              decoration: BoxDecoration(
-                color: YELLOW,
-                border: Border.all(color: BG_GREY, width: 1.2),
-                borderRadius: BorderRadius.circular(5),
-              ),
-              height: 40,
-              child: const CustomText(
-                text: 'Edit Profile',
-                size: 16,
-                weight: FontWeight.w500,
-                color: TEXT_DARK,
-              ),
-            ),
-          ),
+
         ],
       ),
     );
   }
 
   Future<void> _addressAlertDialog(BuildContext context) async {
+    locationController.selectedAddress.value.isDefault=false;
     await showDialog(
       context: context,
       builder: (context) {
@@ -130,7 +169,24 @@ class _CustomerAccountAddressWidgetState
                   const SizedBox(
                     height: 10,
                   ),
+                  Container(
+                    padding: const EdgeInsets.only(left: 20),
+                    child: Obx(() {
+                      if (overallController.isValidatedAddressTextField.value) {
+                        return const SizedBox.shrink();
+                      }
+                      return CustomText(
+                        text: 'Required all fields with valid input!',
+                        size: 16,
+                        color: TEXT_RED.withOpacity(0.8),
+                      );
+                    }),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
                         width: (screenSize.width * 0.5) * 0.45,
@@ -141,68 +197,337 @@ class _CustomerAccountAddressWidgetState
                             const SizedBox(
                               height: 15,
                             ),
-                            textFormField(hint: 'Name', hintDisable: true),
+                            textFormFieldWithController(
+                                hint: 'Name',
+                                hintDisable: true,
+                                controller: nameTextEditingController),
                             // CustomText(text: 'Mobile Number'),
                             const SizedBox(
                               height: 15,
                             ),
-                            textFormField(
-                                hint: 'Mobile Number', hintDisable: true),
+                            textFormFieldWithController(
+                                hint: 'Mobile Number',
+                                hintDisable: true,
+                                controller: phoneTextEditingController),
                             const SizedBox(
                               height: 15,
                             ),
-                            if (locationController.division.isNotEmpty)
-                              Obx(()=>locationSelectDropDown(isDivision: true)),
+                            // if (locationController.division.isNotEmpty)
+                            //   Obx(()=>locationSelectDropDown(isDivision: true)),
+
+                            // select division
+                            DropdownButtonFormField(
+                              decoration: InputDecoration(
+                                border: outlineInputBorder(),
+                                focusedBorder: outlineInputBorder(),
+                                enabledBorder: outlineInputBorder(),
+                              ),
+                              isExpanded: true,
+                              value: overallController.selectDivisionName.value,
+                              // value: 'বিভাগ',
+                              hint: CustomText(
+                                  text: overallController
+                                      .selectDivisionName.value),
+                              items: [
+                                const DropdownMenuItem(
+                                  value: 'বিভাগ',
+                                  child: CustomText(
+                                    text: 'বিভাগ',
+                                  ),
+                                ),
+                                ...locationController.division.map(
+                                  (e) => DropdownMenuItem<String>(
+                                    value: e.bnName,
+                                    child: CustomText(
+                                      text: e.bnName!,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                              onChanged: (value) async {
+                                if (value !=
+                                    overallController
+                                        .selectDivisionName.value) {
+                                  overallController.selectDistrictName.value =
+                                      'জেলা';
+                                  overallController
+                                      .selectSubDistrictName.value = 'উপজেলা';
+                                  overallController.isDivisionChange.value =
+                                      true;
+                                  overallController.selectDivisionName.value =
+                                      value!;
+                                  await locationController.reloadLocationData(
+                                      isDivision: true, value: value);
+                                }
+                              },
+                            ),
+                            const SizedBox(
+                              height: 15,
+                            ),
+
+                            // select district
+                            SizedBox(
+                              child: Obx(() {
+                                if (overallController.isDivisionChange.value) {
+                                  return const CircularProgressIndicator();
+                                }
+                                return DropdownButtonFormField(
+                                  decoration: InputDecoration(
+                                    border: outlineInputBorder(),
+                                    focusedBorder: outlineInputBorder(),
+                                    enabledBorder: outlineInputBorder(),
+                                  ),
+                                  isExpanded: true,
+                                  value: overallController
+                                      .selectDistrictName.value,
+                                  // value: 'জেলা',
+                                  hint: CustomText(
+                                      text: overallController
+                                          .selectDistrictName.value),
+                                  items: [
+                                    const DropdownMenuItem(
+                                      value: 'জেলা',
+                                      child: CustomText(
+                                        text: 'জেলা',
+                                      ),
+                                    ),
+                                    ...locationController.district.map(
+                                      (e) => DropdownMenuItem<String>(
+                                        value: e.bnName,
+                                        child: CustomText(
+                                          text: e.bnName!,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                  onChanged: (value) async {
+                                    if (value !=
+                                        overallController
+                                            .selectDistrictName.value) {
+                                      overallController.selectSubDistrictName
+                                          .value = 'উপজেলা';
+                                      overallController.isDistrictChange.value =
+                                          true;
+                                      overallController
+                                          .selectDistrictName.value = value!;
+                                      // locationController.subDistrict.clear();
+                                      await locationController
+                                          .reloadLocationData(
+                                              isDistrict: true, value: value!);
+                                    }
+                                  },
+                                );
+                              }),
+                            ),
+                            const SizedBox(
+                              height: 15,
+                            ),
+
+                            // select sub district
+                            SizedBox(
+                              child: Obx(() {
+                                if (overallController.isDistrictChange.value ||
+                                    overallController.isDivisionChange.value) {
+                                  return CircularProgressIndicator();
+                                }
+                                return DropdownButtonFormField(
+                                  decoration: InputDecoration(
+                                    border: outlineInputBorder(),
+                                    focusedBorder: outlineInputBorder(),
+                                    enabledBorder: outlineInputBorder(),
+                                  ),
+                                  isExpanded: true,
+                                  // value: 'উপজেলা',
+                                  value: overallController
+                                      .selectSubDistrictName.value,
+                                  hint: CustomText(
+                                      text: overallController
+                                          .selectSubDistrictName.value),
+                                  items: [
+                                    const DropdownMenuItem(
+                                      value: 'উপজেলা',
+                                      child: CustomText(
+                                        text: 'উপজেলা',
+                                      ),
+                                    ),
+                                    ...locationController.subDistrict.map(
+                                      (e) => DropdownMenuItem<String>(
+                                        value: e.bnName,
+                                        child: CustomText(
+                                          text: e.bnName!,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                  onChanged: (value) async {
+                                    if (value !=
+                                        overallController
+                                            .selectSubDistrictName.value) {
+                                      // locationController.subDistrict.clear();
+                                      // locationController.district.clear();
+                                      // await locationController.reloadLocationData(
+                                      //     isSubDistrict: true, value: value!);
+                                    }
+                                    overallController
+                                        .selectSubDistrictName.value = value!;
+                                  },
+                                );
+                              }),
+                            ),
 
                             const SizedBox(
                               height: 15,
                             ),
-                            if (locationController.district.isNotEmpty)
-                              Obx(()=>locationSelectDropDown(isDistrict: true)),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        width: (screenSize.width * 0.5) * 0.45,
+                        padding: const EdgeInsets.only(left: 20),
+                        child: Column(
+                          children: [
                             const SizedBox(
                               height: 15,
                             ),
-                            if (locationController.subDistrict.isNotEmpty)
-                              Obx(()=>locationSelectDropDown(isSubDistrict: true)),
-                            // DropdownButtonFormField(
-                            //   decoration: InputDecoration(
-                            //     border: outlineInputBorder(),
-                            //     focusedBorder: outlineInputBorder(),
-                            //     enabledBorder: outlineInputBorder()
-                            //   ),
-                            //   isExpanded: true,
-                            //   value: null,
-                            //   hint: Obx(() {
-                            //     return CustomText(
-                            //         text: overallController
-                            //             .selectDivisionName.value);
-                            //   }),
-                            //   items: [
-                            //     DropdownMenuItem(
-                            //       value: overallController
-                            //           .selectDivisionName.value,
-                            //       child: CustomText(
-                            //         text: overallController
-                            //             .selectDivisionName.value,
-                            //       ),
-                            //     ),
-                            //     ...locationController.division
-                            //         .map((e) => DropdownMenuItem<String>(
-                            //               value: e.bnName,
-                            //               child: CustomText(
-                            //                 text: e.bnName!,
-                            //               ),
-                            //             ))
-                            //   ],
-                            //   onChanged: (value) {
-                            //     overallController.selectDivisionName.value =
-                            //         value!;
-                            //   },
-                            // )
+                            Container(
+                              width: ((screenSize.width * 0.5) * 0.45) - 20,
+                              padding:
+                                  const EdgeInsets.only(right: 15, left: 10),
+                              height: 40,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(4),
+                                border: Border.all(
+                                  width: 1.2,
+                                  color: TEXT_FIELD_BORDER,
+                                ),
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  const CustomText(
+                                    text: 'Set as default address',
+                                    size: 16,
+                                    weight: FontWeight.w500,
+                                    color: TEXT_DARK,
+                                  ),
+                                  InkWell(
+                                    onTap: (){
+                                      locationController.setDefaultAddress.value = !locationController.setDefaultAddress.value;
+
+                                      locationController.selectedAddress.value.isDefault = locationController.setDefaultAddress.value;
+                                    },
+                                    child: Obx(() {
+                                      if (locationController.setDefaultAddress.value) {
+                                        return const Icon(
+                                            Icons.toggle_on_outlined,
+                                            size: 40,
+                                            color:TEXT_GREEN
+                                        );
+                                      }
+                                      return const Icon(
+                                          Icons.toggle_off_outlined,
+                                          size: 40,
+                                          color:TEXT_RED
+                                      );
+                                    }),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 15,
+                            ),
+                            textFormFieldWithController(
+                              controller: emailTextEditingController,
+                              hint: 'Email',
+                              hintDisable: true,
+                            ),
+                            const SizedBox(
+                              height: 15,
+                            ),
+                            TextFormField(
+                              controller: detailsTextEditingController,
+                              keyboardType: TextInputType.multiline,
+                              minLines: 3,
+                              maxLines: 7,
+                              validator: (value) {},
+                              decoration: InputDecoration(
+                                hintText: "Details",
+                                labelText: "Details",
+                                border: outlineInputBorder(enable: true),
+                                focusedBorder: outlineInputBorder(enable: true),
+                              ),
+                            ),
                           ],
                         ),
                       ),
                     ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 28.0),
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: customActionButton(
+                          onTap: () async {
+                            // save address
+
+                            if (nameTextEditingController.text.trim().length <
+                                    3 ||
+                                emailTextEditingController.text.trim().length <
+                                    15 ||
+                                phoneTextEditingController.text.trim().length <
+                                    11 ||
+                                overallController.selectDivisionName.value
+                                    .contains('বিভাগ') ||
+                                overallController.selectDivisionName.value
+                                    .contains('জেলা') ||
+                                overallController.selectDivisionName.value
+                                    .contains('উপজেলা')) {
+                              overallController
+                                  .isValidatedAddressTextField.value = false;
+                              return;
+                            }
+                            overallController
+                                .isValidatedAddressTextField.value = true;
+
+                            // print('${nameTextEditingController.text}\n${phoneTextEditingController.text}\n${detailsTextEditingController.text}');
+                            // print('${overallController.selectDivisionName.value}');
+                            // print('${overallController.selectDistrictName.value}');
+                            // print('${overallController.selectSubDistrictName.value}');
+
+                            locationController
+                                    .selectedAddress.value.receiverName =
+                                nameTextEditingController.text.trim();
+                            locationController.selectedAddress.value.email =
+                                emailTextEditingController.text.trim();
+                            locationController
+                                    .selectedAddress.value.phoneNumber =
+                                phoneTextEditingController.text.trim();
+                            locationController.selectedAddress.value.details =
+                                detailsTextEditingController.text.trim();
+                            locationController.selectedAddress.value.division =
+                                overallController.selectDivisionName.value;
+                            locationController.selectedAddress.value.district =
+                                overallController.selectDistrictName.value;
+                            locationController
+                                    .selectedAddress.value.subDistrict =
+                                overallController.selectSubDistrictName.value;
+
+                            // print(jsonEncode(
+                            //     locationController.selectedAddress.value));
+                            await locationController.addAddress(
+                                locationController.selectedAddress.value);
+
+
+                            if(mounted){
+                              Navigator.of(context).pop();
+                            }
+
+                          },
+                          title: 'Save'),
+                    ),
                   ),
                 ],
               ),

@@ -111,11 +111,4 @@ class ProductController extends GetxController{
     var result = await ProductService.deleteProduct(product);
     updateProductAction.value = false;
   }
-
-
-
-
-
-
-
 }

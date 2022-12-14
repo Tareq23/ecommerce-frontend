@@ -1,8 +1,10 @@
 
 import 'package:ecommercefrontend/constants/colors.dart';
+import 'package:ecommercefrontend/constants/controllers.dart';
 import 'package:ecommercefrontend/constants/function.dart';
 import 'package:ecommercefrontend/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class UserProfileUpdateWidget extends StatefulWidget {
@@ -15,14 +17,31 @@ class UserProfileUpdateWidget extends StatefulWidget {
 
 class _UserProfileUpdateWidgetState extends State<UserProfileUpdateWidget> {
 
+  final _formKey = GlobalKey<FormState>();
 
   TextEditingController birthdayTextController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController phoneNumberController = TextEditingController();
 
 
   @override
   void initState() {
     birthdayTextController.text = "";
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() async {
+    if(!overallController.isDidChangeDependencies.value){
+      await overallController.fetchUserInfo();
+      firstNameController.text = overallController.customerInfo.value.firstName!;
+      lastNameController.text = overallController.customerInfo.value.lastName!;
+      birthdayTextController.text = overallController.customerInfo.value.dateOfBirth!;
+      phoneNumberController.text = overallController.customerInfo.value.phoneNumber!;
+      overallController.isDidChangeDependencies.value = true;
+    }
+    super.didChangeDependencies();
   }
 
 
@@ -38,72 +57,110 @@ class _UserProfileUpdateWidgetState extends State<UserProfileUpdateWidget> {
         children: [
           CustomText(text: 'My Profile',size: 16,weight: FontWeight.w500,color: TEXT_DARK.withOpacity(0.9),),
           const SizedBox(height: 15,),
-          SizedBox(
-            width:widget.totalScreenWidth * 0.65,
-            child: Form(
-              child: Wrap(
-                children: [
-                  Container(
-                    width: (widget.totalScreenWidth * 0.65) * 0.4,
-                    margin: const EdgeInsets.only(bottom: 20,right: 20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        CustomText(text: 'Full Name',size: 14,weight: FontWeight.w500,color: TEXT_DARK.withOpacity(0.9),),
-                        const SizedBox(height: 5,),
-                        textFormField(hint: 'Full name',initialValue: 'user full name'),
-                      ],
+          Obx((){
+            if(overallController.customerInfo.value.firstName!.isEmpty || overallController.customerInfo.value.firstName == null){
+              return const CircularProgressIndicator();
+            }
+            return SizedBox(
+              width:widget.totalScreenWidth * 0.65,
+              child: Form(
+                key: _formKey,
+                child: Wrap(
+                  children: [
+                    Container(
+                      width: (widget.totalScreenWidth * 0.65) * 0.4,
+                      margin: const EdgeInsets.only(bottom: 20,right: 20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          CustomText(text: 'First Name',size: 14,weight: FontWeight.w500,color: TEXT_DARK.withOpacity(0.9),),
+                          const SizedBox(height: 5,),
+                          textFormFieldWithController(hint: '${overallController.customerInfo.value.firstName}',controller: firstNameController),
+                        ],
+                      ),
                     ),
-                  ),
-                  Container(
-                    width: (widget.totalScreenWidth * 0.65) * 0.4,
-                    margin: const EdgeInsets.only(bottom: 20,right: 20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        CustomText(text: 'My Username',size: 14,weight: FontWeight.w500,color: TEXT_DARK.withOpacity(0.9),),
-                        const SizedBox(height: 5,),
-                        textFormField(hint: '',initialValue: 'username@example.com',enable: false),
-                      ],
+                    Container(
+                      width: (widget.totalScreenWidth * 0.65) * 0.4,
+                      margin: const EdgeInsets.only(bottom: 20,right: 20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          CustomText(text: 'Last Name',size: 14,weight: FontWeight.w500,color: TEXT_DARK.withOpacity(0.9),),
+                          const SizedBox(height: 5,),
+                          textFormFieldWithController(hint: 'Last name',controller: lastNameController),
+                        ],
+                      ),
                     ),
-                  ),
-                  Container(
-                    width: (widget.totalScreenWidth * 0.65) * 0.4,
-                    margin: const EdgeInsets.only(bottom: 20,right: 20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        CustomText(text: 'Mobile Number',size: 14,weight: FontWeight.w500,color: TEXT_DARK.withOpacity(0.9),),
-                        const SizedBox(height: 5,),
-                        textFormField(hint: 'Mobile Number',initialValue: '1234567****'),
-                      ],
+                    Container(
+                      width: (widget.totalScreenWidth * 0.65) * 0.4,
+                      margin: const EdgeInsets.only(bottom: 20,right: 20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          CustomText(text: 'My Username',size: 14,weight: FontWeight.w500,color: TEXT_DARK.withOpacity(0.9),),
+                          const SizedBox(height: 5,),
+                          textFormField(hint: '',initialValue: '${overallController.customerInfo.value.username}',enable: false),
+                        ],
+                      ),
                     ),
-                  ),
-                  Container(
-                    width: (widget.totalScreenWidth * 0.65) * 0.4,
-                    margin: const EdgeInsets.only(bottom: 20,right: 20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        CustomText(text: 'Birthday',size: 14,weight: FontWeight.w500,color: TEXT_DARK.withOpacity(0.9),),
-                        const SizedBox(height: 5,),
-                        textFormFieldDatePicker(onTap : () async {
-                          await _datePicker();
-                        },hint: '',controller: birthdayTextController),
-                      ],
+                    Container(
+                      width: (widget.totalScreenWidth * 0.65) * 0.4,
+                      margin: const EdgeInsets.only(bottom: 20,right: 20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          CustomText(text: 'Mobile Number',size: 14,weight: FontWeight.w500,color: TEXT_DARK.withOpacity(0.9),),
+                          const SizedBox(height: 5,),
+                          textFormFieldWithController(hint: 'Mobile Number',controller: phoneNumberController,validator: (value){
+                            return textFieldValidation(title: 'Mobile Number', value: value!,min: 11,max: 11);
+                          },),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                    Container(
+                      width: (widget.totalScreenWidth * 0.65) * 0.4,
+                      margin: const EdgeInsets.only(bottom: 20,right: 20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          CustomText(text: 'Birthday',size: 14,weight: FontWeight.w500,color: TEXT_DARK.withOpacity(0.9),),
+                          const SizedBox(height: 5,),
+                          textFormFieldDatePicker(
+                            onChange: (value)async{
+                              await _datePicker();
+                            },
+                              validator: (value){
+                                return textFieldValidation(title: 'Birthday',value: value!,max: 10,min: 10);
+                              },
+                              onTap : () async {
+                            await _datePicker();
+                          },hint: '',controller: birthdayTextController),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ),
+            );
+          }),
+
           InkWell(
-            onTap: (){
+            onTap: () async{
               // hit api
+              if(!_formKey.currentState!.validate()){
+                return ;
+              }
+              overallController.customerInfo.value.firstName = firstNameController.text.trim();
+              overallController.customerInfo.value.lastName = lastNameController.text.trim();
+              overallController.customerInfo.value.phoneNumber = phoneNumberController.text.trim();
+              overallController.customerInfo.value.dateOfBirth = birthdayTextController.text.trim();
+
+              await overallController.updateUserInfo(overallController.customerInfo.value);
             },
             child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 7),
