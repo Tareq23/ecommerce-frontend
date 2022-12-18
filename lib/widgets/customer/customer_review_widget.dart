@@ -1,9 +1,12 @@
 import 'package:ecommercefrontend/constants/colors.dart';
+import 'package:ecommercefrontend/constants/controllers.dart';
 import 'package:ecommercefrontend/constants/function.dart';
 import 'package:ecommercefrontend/services/routes/routes.dart';
 import 'package:ecommercefrontend/widgets/custom_text.dart';
+import 'package:ecommercefrontend/widgets/customer_previous_review_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 
 class CustomerReviewWidget extends StatefulWidget {
@@ -16,6 +19,21 @@ class CustomerReviewWidget extends StatefulWidget {
 }
 
 class _CustomerReviewWidgetState extends State<CustomerReviewWidget> {
+
+
+  @override
+  void initState() {
+    reviewController.fetchCustomerReview();
+    super.initState();
+  }
+
+
+  @override
+  void didChangeDependencies()async{
+    // await reviewController.fetchCustomerReview();
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
@@ -47,7 +65,7 @@ class _CustomerReviewWidgetState extends State<CustomerReviewWidget> {
                       const SizedBox(
                           child: CustomText(
                         text:
-                            'Delivered product name What I want to achieve is to have a text widget inside a Column of fixed height. When the text is long I want the overflow property which is set to TextOverflow.ellipsis to kick in. The Text widget has its maxLines property set to a high value to allow it to wrap down. But there are other widgets in the column too, both before and after the text widget. The text widget is in an Expanded widget so that it takes up as much room in the column. Full code is pasted below.',
+                            'Deliverbefore and after the up as much room in the column. Full code is pasted below.',
                         size: 16,
                         weight: FontWeight.w500,
                       ),),
@@ -114,6 +132,12 @@ class _CustomerReviewWidgetState extends State<CustomerReviewWidget> {
               ],
             ),
           ),
+          Container(
+            margin: const EdgeInsets.only(top: 20,bottom: 10),
+            child: const CustomText(text: 'Previous Review',),
+          ),
+
+          CustomerPreviousReviewWidget(),
         ],
       ),
     );

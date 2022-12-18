@@ -14,18 +14,7 @@ class ProductDataSource extends DataTableSource{
   final BuildContext context;
   ProductDataSource({required this.context});
 
-  // final List<Map<String, dynamic>> dataList = List.generate(
-  //     500,
-  //     (index) => {
-  //           "id": index + 1,
-  //           "name": "product name ${index + 1}",
-  //           "imageUrl": 'https://image_url',
-  //           "price": Random().nextInt(1000),
-  //           "quantity": Random().nextInt(100),
-  //           "details": "details",
-  //           "edit": "edit",
-  //           "delete": "delete",
-  //         });
+
 
   @override
   DataRow? getRow(int index) {
@@ -42,7 +31,7 @@ class ProductDataSource extends DataTableSource{
         // CustomText(text: dataList[index]['name'].toString(),size: 16,color: TEXT_DARK.withOpacity(0.8),),
         Container(
           padding: EdgeInsets.zero,
-          constraints: BoxConstraints(
+          constraints: const BoxConstraints(
             maxWidth: 200,
           ),
           child: CustomText(
@@ -97,7 +86,7 @@ class ProductDataSource extends DataTableSource{
             child: CustomText(
               text: 'Details',
               size: 16,
-              color: TEXT_DARK.withOpacity(0.8),
+              color: TEXT_WHITE.withOpacity(0.8),
             ),
           ),
         ),
@@ -120,29 +109,7 @@ class ProductDataSource extends DataTableSource{
             child: CustomText(
               text: 'Edit',
               size: 16,
-              color: TEXT_DARK.withOpacity(0.8),
-            ),
-          ),
-        ),
-      ),
-      DataCell(
-        InkWell(
-          onTap: (){
-            productController.deleteProduct(productController.productList[index]);
-            GoRouter.of(context).pushNamed(adminProductContentPage);
-          },
-          child: Container(
-            width: 80,
-            height: 40,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: TEXT_DANGER,
-              borderRadius: BorderRadius.circular(4),
-            ),
-            child: CustomText(
-              text: 'Delete',
-              size: 16,
-              color: TEXT_DARK.withOpacity(0.8),
+              color: TEXT_WHITE.withOpacity(0.8),
             ),
           ),
         ),

@@ -17,6 +17,7 @@ import 'package:ecommercefrontend/pages/order_checkout_page.dart';
 import 'package:ecommercefrontend/pages/place_order_page.dart';
 import 'package:ecommercefrontend/pages/product/customer_visitor_product_details_page.dart';
 import 'package:ecommercefrontend/pages/product/product_details_page.dart';
+import 'package:ecommercefrontend/pages/product/search_product_page.dart';
 import 'package:ecommercefrontend/screen/admin_large_screen.dart';
 import 'package:ecommercefrontend/screen/large_screen.dart';
 import 'package:ecommercefrontend/screen/medium_screen.dart';
@@ -74,6 +75,10 @@ const String shippingPlaceOrderPage = 'shippingPlaceOrderPage';
 const String checkoutPlaceOrderPage = 'checkoutPlaceOrderPage';
 
 
+
+const String searchByProductName = 'searchByProductName';
+
+
 GoRouter router = GoRouter(
   initialLocation: '/',
 
@@ -121,8 +126,6 @@ GoRouter router = GoRouter(
             );
           },
         ),
-
-
         //auth
         GoRoute(
           path: 'auth/:auth',
@@ -135,6 +138,20 @@ GoRouter router = GoRouter(
                 child: AuthenticationPage(
                   title: state.params['auth'].toString(),
                 ),
+              ),
+            );
+          },
+        ),
+
+        GoRoute(
+          path: 'search/:name',
+          name: searchByProductName,
+          pageBuilder: (context, state) {
+            return NoTransitionPage(
+              key: state.pageKey,
+              child: LargeScreen(
+                title: '/',
+                child: SearchProductPage(name:state.params['name'].toString()),
               ),
             );
           },

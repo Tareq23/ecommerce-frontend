@@ -17,6 +17,7 @@ class ApiService
         bool multipart = false,
         bool isImageExists = false,
         bool isImageChanged = false,
+        bool isRequiredBody = false,
         Uint8List? file,
         String? actionType}) async {
     if (actionType!.toLowerCase().contains("post") || actionType.toLowerCase().contains("put")) {

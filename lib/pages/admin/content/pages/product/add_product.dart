@@ -228,7 +228,7 @@ class _AddProductState extends State<AddProduct> {
                                           title: 'Product name',
                                           value: value!,
                                           min: 5,
-                                          max: 50,
+                                          max: 200,
                                         );
                                       },
                                     ),
@@ -537,7 +537,7 @@ class _AddProductState extends State<AddProduct> {
 
                                   if (!mounted) return;
                                   context
-                                      .go('/admin/dashboard/product');
+                                      .push('/admin/dashboard/product');
                                 },
                                 child: Container(
                                   width: 100,

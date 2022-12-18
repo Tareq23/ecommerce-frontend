@@ -124,12 +124,12 @@ class _CustomerAccountAddressWidgetState
                   size: 16,
                   weight: FontWeight.w500,
                   color: TEXT_DARK,
-                )),
+                ),
+            ),
           ),
           const SizedBox(
             height: 15,
           ),
-
         ],
       ),
     );
@@ -230,16 +230,16 @@ class _CustomerAccountAddressWidgetState
                                       .selectDivisionName.value),
                               items: [
                                 const DropdownMenuItem(
-                                  value: 'বিভাগ',
+                                  value: 'Division',
                                   child: CustomText(
-                                    text: 'বিভাগ',
+                                    text: 'Division',
                                   ),
                                 ),
                                 ...locationController.division.map(
                                   (e) => DropdownMenuItem<String>(
-                                    value: e.bnName,
+                                    value: e.name,
                                     child: CustomText(
-                                      text: e.bnName!,
+                                      text: e.name!,
                                     ),
                                   ),
                                 ),
@@ -249,9 +249,9 @@ class _CustomerAccountAddressWidgetState
                                     overallController
                                         .selectDivisionName.value) {
                                   overallController.selectDistrictName.value =
-                                      'জেলা';
+                                      'District';
                                   overallController
-                                      .selectSubDistrictName.value = 'উপজেলা';
+                                      .selectSubDistrictName.value = 'Sub District';
                                   overallController.isDivisionChange.value =
                                       true;
                                   overallController.selectDivisionName.value =
@@ -286,16 +286,16 @@ class _CustomerAccountAddressWidgetState
                                           .selectDistrictName.value),
                                   items: [
                                     const DropdownMenuItem(
-                                      value: 'জেলা',
+                                      value: 'District',
                                       child: CustomText(
-                                        text: 'জেলা',
+                                        text: 'District',
                                       ),
                                     ),
                                     ...locationController.district.map(
                                       (e) => DropdownMenuItem<String>(
-                                        value: e.bnName,
+                                        value: e.name,
                                         child: CustomText(
-                                          text: e.bnName!,
+                                          text: e.name!,
                                         ),
                                       ),
                                     ),
@@ -305,7 +305,7 @@ class _CustomerAccountAddressWidgetState
                                         overallController
                                             .selectDistrictName.value) {
                                       overallController.selectSubDistrictName
-                                          .value = 'উপজেলা';
+                                          .value = 'Sub District';
                                       overallController.isDistrictChange.value =
                                           true;
                                       overallController
@@ -313,7 +313,7 @@ class _CustomerAccountAddressWidgetState
                                       // locationController.subDistrict.clear();
                                       await locationController
                                           .reloadLocationData(
-                                              isDistrict: true, value: value!);
+                                              isDistrict: true, value: value);
                                     }
                                   },
                                 );
@@ -345,16 +345,16 @@ class _CustomerAccountAddressWidgetState
                                           .selectSubDistrictName.value),
                                   items: [
                                     const DropdownMenuItem(
-                                      value: 'উপজেলা',
+                                      value: 'Sub District',
                                       child: CustomText(
-                                        text: 'উপজেলা',
+                                        text: 'Sub District',
                                       ),
                                     ),
                                     ...locationController.subDistrict.map(
                                       (e) => DropdownMenuItem<String>(
-                                        value: e.bnName,
+                                        value: e.name,
                                         child: CustomText(
-                                          text: e.bnName!,
+                                          text: e.name!,
                                         ),
                                       ),
                                     ),
@@ -480,11 +480,11 @@ class _CustomerAccountAddressWidgetState
                                 phoneTextEditingController.text.trim().length <
                                     11 ||
                                 overallController.selectDivisionName.value
-                                    .contains('বিভাগ') ||
+                                    .contains('Division') ||
                                 overallController.selectDivisionName.value
-                                    .contains('জেলা') ||
+                                    .contains('District') ||
                                 overallController.selectDivisionName.value
-                                    .contains('উপজেলা')) {
+                                    .contains('Sub District')) {
                               overallController
                                   .isValidatedAddressTextField.value = false;
                               return;

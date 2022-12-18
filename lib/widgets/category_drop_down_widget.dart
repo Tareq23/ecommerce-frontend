@@ -41,7 +41,7 @@ class CategoryDropdownWidget extends StatefulWidget {
       _categoryItemSlug.add(categoryController.categoryList[i].name!.toLowerCase().split(' ').join('-'));
       _categoryItemAgainSlug.add(categoryController.categoryList[i].name!.toLowerCase().split(' & ').join('-'));
       _categoryItemIndex.add(categoryController.categoryList[i].id!);
-      print('cat slug : ${categoryController.categoryList[i].name!.toLowerCase().split(' ').join('-')}');
+      // print('cat slug : ${categoryController.categoryList[i].name!.toLowerCase().split(' ').join('-')}');
     }
 
     if(isRequiredId){
@@ -128,7 +128,7 @@ class _CategoryDropdownWidgetState extends State<CategoryDropdownWidget> {
           // var catSlug  = _selectedValue.toLowerCase().split(' ').join("-");
           // print('slected category id ${overallController.selectedCategoryId.value} slug : ${_selectedValue.toLowerCase().split(' ').join("-")}');
           overallController.isDidChangeDependencies.value = false;
-          GoRouter.of(context).goNamed(specificCategoryProducts,params: {"name":overallController.selectedCategoryName.value.toLowerCase().split(' ').join("-")});
+          GoRouter.of(context).pushNamed(specificCategoryProducts,params: {"name":overallController.selectedCategoryName.value.toLowerCase().split(' ').join("-")});
         }
       },
     );

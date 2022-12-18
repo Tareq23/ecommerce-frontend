@@ -137,11 +137,11 @@ class _ViewAllProductState extends State<ViewAllProduct> {
                           text: 'Edit',color: TEXT_WHITE,
                         ),
                       ),
-                      DataColumn(
-                        label: CustomText(
-                          text: 'Delete',color: TEXT_WHITE,
-                        ),
-                      ),
+                      // DataColumn(
+                      //   label: CustomText(
+                      //     text: 'Delete',color: TEXT_WHITE,
+                      //   ),
+                      // ),
                     ],
 
                   ),

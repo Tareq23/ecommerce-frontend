@@ -64,49 +64,12 @@ class _SecondTopNavState extends State<SecondTopNav> {
                 SizedBox(
                   width: screenSize.width * 0.05,
                 ),
-                // SizedBox(
-                //   child: Row(
-                //     children: [
-                //       _nabItem(
-                //         context,
-                //         title: 'home',
-                //         onTap: () {
-                //           if (!itemButtonController.isActive('home')) {
-                //             itemButtonController.changeActiveItemTo('home');
-                //             context.go('/');
-                //           }
-                //         },
-                //       ),
-                //       _nabItem(
-                //         context,
-                //         title: 'shop',
-                //         onTap: () {
-                //           if (!itemButtonController.isActive('shop')) {
-                //             itemButtonController.changeActiveItemTo('shop');
-                //             context.go('/');
-                //           }
-                //         },
-                //       ),
-                //       _nabItem(
-                //         context,
-                //         title: 'shop detail',
-                //         onTap: () {
-                //           if (!itemButtonController.isActive('shop detail')) {
-                //             itemButtonController
-                //                 .changeActiveItemTo('shop detail');
-                //             context.go('/');
-                //           }
-                //         },
-                //       ),
-                //     ],
-                //   ),
-                // )
               ],
             ),
           ),
           InkWell(
             onTap: () {
-              GoRouter.of(context).goNamed(checkoutPlaceOrderPage);
+              GoRouter.of(context).goNamed(shippingPlaceOrderPage);
             },
             child: SizedBox(
               child: Row(

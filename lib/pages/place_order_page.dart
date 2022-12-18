@@ -393,8 +393,8 @@ class _PlaceOrderPageState extends State<PlaceOrderPage> {
                                       onChanged: (value) async{
                                         overallController.setDefaultAddressId
                                             .value = e.value.id!;
-                                        print('default address changes ${overallController.setDefaultAddressId
-                                            .value}');
+                                        // print('default address changes ${overallController.setDefaultAddressId
+                                        //     .value}');
                                        await locationController.updateDefaultAddress(overallController.setDefaultAddressId
                                             .value);
                                        if(mounted){

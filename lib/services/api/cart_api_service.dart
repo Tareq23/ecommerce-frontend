@@ -13,7 +13,7 @@ import 'package:ecommercefrontend/services/api/api_service.dart';
 
 class CartService {
 
-  static Future<dynamic> addCart(CartModel cart) async {
+  static Future<void> addCart(CartModel cart) async {
     await authenticationController.getToken();
     var response = await ApiService.action(
       url: API.CUSTOMER_CART_ADD,
@@ -27,10 +27,10 @@ class CartService {
     );
     if(response.statusCode == 200){
       var jsonString = jsonDecode(response.body);
-      return CartModel.parseJson(jsonString);
+      // return CartModel.parseJson(jsonString);
     }
 
-    return CartModel.empty();
+    // return CartModel.empty();
   }
   static Future<dynamic> delete(CartModel cart) async {
     await authenticationController.getToken();

@@ -8,14 +8,14 @@ import 'package:ecommercefrontend/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ViewPaymentCompletedOder extends StatefulWidget {
-  const ViewPaymentCompletedOder({Key? key}) : super(key: key);
+class ViewDeliveredOder extends StatefulWidget {
+  const ViewDeliveredOder({Key? key}) : super(key: key);
 
   @override
-  State<ViewPaymentCompletedOder> createState() => _ViewPaymentCompletedOderState();
+  State<ViewDeliveredOder> createState() => _ViewDeliveredOderState();
 }
 
-class _ViewPaymentCompletedOderState extends State<ViewPaymentCompletedOder> {
+class _ViewDeliveredOderState extends State<ViewDeliveredOder> {
   bool _check = false;
 
   @override
@@ -26,14 +26,7 @@ class _ViewPaymentCompletedOderState extends State<ViewPaymentCompletedOder> {
 
   @override
   void didChangeDependencies() async {
-    // await categoryController.fetchCategoryAllAdmin();
-    // print(
-    //     'categoryController.fetchCategoryAllAdmin : ${categoryController.categoryListAdmin.length}');
-    // if (!_check) {
-    //   setState(() {
-    //     _check = true;
-    //   });
-    // }
+    await orderController.fetchAllOrderForAdminByOrderStatus("delivered");
     super.didChangeDependencies();
   }
 
@@ -49,29 +42,32 @@ class _ViewPaymentCompletedOderState extends State<ViewPaymentCompletedOder> {
             behavior:
             ScrollConfiguration.of(context).copyWith(scrollbars: false),
             child: SingleChildScrollView(child: Obx(() {
-              if (categoryController.categoryListAdmin.isEmpty) {
-                return const Center(
-                  child: CircularProgressIndicator(
-                    color: TEXT_WHITE,
-
-                  ),
+              if (orderController.orderList.isEmpty) {
+                return const CircularProgressIndicator(
+                  color: TEXT_DARK,
                 );
               }
               // return _createDataTable();
-              return Theme(
+              return  Theme(
                 data: ThemeData(
                   cardColor: ADMIN_BG_SEAL_BROWN,
                 ),
                 child: PaginatedDataTable(
+                  source: AllOrderDataSource(context: context),
                   arrowHeadColor: TEXT_WHITE,
                   headingRowHeight: 50,
                   showFirstLastButtons: true,
                   rowsPerPage: 5,
                   dataRowHeight: 150,
-                  header: const CustomText(text: 'Complete Order List',color: TEXT_WHITE,size: 18,weight: FontWeight.w500,),
+                  header: const CustomText(
+                    text: 'Delivered Order List',
+                    color: TEXT_WHITE,
+                    size: 18,
+                    weight: FontWeight.w500,
+                  ),
                   actions: [
                     InkWell(
-                      onTap: (){},
+                      onTap: () {},
                       child: Container(
                         width: 100,
                         height: 40,
@@ -80,48 +76,60 @@ class _ViewPaymentCompletedOderState extends State<ViewPaymentCompletedOder> {
                           borderRadius: BorderRadius.circular(8),
                         ),
                         alignment: Alignment.center,
-                        child: const CustomText(text: 'Add New',size: 16,weight: FontWeight.w600,color: TEXT_WHITE,),
+                        child: const CustomText(
+                          text: 'Add New',
+                          size: 16,
+                          weight: FontWeight.w600,
+                          color: TEXT_WHITE,
+                        ),
                       ),
                     )
                   ],
-                  columns: const[
+                  columns: const [
                     DataColumn(
                       label: CustomText(
-                        text: 'Id',color: TEXT_WHITE,
+                        text: 'Id',
+                        color: TEXT_WHITE,
+                      ),
+                    ),
+                    // DataColumn(
+                    //   label: CustomText(
+                    //     text: 'Customer',
+                    //     color: TEXT_WHITE,
+                    //   ),
+                    // ),
+                    DataColumn(
+                      label: CustomText(
+                        text: 'Order Date',
+                        color: TEXT_WHITE,
+                      ),
+                    ),
+                    // DataColumn(
+                    //   label: CustomText(
+                    //     text: 'Price',
+                    //     color: TEXT_WHITE,
+                    //   ),
+                    // ),
+                    DataColumn(
+                      label: CustomText(
+                        text: 'Order Status',
+                        color: TEXT_WHITE,
                       ),
                     ),
                     DataColumn(
                       label: CustomText(
-                        text: 'Customer',color: TEXT_WHITE,
+                        text: 'Payment Status',
+                        color: TEXT_WHITE,
                       ),
                     ),
                     DataColumn(
                       label: CustomText(
-                        text: 'Order Date',color: TEXT_WHITE,
-                      ),
-                    ),
-                    DataColumn(
-                      label: CustomText(
-                        text: 'Price',color: TEXT_WHITE,
-                      ),
-                    ),
-                    DataColumn(
-                      label: CustomText(
-                        text: 'Delivery Status',color: TEXT_WHITE,
-                      ),
-                    ),
-                    DataColumn(
-                      label: CustomText(
-                        text: 'Payment',color: TEXT_WHITE,
-                      ),
-                    ),
-                    DataColumn(
-                      label: CustomText(
-                        text: 'Details',color: TEXT_WHITE,
+                        text: 'Details',
+                        color: TEXT_WHITE,
                       ),
                     ),
                   ],
-                  source: CompleteOrderDataSource(context: context),
+
                 ),
               );
             })),

@@ -70,6 +70,10 @@ class _ProductBuyAndCartButtonWidgetState extends State<ProductBuyAndCartButtonW
                   }
                   overallController.isAddToCartAction.value = true;
                   await cartController.addCart(productController.selectedProductForDetails.value);
+
+                  if(mounted){
+                    GoRouter.of(context).pushNamed(productDetails,params: {"id":productController.selectedProductForDetails.value.id.toString()});
+                  }
                   overallController.isAddToCartAction.value = false;
                 },
                 child: Container(

@@ -6,14 +6,15 @@ import 'package:ecommercefrontend/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ViewAllNewOrder extends StatefulWidget {
-  const ViewAllNewOrder({Key? key}) : super(key: key);
+class ViewConfirmOrder extends StatefulWidget {
+  const ViewConfirmOrder({Key? key}) : super(key: key);
 
   @override
-  State<ViewAllNewOrder> createState() => _ViewAllNewOrderState();
+  State<ViewConfirmOrder> createState() =>
+      _ViewConfirmOrderState();
 }
 
-class _ViewAllNewOrderState extends State<ViewAllNewOrder> {
+class _ViewConfirmOrderState extends State<ViewConfirmOrder> {
   bool _check = false;
 
   @override
@@ -24,7 +25,7 @@ class _ViewAllNewOrderState extends State<ViewAllNewOrder> {
 
   @override
   void didChangeDependencies() async {
-    await orderController.fetchAllOrderForAdminByOrderStatus("new-order");
+    await orderController.fetchAllOrderForAdminByOrderStatus('confirm');
     super.didChangeDependencies();
   }
 
@@ -51,19 +52,18 @@ class _ViewAllNewOrderState extends State<ViewAllNewOrder> {
                       cardColor: ADMIN_BG_SEAL_BROWN,
                     ),
                     child: PaginatedDataTable(
-                      source: NewOrderDataSource(context: context),
+                      source: PaymentPendingOrderDataSource(context: context),
                       arrowHeadColor: TEXT_WHITE,
                       headingRowHeight: 50,
                       showFirstLastButtons: true,
                       rowsPerPage: 5,
                       dataRowHeight: 150,
                       header: const CustomText(
-                        text: 'New Order List',
+                        text: 'Confirm Order List',
                         color: TEXT_WHITE,
                         size: 18,
                         weight: FontWeight.w500,
                       ),
-
                       columns: const [
                         DataColumn(
                           label: CustomText(
@@ -71,24 +71,14 @@ class _ViewAllNewOrderState extends State<ViewAllNewOrder> {
                             color: TEXT_WHITE,
                           ),
                         ),
-                        // DataColumn(
-                        //   label: CustomText(
-                        //     text: 'Customer',
-                        //     color: TEXT_WHITE,
-                        //   ),
-                        // ),
+
                         DataColumn(
                           label: CustomText(
                             text: 'Order Date',
                             color: TEXT_WHITE,
                           ),
                         ),
-                        // DataColumn(
-                        //   label: CustomText(
-                        //     text: 'Price',
-                        //     color: TEXT_WHITE,
-                        //   ),
-                        // ),
+
                         DataColumn(
                           label: CustomText(
                             text: 'Order Status',
@@ -112,7 +102,6 @@ class _ViewAllNewOrderState extends State<ViewAllNewOrder> {
                     ),
                   );
                 })
-
             ),
           ),
         ),

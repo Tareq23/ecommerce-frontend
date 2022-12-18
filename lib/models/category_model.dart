@@ -17,6 +17,7 @@ class CategoryModel {
       this.numberOfProduct,this.products});
 
   CategoryModel.addNew(this.title);
+  CategoryModel.empty();
 
   CategoryModel.parseJsonForHomeProduct(Map<String, dynamic> json) {
     id = json['id'];
@@ -36,6 +37,14 @@ class CategoryModel {
     // products.assignAll(_products);
     // print('----------> category model products length : ${products!.length}');
   }
+
+  Map<String, dynamic> toJson(){
+    return {
+      "id" : id,
+      "name" : title
+    };
+  }
+
 }
 
 List<ProductModel> toResponseList(List<dynamic> data) {
@@ -43,7 +52,7 @@ List<ProductModel> toResponseList(List<dynamic> data) {
   data.forEach((element) {
     value.add(ProductModel.parseJsonForCategory(element));
   });
-  print('----------> category model products length : ${value.length}');
+  // print('----------> category model products length : ${value.length}');
   return value;
 }
 

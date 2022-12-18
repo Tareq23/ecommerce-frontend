@@ -1,4 +1,5 @@
 import 'package:ecommercefrontend/constants/contants.dart';
+import 'package:ecommercefrontend/services/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -13,6 +14,8 @@ class SearchNav extends StatefulWidget {
 }
 
 class _SearchNavState extends State<SearchNav> {
+
+  TextEditingController searchTextController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
@@ -45,6 +48,7 @@ class _SearchNavState extends State<SearchNav> {
                 children: [
                   Expanded(
                     child: TextFormField(
+                      controller: searchTextController,
                       decoration: InputDecoration(
                         focusedBorder: _searchBorder(context),
                         border: _searchBorder(context),
@@ -52,7 +56,12 @@ class _SearchNavState extends State<SearchNav> {
                     ),
                   ),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      if(searchTextController.text.trim().length>3){
+                        print('serach name -------------> : ${searchTextController.text}');
+                        GoRouter.of(context).pushNamed(searchByProductName,params: {"name":searchTextController.text.trim()});
+                      }
+                    },
                     child: Container(
                       height: double.infinity,
                       padding: const EdgeInsets.all(0),

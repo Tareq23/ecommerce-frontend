@@ -46,7 +46,6 @@ class OrderController extends GetxController {
 
     await OrderService.addOrder(orderDetailsList);
 
-    print(jsonEncode(orderDetailsList));
 
     await Future.delayed(const Duration(seconds: 5));
   }
@@ -54,6 +53,33 @@ class OrderController extends GetxController {
     orderList.clear();
     var result = await OrderService.getOrderFromCustomer();
     orderList.assignAll(result);
-    await Future.delayed(const Duration(seconds: 5));
+    // await Future.delayed(const Duration(seconds: 5));
+  }
+
+  Future<void> fetchAllOrderForAdmin() async {
+    orderList.clear();
+    var result = await OrderService.getAllOrderForAdmin();
+    orderList.assignAll(result);
+  }
+
+  Future<void> fetchAllOrderForAdminByOrderStatus(String orderStatus) async {
+    orderList.clear();
+    var result = await OrderService.getAllOrderForAdminByOrderStatus(orderStatus);
+    orderList.assignAll(result);
+  }
+  
+  Future<void> fetchOrderByIdFromAdmin(int orderId) async {
+    orderList.clear();
+    var result = await OrderService.getOrderByIdForAdmin(orderId);
+    singleOrder.value = result;
+    print('order details from order controller : ${singleOrder.value.productList}');
+    print('order details from order controller : ${singleOrder.value.username}');
+  }
+
+  Future<void> updateOrderStatusFromAdmin() async {
+
+   await OrderService.updateOrderStatusFromAdmin(singleOrder.value);
+   await fetchAllOrderForAdminByOrderStatus('new-order');
+
   }
 }

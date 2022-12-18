@@ -3,6 +3,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:ecommercefrontend/constants/controllers.dart';
+import 'package:ecommercefrontend/models/category_model.dart';
 import 'package:ecommercefrontend/models/home/product_model.dart';
 import 'package:ecommercefrontend/models/product_model.dart';
 import 'package:ecommercefrontend/services/api/api.dart';
@@ -34,6 +35,59 @@ class ProductService
       }
     } catch (e) {
       print("exception error ----> : $e");
+    }
+    return [];
+  }
+
+
+  static Future<List<ProductModel>> fetchAllProductByCategory(CategoryModel category) async {
+    await authenticationController.getToken();
+    try {
+
+      var response = await ApiService.action(
+        url: API.VISITOR_OR_CUSTOMER_PRODUCT_FIND_BY_CATEGORY,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: category,
+        actionType: 'post',
+      );
+
+      if (response.statusCode == 200) {
+        var jsonString = jsonDecode(response.body) as List;
+        return jsonString
+            .map((e) => ProductModel.parseJsonForProductDetails(e))
+            .toList();
+      }
+    } catch (e) {
+      print("exception error ----> : $e");
+      return [];
+    }
+    return [];
+  }
+
+  static Future<List<ProductModel>> fetchAllProductByCategoryWithPriceRange(CategoryModel category,int minPrice,int maxPrice) async {
+    await authenticationController.getToken();
+    try {
+
+      var response = await ApiService.action(
+        url: '${API.VISITOR_OR_CUSTOMER_PRODUCT_FIND_BY_CATEGORY_WITH_PRICE_RANGE}$minPrice/$maxPrice',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: category,
+        actionType: 'post',
+      );
+
+      if (response.statusCode == 200) {
+        var jsonString = jsonDecode(response.body) as List;
+        return jsonString
+            .map((e) => ProductModel.parseJsonForProductDetails(e))
+            .toList();
+      }
+    } catch (e) {
+      print("exception error ----> : $e");
+      return [];
     }
     return [];
   }
@@ -105,7 +159,7 @@ class ProductService
     );
   }
 
-  static Future<dynamic> fetchProductById(int id) async {
+  static Future<dynamic> fetchProductById(int id) async{
     await authenticationController.getToken();
     // print('Bearer ${authenticationController.accessToken.value}');
     var response = await ApiService.action(

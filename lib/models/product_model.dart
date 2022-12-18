@@ -1,5 +1,7 @@
 
 
+import 'package:ecommercefrontend/models/review_model.dart';
+
 class ProductModel
 {
   int? id;
@@ -10,7 +12,8 @@ class ProductModel
   dynamic? price;
   dynamic? regularPrice;
   dynamic? discountPrice;
-  // dynamic? rating;
+  double rating=0;
+  List<ReviewModel>? reviewList = [];
   // ProductModel({this.id,this.title,this.quantity,this.description,this.imageUrl,this.price});
   ProductModel.empty();
   ProductModel(this.id,this.title,this.imageUrl,this.regularPrice,this.discountPrice,this.description);
@@ -51,6 +54,24 @@ class ProductModel
     discountPrice = json['discountPrice'];
     imageUrl = json['imageUrl'];
     description = json['description'];
+    var jsonString = json['review'] as List;
+    reviewList =  jsonString.map((e) => ReviewModel.parseJson(e)).toList();
+
+    int counter=0;
+    rating=0;
+    if(reviewList!.isNotEmpty){
+
+      for(ReviewModel review in reviewList!){
+        rating += review.rating!;
+        counter++;
+      }
+    }
+    if(counter>0){
+      rating = rating/ counter;
+    }else{
+      rating = 3.5;
+    }
+
     // print('--------------> parseJsonForProductDetails $title $imageUrl, $id, $regularPrice');
   }
 

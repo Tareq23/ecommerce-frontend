@@ -53,10 +53,10 @@ class LocationController extends GetxController {
       bool isDistrict = false,
       bool isSubDistrict = false, required String value}) async {
 
-      if(isDivision && value != 'বিভাগ'){
+      if(isDivision && value != 'Division'){
         int divId = 0;
         for(int i=0; i<division.length; i++){
-          if(division[i].bnName == value){
+          if(division[i].name == value){
             divId = division[i].id??0;
             break;
           }
@@ -75,10 +75,10 @@ class LocationController extends GetxController {
         overallController.isDivisionChange.value = false;
       }
 
-      if(isDistrict && value != 'জেলা'){
+      if(isDistrict && value != 'District'){
         int disId = 0;
         for(int i=0; i<district.length; i++){
-          if(district[i].bnName == value){
+          if(district[i].name == value){
             disId = district[i].id??0;
             break;
           }

@@ -3,8 +3,8 @@ import 'package:ecommercefrontend/constants/controllers.dart';
 import 'package:ecommercefrontend/nav/admin/side_nav.dart';
 import 'package:ecommercefrontend/pages/admin/content/not_fount_content.dart';
 import 'package:ecommercefrontend/pages/admin/content/pages/order/order_details.dart';
-import 'package:ecommercefrontend/pages/admin/content/pages/order/payment_completed_order.dart';
-import 'package:ecommercefrontend/pages/admin/content/pages/order/payment_pending_order.dart';
+import 'package:ecommercefrontend/pages/admin/content/pages/order/delivered_order.dart';
+import 'package:ecommercefrontend/pages/admin/content/pages/order/confirm_order.dart';
 import 'package:ecommercefrontend/pages/admin/content/pages/order/view_all_new_order.dart';
 import 'package:ecommercefrontend/pages/admin/content/pages/order/view_all_order.dart';
 import 'package:ecommercefrontend/widgets/custom_text.dart';
@@ -15,8 +15,8 @@ List<String> _orderItem = ['view','payment/complete','payment/pending','new-orde
 
 List<Widget> _orderContentWidgetList = [
   ViewAllOrder(),
-  ViewPaymentCompletedOder(),
-  ViewPaymentPendingOrder(),
+  ViewDeliveredOder(),
+  ViewConfirmOrder(),
   ViewAllNewOrder(),
   OrderDetails(),
   NotFoundContent()

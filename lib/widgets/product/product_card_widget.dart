@@ -21,24 +21,19 @@ class ProductCard extends StatelessWidget {
   final double _cardHeight = 320;
   @override
   Widget build(BuildContext context) {
-    // print('-----------------------> product card  section : ${product.title}');
     product.title= '${product.title} ${product.title} ${product.title} ${product.title}';
     var titleLength = product.title!.length;
     var text = product.title!;
-    // print('-----------------------> product card  section title length : ${text.length}');
-
     if(titleLength>50){
       text = product.title!.substring(0,50);
       text = '${product.title} ....';
     }
-    // print('-----------------------> product card  section title length : ${text.length}');
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       child: Link(
         target: LinkTarget.self,
         uri: Uri.parse('/product/details/${product.id}'),
         builder: (context,followLink){
-          // print('------------------------<>------------------->${Uri.base}');
           return InkWell(
             onTap: followLink,
             child: Card(
@@ -80,7 +75,7 @@ class ProductCard extends StatelessWidget {
                             height: 18,
                           ),
                           CustomText(
-                            text:"\$${product.regularPrice}",
+                            text:"৳ ${product.regularPrice}",
                             size: 18,
                             weight: FontWeight.w500,
                             color: TEXT_DARK,
@@ -89,7 +84,7 @@ class ProductCard extends StatelessWidget {
                             height: 8,
                           ),
                           CustomText(
-                            text:"\$${product.discountPrice}",
+                            text:"৳ ${product.discountPrice}",
                             size: 18,
                             weight: FontWeight.w500,
                             color: TEXT_DARK,
@@ -98,9 +93,9 @@ class ProductCard extends StatelessWidget {
                             height: 18,
                           ),
                           RatingBar.builder(
-                            initialRating: 3.2,
-                            minRating: 3.2,
-                            maxRating: 3.2,
+                            initialRating: product.rating,
+                            minRating: product.rating,
+                            maxRating: 5,
                             direction: Axis.horizontal,
                             allowHalfRating: true,
                             itemCount: 5,

@@ -20,10 +20,8 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
   @override
   void didChangeDependencies() async{
 
-    if(!overallController.isDidChangeDependencies.value){
-      await overallController.fetchUserInfo();
-      overallController.isDidChangeDependencies.value = true;
-    }
+    await overallController.fetchUserInfo();
+
     super.didChangeDependencies();
   }
 

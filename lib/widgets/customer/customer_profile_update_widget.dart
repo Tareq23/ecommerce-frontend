@@ -33,14 +33,11 @@ class _UserProfileUpdateWidgetState extends State<UserProfileUpdateWidget> {
 
   @override
   void didChangeDependencies() async {
-    if(!overallController.isDidChangeDependencies.value){
-      await overallController.fetchUserInfo();
-      firstNameController.text = overallController.customerInfo.value.firstName!;
-      lastNameController.text = overallController.customerInfo.value.lastName!;
-      birthdayTextController.text = overallController.customerInfo.value.dateOfBirth!;
-      phoneNumberController.text = overallController.customerInfo.value.phoneNumber!;
-      overallController.isDidChangeDependencies.value = true;
-    }
+    await overallController.fetchUserInfo();
+    firstNameController.text = overallController.customerInfo.value.firstName!;
+    lastNameController.text = overallController.customerInfo.value.lastName!;
+    birthdayTextController.text = overallController.customerInfo.value.dateOfBirth!;
+    phoneNumberController.text = overallController.customerInfo.value.phoneNumber!;
     super.didChangeDependencies();
   }
 
@@ -187,13 +184,10 @@ class _UserProfileUpdateWidgetState extends State<UserProfileUpdateWidget> {
         lastDate: DateTime(2101));
 
     if (pickedDate != null) {
-      print(pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
-      // String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
       String formattedDate = DateFormat('dd-MM-yyyy').format(pickedDate);
       setState(() {
         birthdayTextController.text = formattedDate; //set output date to TextField value.
       });
-      print(birthdayTextController.text);
     } else {
       print("Date is not selected");
     }

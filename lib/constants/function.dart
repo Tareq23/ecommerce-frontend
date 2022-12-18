@@ -34,7 +34,7 @@ Widget textFormFieldOnlyNumber(
     controller: controller,
     keyboardType: TextInputType.number,
     maxLines: 1,
-    maxLengthEnforcement: MaxLengthEnforcement.truncateAfterCompositionEnds,
+    maxLengthEnforcement: MaxLengthEnforcement.enforced,
     inputFormatters: [
       FilteringTextInputFormatter.allow(RegExp(r'^[1-9][0-9]*'))
     ],

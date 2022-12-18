@@ -3,10 +3,12 @@
 import 'dart:convert';
 
 import 'package:ecommercefrontend/constants/controllers.dart';
+import 'package:ecommercefrontend/models/category_model.dart';
 import 'package:ecommercefrontend/models/home/category_model.dart';
 import 'package:ecommercefrontend/models/home/product_model.dart';
 import 'package:ecommercefrontend/models/product_model.dart';
 import 'package:ecommercefrontend/services/api/categorty_api_service.dart';
+import 'package:ecommercefrontend/services/api/overall_api_service.dart';
 import 'package:ecommercefrontend/services/api/product_api_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
@@ -22,7 +24,9 @@ class ProductController extends GetxController{
 
   var selectedProductForDetails = ProductModel.empty().obs;
 
+  var searchProductList = <ProductModel>[].obs;
 
+  var categoryProductList =  <ProductModel>[].obs;
 
   var productListSerial = 0.obs;
   var productList = <HomeProductModel>[].obs;
@@ -44,11 +48,23 @@ class ProductController extends GetxController{
 
   Future<void> fetchAllProductAdmin() async{
     var result = await ProductService.fetchAllProductAdmin();
-
     if(result.isNotEmpty){
       productList.assignAll(result);
     }
 
+  }
+
+  Future<void> fetchProductByCategory(CategoryModel category) async{
+    var result = await ProductService.fetchAllProductByCategory(category);
+    result.reversed;
+    categoryProductList.assignAll(result);
+    print('-----------------------> product list length : ${categoryProductList.length}');
+  }
+
+  Future<void> fetchProductByCategoryWithPriceRange(CategoryModel category,int minPrice, int maxPrice) async{
+    var result = await ProductService.fetchAllProductByCategoryWithPriceRange(category,minPrice,maxPrice);
+    categoryProductList.assignAll(result);
+    print('-----------------------> product list length : ${categoryProductList.length}');
   }
 
   Future<void> addProduct({required Uint8List? image}) async{
@@ -57,6 +73,15 @@ class ProductController extends GetxController{
     var result = ProductService.addProduct(selectProduct.value, image!);
     print('------------> $result');
   }
+
+
+  Future<void> fetchSearchProductList(String name) async{
+    var result = await OverallApiService.searchByProductName(name);
+    searchProductList.assignAll(result);
+    print('searchProductList length  : $searchProductList');
+  }
+
+
 
   Future<void> fetchProductById(int id) async{
     var result = await ProductService.fetchProductById(id);
@@ -107,7 +132,6 @@ class ProductController extends GetxController{
 
 
   Future<void> deleteProduct(HomeProductModel product) async{
-
     var result = await ProductService.deleteProduct(product);
     updateProductAction.value = false;
   }

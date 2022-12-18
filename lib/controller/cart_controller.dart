@@ -24,10 +24,10 @@ class CartController extends GetxController{
       cart.value.productPrice = cart.value.productQuantity! * productController.selectedProductForDetails.value.regularPrice!;
     }
 
-    print(jsonEncode(cart));
+    // print(jsonEncode(cart));
 
-    var result = await CartService.addCart(cart.value);
-    // cart.value = result;
+     await CartService.addCart(cart.value);
+    // overallController.isAddToCartAction.value = false;
   }
   Future<void> deleteCart(CartModel cart) async{
 

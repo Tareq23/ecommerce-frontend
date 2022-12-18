@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:ecommercefrontend/models/address_model.dart';
 import 'package:ecommercefrontend/models/cart_model.dart';
+import 'package:ecommercefrontend/models/category_model.dart';
 import 'package:ecommercefrontend/models/customer_model.dart';
 import 'package:ecommercefrontend/services/api/overall_api_service.dart';
 import 'package:flutter/cupertino.dart';
@@ -34,9 +35,9 @@ class OverallController extends GetxController {
   var isAddToCartAction = false.obs;
   var isOrderAction = false.obs;
 
-  var selectDivisionName = 'বিভাগ'.obs;
-  var selectDistrictName = 'জেলা'.obs;
-  var selectSubDistrictName = 'উপজেলা'.obs;
+  var selectDivisionName = 'Division'.obs;
+  var selectDistrictName = 'District'.obs;
+  var selectSubDistrictName = 'Sub District'.obs;
   var isValidatedAddressTextField = true.obs;
   var isDivisionChange = false.obs;
   var isDistrictChange = false.obs;
@@ -46,17 +47,21 @@ class OverallController extends GetxController {
 
   var customerInfo = CustomerModel.empty().obs;
   var setDefaultAddressId = 0.obs;
+  var setOrderStatus = 0.obs;
   var customerDefaultAddress = AddressModel.empty().obs;
 
   var totalOrderPrice = 0.obs;
   var totalProductPrice = 0.obs;
 
+  var categoryForCustomer = CategoryModel.empty().obs;
+
+  var priceRangeFilterError = false.obs;
+  var isPriceRangeFilterSearchAction = false.obs;
+
 
   Future<void> fetchUserInfo() async {
     var result = await OverallApiService.getUserInfo();
-    // print(result.name);
     customerInfo.value = result;
-    // print(customerInfo.value.orderList![0].status);
     for(AddressModel address in customerInfo.value.addressList!){
       if(address.isDefault!){
         customerDefaultAddress.value = address;

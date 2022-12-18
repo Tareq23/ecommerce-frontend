@@ -140,7 +140,7 @@ class _CustomerOrderedWidgetState extends State<CustomerOrderedWidget> {
                             color: BG_BUTTON,
                           ),
                           child: CustomText(
-                            text: '${order.status}',
+                            text: '${order.orderStatus}',
                             size: 16,
                             color: TEXT_WHITE.withOpacity(0.8),
                             weight: FontWeight.w500,

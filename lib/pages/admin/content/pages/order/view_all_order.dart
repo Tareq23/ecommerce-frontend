@@ -24,7 +24,7 @@ class _ViewAllOrderState extends State<ViewAllOrder> {
 
   @override
   void didChangeDependencies() async {
-    // await categoryController.fetchCategoryAllAdmin();
+    await orderController.fetchAllOrderForAdmin();
     // print(
     //     'categoryController.fetchCategoryAllAdmin : ${categoryController.categoryListAdmin.length}');
     // if (!_check) {
@@ -47,98 +47,97 @@ class _ViewAllOrderState extends State<ViewAllOrder> {
             behavior:
                 ScrollConfiguration.of(context).copyWith(scrollbars: false),
             child: SingleChildScrollView(
-              child: Theme(
-                data: ThemeData(
-                  cardColor: ADMIN_BG_SEAL_BROWN,
-                ),
-                child: PaginatedDataTable(
-                  arrowHeadColor: TEXT_WHITE,
-                  headingRowHeight: 50,
-                  showFirstLastButtons: true,
-                  rowsPerPage: 5,
-                  dataRowHeight: 150,
-                  header: const CustomText(
-                    text: 'Complete Order List',
-                    color: TEXT_WHITE,
-                    size: 18,
-                    weight: FontWeight.w500,
+              child:Obx((){
+                if (orderController.orderList.isEmpty) {
+                  return const CircularProgressIndicator(
+                    color: TEXT_DARK,
+                  );
+                }
+                return  Theme(
+                  data: ThemeData(
+                    cardColor: ADMIN_BG_SEAL_BROWN,
                   ),
-                  actions: [
-                    InkWell(
-                      onTap: () {},
-                      child: Container(
-                        width: 100,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          color: TEXT_DANGER,
-                          borderRadius: BorderRadius.circular(8),
+                  child: PaginatedDataTable(
+                    source: AllOrderDataSource(context: context),
+                    arrowHeadColor: TEXT_WHITE,
+                    headingRowHeight: 50,
+                    showFirstLastButtons: true,
+                    rowsPerPage: 5,
+                    dataRowHeight: 150,
+                    header: const CustomText(
+                      text: 'All Order List',
+                      color: TEXT_WHITE,
+                      size: 18,
+                      weight: FontWeight.w500,
+                    ),
+                    actions: [
+                      InkWell(
+                        onTap: () {},
+                        child: Container(
+                          width: 100,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            color: TEXT_DANGER,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          alignment: Alignment.center,
+                          child: const CustomText(
+                            text: 'Add New',
+                            size: 16,
+                            weight: FontWeight.w600,
+                            color: TEXT_WHITE,
+                          ),
                         ),
-                        alignment: Alignment.center,
-                        child: const CustomText(
-                          text: 'Add New',
-                          size: 16,
-                          weight: FontWeight.w600,
+                      )
+                    ],
+                    columns: const [
+                      DataColumn(
+                        label: CustomText(
+                          text: 'Id',
                           color: TEXT_WHITE,
                         ),
                       ),
-                    )
-                  ],
-                  columns: const [
-                    DataColumn(
-                      label: CustomText(
-                        text: 'Id',
-                        color: TEXT_WHITE,
+                      // DataColumn(
+                      //   label: CustomText(
+                      //     text: 'Customer',
+                      //     color: TEXT_WHITE,
+                      //   ),
+                      // ),
+                      DataColumn(
+                        label: CustomText(
+                          text: 'Order Date',
+                          color: TEXT_WHITE,
+                        ),
                       ),
-                    ),
-                    DataColumn(
-                      label: CustomText(
-                        text: 'Customer',
-                        color: TEXT_WHITE,
+                      // DataColumn(
+                      //   label: CustomText(
+                      //     text: 'Price',
+                      //     color: TEXT_WHITE,
+                      //   ),
+                      // ),
+                      DataColumn(
+                        label: CustomText(
+                          text: 'Order Status',
+                          color: TEXT_WHITE,
+                        ),
                       ),
-                    ),
-                    DataColumn(
-                      label: CustomText(
-                        text: 'Order Date',
-                        color: TEXT_WHITE,
+                      DataColumn(
+                        label: CustomText(
+                          text: 'Payment Status',
+                          color: TEXT_WHITE,
+                        ),
                       ),
-                    ),
-                    DataColumn(
-                      label: CustomText(
-                        text: 'Price',
-                        color: TEXT_WHITE,
+                      DataColumn(
+                        label: CustomText(
+                          text: 'Details',
+                          color: TEXT_WHITE,
+                        ),
                       ),
-                    ),
-                    DataColumn(
-                      label: CustomText(
-                        text: 'Delivery Status',
-                        color: TEXT_WHITE,
-                      ),
-                    ),
-                    DataColumn(
-                      label: CustomText(
-                        text: 'Payment',
-                        color: TEXT_WHITE,
-                      ),
-                    ),
-                    DataColumn(
-                      label: CustomText(
-                        text: 'Details',
-                        color: TEXT_WHITE,
-                      ),
-                    ),
-                  ],
-                  source: CompleteOrderDataSource(context: context),
-                ),
-              ),
-              // child: Obx(() {
-              //   // if (categoryController.categoryListAdmin.isEmpty) {
-              //   //   return const CircularProgressIndicator(
-              //   //     color: TEXT_DARK,
-              //   //   );
-              //   // }
-              //   // return _createDataTable();
-              //   return
-              // }),
+                    ],
+
+                  ),
+                );
+              })
             ),
           ),
         ),

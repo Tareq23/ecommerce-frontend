@@ -27,24 +27,24 @@ class _SelectedCategoriesNavState extends State<SelectedCategoriesNav> {
           const SizedBox(height: 5,),
           CustomText(text: overallController.selectedCategoryName.value,size: 14,color: TEXT_RED,weight: FontWeight.w600,),
           const SizedBox(height: 40,),
-          const CustomText(text: 'Brand',size: 18,weight: FontWeight.w600,color: TEXT_DARK,),
-          const SizedBox(height: 20,),
-          ...brandList.asMap().entries.map((e){
-            return SizedBox(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Checkbox(value: e.value.isSelected, onChanged: (value){
-                    setState(() {
-                      e.value.isSelected = value;
-                    });
-                  }),
-                  const SizedBox(width: 8,),
-                  CustomText(text: e.value.name.toString(),size: 16,weight: FontWeight.w400,)
-                ],
-              ),
-            );
-          }),
+          // const CustomText(text: 'Brand',size: 18,weight: FontWeight.w600,color: TEXT_DARK,),
+          // const SizedBox(height: 20,),
+          // ...brandList.asMap().entries.map((e){
+          //   return SizedBox(
+          //     child: Row(
+          //       mainAxisAlignment: MainAxisAlignment.start,
+          //       children: [
+          //         Checkbox(value: e.value.isSelected, onChanged: (value){
+          //           setState(() {
+          //             e.value.isSelected = value;
+          //           });
+          //         }),
+          //         const SizedBox(width: 8,),
+          //         CustomText(text: e.value.name.toString(),size: 16,weight: FontWeight.w400,)
+          //       ],
+          //     ),
+          //   );
+          // }),
         ],
       )
     );
