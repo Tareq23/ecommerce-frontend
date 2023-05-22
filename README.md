@@ -1,16 +1,13 @@
-# ecommercefrontend
+# Online Shopping Site
 
-A new Flutter project.
+In this product I used Flutter for frontend  user interface design. Backend section developed by using Spring Boot. 
+Here backend sections
+[source code](https://github.com/Tareq23/Ecommerce-Api)
 
-## Getting Started
+### Project Description
+    -- There are three type of users(Admin, Seller & Customer).
+    -- Customers or Visitors can search their product by name and filter product by category and brand
+    -- Sellers can add, update product and process order.
+    -- Admin can change seller and customer’s role, category, brand & price range
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
