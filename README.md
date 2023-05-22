@@ -1,6 +1,6 @@
 # Online Shopping Site
 
-In this product I used Flutter for frontend  user interface design. Backend section developed by using Spring Boot. 
+In this project I used Flutter for frontend  user interface design. Backend section developed by using Spring Boot. 
 Here backend sections
 [source code](https://github.com/Tareq23/Ecommerce-Api)
 
